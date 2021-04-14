@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity()
         ui = ActivityMainBinding.inflate(layoutInflater)
         setContentView(ui.root)
 
-        ui.lblMovieCount.text = "${items.size} Movies"
         ui.myList.adapter = MovieAdapter(movies = items)
 
         //vertical list
