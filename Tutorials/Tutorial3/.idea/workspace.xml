@@ -6,19 +6,27 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afbd7407-8a1b-4b10-8ae8-f49b8dbb3db3" name="Default Changelist" comment="" />
+    <list default="true" id="afbd7407-8a1b-4b10-8ae8-f49b8dbb3db3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/java/au/edu/utas/kit305/assignment2/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/java/au/edu/utas/kit305/assignment2/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/res/layout/my_list_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/res/layout/my_list_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Assignments/Assignment 2/Assignment2/app/src/main/res/values/strings.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_4_API_30]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectId" id="1puXIdmnM7mM2pl0xrCKkjMDr1a" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -28,6 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tutorial4" />
     <property name="project.structure.last.edited" value="SDK Location" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -38,9 +47,7 @@
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="KIT305_ConstraintLayout_App.app" />
@@ -95,9 +102,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
   </component>
   <component name="SvnConfiguration">
@@ -118,5 +123,9 @@
       <screen x="0" y="0" width="2048" height="1152" />
     </state>
     <state x="100" y="100" width="1848" height="952" key="AVDManager/0.0.2048.1152@0.0.2048.1152" timestamp="1616034293124" />
+    <state x="2360" y="475" key="FileChooserDialogImpl" timestamp="1618535600446">
+      <screen x="0" y="0" width="3440" height="1440" />
+    </state>
+    <state x="2360" y="475" key="FileChooserDialogImpl/0.0.3440.1440/1680.-1080.1920.1080/-240.-1080.1920.1080@0.0.3440.1440" timestamp="1618535600446" />
   </component>
 </project>

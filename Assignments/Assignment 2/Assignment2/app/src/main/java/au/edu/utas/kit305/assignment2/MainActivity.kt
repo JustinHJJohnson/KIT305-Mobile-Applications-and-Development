@@ -17,6 +17,7 @@ const val FIREBASE_TAG = "FirebaseLogging"
 const val STUDENT_INDEX = "Student_Index"
 
 val items = mutableListOf<Student>()
+val weekConfig = mutableMapOf<String, Any>()
 
 class MainActivity : AppCompatActivity()
 {
@@ -42,13 +43,6 @@ class MainActivity : AppCompatActivity()
         //get db connection
         val db = Firebase.firestore
 
-        //add some data (comment this out after running the program once and confirming your data is there)
-        /*val me = Student(
-            firstName = "Justin",
-            lastName = "Johnson",
-            studentID = "444671"
-        )*/
-
         var studentsCollection = db.collection("students")
         /*studentsCollection.document(me.studentID!!)
             .set(me)
@@ -69,12 +63,24 @@ class MainActivity : AppCompatActivity()
                 {
                     //Log.d(FIREBASE_TAG, document.toString())
                     val student = document.toObject<Student>()
-                    Log.d(FIREBASE_TAG, student.toString())
-
+                    //Log.d(FIREBASE_TAG, student.toString())
                     items.add(student)
                     (ui.myList.adapter as StudentAdapter).notifyDataSetChanged()
                 }
             }
+
+        ui.addStudentFab.setOnClickListener{
+            //var i = Intent(ui.root.context, AddStudent::class.java)
+            startActivity(Intent(ui.root.context, AddStudent::class.java))
+        }
+
+        db.collection("gradesConfig").document("UK71QI0qFPiP2zcmsclx")
+                .get()
+                .addOnSuccessListener { result ->
+                    weekConfig.putAll(result.data!!)
+                    //Log.d(FIREBASE_TAG, "--- all grade config ---")
+                    //Log.d(FIREBASE_TAG, weekConfig.toString())
+                }
     }
 
     inner class StudentHolder(var ui: MyListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
