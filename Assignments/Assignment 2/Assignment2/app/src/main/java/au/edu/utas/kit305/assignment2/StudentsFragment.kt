@@ -1,6 +1,5 @@
-package com.example.week05tabs
+package au.edu.utas.kit305.assignment2
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,18 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.week05tabs.databinding.FragmentStudentBinding
-import com.example.week05tabs.databinding.MyListItemBinding
+import au.edu.utas.kit305.assignment2.databinding.FragmentStudentBinding
+import au.edu.utas.kit305.assignment2.databinding.MyListItemBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 
-class StudentFragment : Fragment() {
+class StudentsFragment : Fragment()
+{
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,8 +32,6 @@ class StudentFragment : Fragment() {
 
         //vertical list
         inflatedView.myList.layoutManager = LinearLayoutManager(requireContext())
-
-
 
         //get db connection
         val db = Firebase.firestore
@@ -75,11 +71,8 @@ class StudentFragment : Fragment() {
             }
 
         inflatedView.addStudentFab.setOnClickListener{
-            //var i = Intent(ui.root.context, AddStudent::class.java)
-            //startActivity(Intent(inflatedView.root.context, AddStudent::class.java))
+            AddStudentModal.newInstance().show(fragmentManager!!, AddStudentModal.TAG)
         }
-
-        //inflatedView.root.removeView(inflatedView.lblStudentCount)
 
         return inflatedView.root
     }
@@ -110,13 +103,6 @@ class StudentFragment : Fragment() {
                 var i = Intent(holder.ui.root.context, StudentDetails::class.java)
                 i.putExtra(STUDENT_INDEX, position)
                 startActivity(i)
-                /*currentStudent = position
-                val placeholderfragment = PlaceholderFragment()
-                val fragmentManager: FragmentManager = activity!!.supportFragmentManager
-                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.replace(((view as ViewGroup).parent as View).id, placeholderfragment, "tag")
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()*/
             }
         }
     }

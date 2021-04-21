@@ -4,53 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddStudent">
+    tools:context=".StudentDetails">
 
-    <EditText
-        android:id="@+id/editFirstName"
+    <TextView
+        android:id="@+id/txtStudentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="First name"
-        android:inputType="textPersonName"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="txtName"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtStudentID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editLastName"
+    <TextView
+        android:id="@+id/txtStudentID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="Last name"
-        android:inputType="textPersonName"
+        android:layout_marginTop="16dp"
+        android:text="Student ID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editFirstName" />
+        app:layout_constraintTop_toBottomOf="@+id/txtStudentName" />
 
-    <EditText
-        android:id="@+id/editStudentNumber"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gradeList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtGrade" />
+
+    <TextView
+        android:id="@+id/txtGrade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="Student number"
-        android:inputType="number"
-        android:maxLength="6"
+        android:layout_marginTop="20dp"
+        android:text="Grades"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editLastName" />
-
-    <Button
-        android:id="@+id/btnAddStudent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Add student"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editStudentNumber" />
-
+        app:layout_constraintTop_toBottomOf="@+id/txtStudentID" />
 </androidx.constraintlayout.widget.ConstraintLayout>

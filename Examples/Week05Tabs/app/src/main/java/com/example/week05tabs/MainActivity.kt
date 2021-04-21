@@ -4,6 +4,8 @@ import android.os.Bundle
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
+import com.example.week05tabs.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
 
 const val FIREBASE_TAG = "FirebaseLogging"
 const val STUDENT_INDEX = "Student_Index"
@@ -14,9 +16,12 @@ val items = mutableListOf<Student>(
 )
 val weekConfig = mutableMapOf<String, Any>()
 
-class MainActivity : AppCompatActivity() {
+var currentStudent = 0;
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+class MainActivity : AppCompatActivity()
+{
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
@@ -24,6 +29,6 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
+        //FirebaseApp.initializeApp(this)
     }
 }

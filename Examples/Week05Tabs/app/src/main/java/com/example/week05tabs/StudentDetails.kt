@@ -1,4 +1,4 @@
-package au.edu.utas.kit305.assignment2
+package com.example.week05tabs
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import au.edu.utas.kit305.assignment2.databinding.ActivityStudentDetailsBinding
-import au.edu.utas.kit305.assignment2.databinding.MyListItemBinding
+import com.example.week05tabs.databinding.ActivityStudentDetailsBinding
+import com.example.week05tabs.databinding.MyListItemBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -94,8 +95,15 @@ class StudentDetails : AppCompatActivity()
                         {
                             var gradeCheckBox = CheckBox(this@StudentDetails)
                             gradeCheckBox.text = i.toString()
-
-                            if(i <= numCheckBoxesTicked) gradeCheckBox.isChecked = true
+                            when(i)
+                            {
+                                in 0 until numCheckBoxesTicked -> {
+                                    gradeCheckBox.isChecked = true
+                                    gradeCheckBox.isEnabled = false
+                                }
+                                numCheckBoxesTicked -> gradeCheckBox.isChecked = true
+                                in (numCheckBoxesTicked + 2)..20 -> gradeCheckBox.isEnabled = false
+                            }
 
                             holder.ui.gradeLayout.addView(gradeCheckBox)
                         }
@@ -105,66 +113,43 @@ class StudentDetails : AppCompatActivity()
                     "attendance" -> {
                         var gradeCheckBox = CheckBox(this@StudentDetails)
                         gradeCheckBox.text = "attendance"
-
                         if(grade == 100) gradeCheckBox.isChecked = true
+                        gradeCheckBox.setOnClickListener{
 
+                        }
                         holder.ui.gradeLayout.addView(gradeCheckBox)
                         gradeSet[position] = true
                     }
                     "gradeNN-HD" -> {
-                        var spinner = Spinner(this@StudentDetails)
-
-                        val adapter = ArrayAdapter(
-                            this@StudentDetails,
-                            android.R.layout.simple_spinner_item,
-                            resources.getStringArray(R.array.GradesNNHD)
-                        )
-
-                        spinner.adapter = adapter
-
+                        var testText = TextView(this@StudentDetails)
                         when(grade) {
-                            100 -> spinner.setSelection(0)
-                            in 99 downTo 80 -> spinner.setSelection(1)
-                            in 79 downTo 70 -> spinner.setSelection(2)
-                            in 69 downTo 60 -> spinner.setSelection(3)
-                            in 59 downTo 50 -> spinner.setSelection(4)
-                            else -> spinner.setSelection(5)
+                            100 -> testText.text = "HD+"
+                            in 99 downTo 80 -> testText.text = "HD"
+                            in 79 downTo 70 -> testText.text = "DN"
+                            in 69 downTo 60 -> testText.text = "CR"
+                            in 59 downTo 50 -> testText.text = "PP"
+                            else -> testText.text = "NN"
                         }
-
-                        holder.ui.gradeLayout.addView(spinner)
+                        holder.ui.gradeLayout.addView(testText)
                         gradeSet[position] = true
                     }
                     "gradeA-F" -> {
-                        var spinner = Spinner(this@StudentDetails)
-
-                        val adapter = ArrayAdapter(
-                            this@StudentDetails,
-                            android.R.layout.simple_spinner_item,
-                            resources.getStringArray(R.array.GradesAF)
-                        )
-
-                        spinner.adapter = adapter
-
+                        var testText = TextView(this@StudentDetails)
                         when(grade)
                         {
-                            100 ->  spinner.setSelection(0)
-                            in 99 downTo 80 ->  spinner.setSelection(1)
-                            in 79 downTo 70 ->  spinner.setSelection(2)
-                            in 69 downTo 60 ->  spinner.setSelection(3)
-                            else -> spinner.setSelection(4)
+                            100 ->  testText.text = "A"
+                            in 99 downTo 80 ->  testText.text = "B"
+                            in 79 downTo 70 ->  testText.text = "C"
+                            in 69 downTo 60 ->  testText.text = "D"
+                            else -> testText.text = "F"
                         }
-
-                        holder.ui.gradeLayout.addView(spinner)
+                        holder.ui.gradeLayout.addView(testText)
                         gradeSet[position] = true
                     }
                     "score" -> {
                         val maxScore = weekConfig["week${weekNum}MaxScore"].toString().toInt()
                         var testText = TextView(this@StudentDetails)
-                        var score = EditText(this@StudentDetails)
-
-                        score.setText("${(grade/100.0)*maxScore}")
-                        testText.text = "/$maxScore"
-                        holder.ui.gradeLayout.addView(score)
+                        testText.text = "${(grade/100.0)*maxScore}/$maxScore"
                         holder.ui.gradeLayout.addView(testText)
                         gradeSet[position] = true
                     }
