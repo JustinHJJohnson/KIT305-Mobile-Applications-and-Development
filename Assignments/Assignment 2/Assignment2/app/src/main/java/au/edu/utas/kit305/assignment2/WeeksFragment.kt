@@ -61,13 +61,13 @@ class WeeksFragment : Fragment()
 
         override fun onBindViewHolder(holder: WeekHolder, position: Int)
         {
-            val student = weeks[position]   //get the data at the requested position
+            //val student = weeks[position]   //get the data at the requested position
             holder.ui.txtName.text = weeks[position];
 
             holder.ui.root.setOnClickListener {
-                /*var i = Intent(holder.ui.root.context, StudentDetails::class.java)
-                i.putExtra(STUDENT_INDEX, position)
-                startActivity(i)*/
+                var i = Intent(holder.ui.root.context, WeekDetails::class.java)
+                i.putExtra(WEEK_INDEX, position+1)
+                startActivity(i)
             }
         }
     }

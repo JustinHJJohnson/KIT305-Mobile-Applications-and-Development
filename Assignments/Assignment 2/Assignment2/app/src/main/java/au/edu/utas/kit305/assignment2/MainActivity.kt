@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 const val FIREBASE_TAG = "FirebaseLogging"
 const val STUDENT_INDEX = "Student_Index"
+const val WEEK_INDEX = "Week_Index"
 
 val items = mutableListOf<Student>()
 val weekConfig = mutableMapOf<String, Any>()

@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tutorial04_Final">
         <activity android:name=".StudentDetails" />
+        <activity android:name=".WeekDetails"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
