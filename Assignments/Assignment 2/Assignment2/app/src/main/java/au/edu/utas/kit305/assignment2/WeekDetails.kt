@@ -5,13 +5,11 @@ import android.util.Log
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import au.edu.utas.kit305.assignment2.databinding.ActivityWeekDetailsBinding
 import au.edu.utas.kit305.assignment2.databinding.MyListItemBinding
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class WeekDetails : AppCompatActivity()
@@ -22,6 +20,8 @@ class WeekDetails : AppCompatActivity()
     private val gradeSet = Array(12) { _ -> false}
     private var gradeType = ""
     private var weekNum = 0
+    private var gradeTotal = 0.0
+    private var gradeAverageSet = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -35,9 +35,9 @@ class WeekDetails : AppCompatActivity()
         ui.gradeList.layoutManager = LinearLayoutManager(this)
 
         val weekIndex = intent.getIntExtra(WEEK_INDEX, -1)
+        ui.txtWeek.text = "Week $weekIndex";
         gradeType = weekConfig["week$weekIndex"].toString()
         weekNum = weekIndex
-        //Log.d(FIREBASE_TAG, "week clicked is $weekIndex")
 
         //get db connection
         val db = Firebase.firestore
@@ -46,22 +46,16 @@ class WeekDetails : AppCompatActivity()
         db.collection("grades")
             .get()
             .addOnSuccessListener { result ->
-                Log.d(FIREBASE_TAG, "number of documents in result is ${result.size()}")
                 for(i in 0 until result.size())
                 {
-                    //Log.d(FIREBASE_TAG, "Initial grade for $i ${result.documents[i].id} is ${result.documents[i].data!!["week$weekIndex"]}")
-                    grades.add(i, Pair(result.documents[i].id, result.documents[i].data!!["week$weekIndex"].toString()))
+                    val studentID = result.documents[i].id
+                    var grade = result.documents[i].data!!["week$weekIndex"].toString()
+                    if(grade == "null") grade = "0"
+                    grades.add(i, Pair(studentID, grade))
                 }
 
-                //Log.d(FIREBASE_TAG, "--- all grades ---")
-                //Log.d(FIREBASE_TAG, grades.toString())
                 (ui.gradeList.adapter as WeekAdapter).notifyDataSetChanged()
             }
-
-        //get student object using id from intent
-        //var studentObject = items[studentIndex]
-        ui.txtWeek.text = "Week $weekIndex";
-        //ui.txtStudentID.text = studentObject.studentID;
     }
 
     inner class WeekHolder(var ui: MyListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
@@ -81,27 +75,38 @@ class WeekDetails : AppCompatActivity()
 
         override fun onBindViewHolder(holder: WeekDetails.WeekHolder, position: Int)
         {
-            //val gradeType = weekConfig["week$week"]
             val grade = grades[position].second.toInt()
+
+            if(!gradeAverageSet)
+            {
+                for(i in 0 until items.size) gradeTotal += grades[i].second.toInt()
+                ui.txtWeekAverage.text = "Grade average this week is ${"%.2f".format(gradeTotal/items.size)}%"
+                gradeAverageSet = true
+            }
+
             val db = Firebase.firestore
 
             ui.txtGrade.text = "Grades"
-            //ui.txtGrade.updatePadding()
-            val studentID = items.find{it.studentID == grades[position].first}!!.studentID
-            holder.ui.txtName.text = "$studentID";
-            holder.ui.txtID.text = "$grade/100";
+            val student = items.find{it.studentID == grades[position].first}
+
+            holder.ui.txtName.text = "${student!!.firstName} ${student.lastName}"
+            holder.ui.txtID.text = "${student.studentID}";
+
+            val rawGradeField = TextView(this@WeekDetails)
+            rawGradeField.text = "$grade/100"
+            holder.ui.linearLayout.addView(rawGradeField)
 
             if(!gradeSet[position])
             {
                 when (gradeType)
                 {
                     "checkBox" -> {
-                        var numCheckBoxes = weekConfig["week${weekNum}CheckBoxNum"].toString().toInt()
-                        var numCheckBoxesTicked: Int = grade / (100/numCheckBoxes)
+                        val numCheckBoxes = weekConfig["week${weekNum}CheckBoxNum"].toString().toInt()
+                        val numCheckBoxesTicked: Int = grade / (100/numCheckBoxes)
 
                         for(i in 1..numCheckBoxes)
                         {
-                            var gradeCheckBox = CheckBox(this@WeekDetails)
+                            val gradeCheckBox = CheckBox(this@WeekDetails)
                             gradeCheckBox.text = i.toString()
 
                             if(i <= numCheckBoxesTicked) gradeCheckBox.isChecked = true
@@ -112,7 +117,7 @@ class WeekDetails : AppCompatActivity()
                         gradeSet[position] = true
                     }
                     "attendance" -> {
-                        var gradeCheckBox = CheckBox(this@WeekDetails)
+                        val gradeCheckBox = CheckBox(this@WeekDetails)
                         gradeCheckBox.text = "attendance"
 
                         if(grade == 100) gradeCheckBox.isChecked = true
@@ -121,7 +126,7 @@ class WeekDetails : AppCompatActivity()
                         gradeSet[position] = true
                     }
                     "gradeNN-HD" -> {
-                        var spinner = Spinner(this@WeekDetails)
+                        val spinner = Spinner(this@WeekDetails)
 
                         val adapter = ArrayAdapter(
                             this@WeekDetails,
@@ -144,7 +149,7 @@ class WeekDetails : AppCompatActivity()
                         gradeSet[position] = true
                     }
                     "gradeA-F" -> {
-                        var spinner = Spinner(this@WeekDetails)
+                        val spinner = Spinner(this@WeekDetails)
 
                         val adapter = ArrayAdapter(
                             this@WeekDetails,
@@ -168,8 +173,8 @@ class WeekDetails : AppCompatActivity()
                     }
                     "score" -> {
                         val maxScore = weekConfig["week${weekNum}MaxScore"].toString().toInt()
-                        var testText = TextView(this@WeekDetails)
-                        var score = EditText(this@WeekDetails)
+                        val testText = TextView(this@WeekDetails)
+                        val score = EditText(this@WeekDetails)
 
                         score.setText("${(grade/100.0)*maxScore}")
                         testText.text = "/$maxScore"
@@ -178,7 +183,7 @@ class WeekDetails : AppCompatActivity()
                         gradeSet[position] = true
                     }
                     else -> {
-                        var testText = TextView(this@WeekDetails)
+                        val testText = TextView(this@WeekDetails)
                         testText.text = "Unsupported grade type"
                         holder.ui.gradeLayout.addView(testText)
                         gradeSet[position] = true

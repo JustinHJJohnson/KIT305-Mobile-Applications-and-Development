@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="txtName"
+        android:text="Week"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/txtWeekAverage"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,20 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Student ID"
+        android:text="Week average"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtWeek" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/gradeList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtGrade" />
 
     <TextView
         android:id="@+id/txtGrade"
@@ -48,4 +37,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtWeekAverage" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gradeList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtGrade" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
