@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import au.edu.utas.kit305.assignment2.databinding.FragmentStudentBinding
-import au.edu.utas.kit305.assignment2.databinding.MyListItemBinding
+import au.edu.utas.kit305.assignment2.databinding.StudentListItemBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -18,15 +18,14 @@ import com.google.firebase.ktx.Firebase
 
 class StudentsFragment : Fragment()
 {
+    private lateinit var inflatedView : FragmentStudentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var inflatedView = FragmentStudentBinding.inflate(layoutInflater, container, false)
-
-        //super.onCreate(savedInstanceState)
-        //setContentView(inflatedView.root)
+        inflatedView = FragmentStudentBinding.inflate(layoutInflater, container, false)
 
         inflatedView.myList.adapter = StudentAdapter(students = items)
 
@@ -37,14 +36,6 @@ class StudentsFragment : Fragment()
         val db = Firebase.firestore
 
         var studentsCollection = db.collection("students")
-        /*studentsCollection.document(me.studentID!!)
-            .set(me)
-            .addOnSuccessListener {
-                Log.d(FIREBASE_TAG, "Document created with id ${me.studentID!!}")
-            }
-            .addOnFailureListener {
-                Log.e(FIREBASE_TAG, "Error writing document", it)
-            }*/
 
         //get all students
         //inflatedView.lblStudentCount.text = "Loading..."
@@ -66,8 +57,6 @@ class StudentsFragment : Fragment()
             .get()
             .addOnSuccessListener { result ->
                 weekConfig.putAll(result.data!!)
-                //Log.d(FIREBASE_TAG, "--- all grade config ---")
-                //Log.d(FIREBASE_TAG, weekConfig.toString())
             }
 
         inflatedView.addStudentFab.setOnClickListener{
@@ -77,13 +66,20 @@ class StudentsFragment : Fragment()
         return inflatedView.root
     }
 
-    inner class StudentHolder(var ui: MyListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
+    override fun onResume()
+    {
+        super.onResume()
+
+        inflatedView.myList.adapter!!.notifyDataSetChanged()
+    }
+
+    inner class StudentHolder(var ui: StudentListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
 
     inner class StudentAdapter(private val students: MutableList<Student>) : RecyclerView.Adapter<StudentHolder>()
     {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentHolder
         {
-            val ui = MyListItemBinding.inflate(layoutInflater, parent, false)   //inflate a new row from the my_list_item.xml
+            val ui = StudentListItemBinding.inflate(layoutInflater, parent, false)   //inflate a new row from the my_list_item.xml
             return StudentHolder(ui)                                                            //wrap it in a ViewHolder
         }
 
@@ -97,7 +93,6 @@ class StudentsFragment : Fragment()
             val student = students[position]   //get the data at the requested position
             holder.ui.txtName.text = student.firstName + " " + student.lastName;
             holder.ui.txtID.text = student.studentID;
-            //holder.lblStudentCount.text = "${students.size} Students(s)";
 
             holder.ui.root.setOnClickListener {
                 var i = Intent(holder.ui.root.context, StudentDetails::class.java)

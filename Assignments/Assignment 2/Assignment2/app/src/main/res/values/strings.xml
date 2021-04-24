@@ -16,5 +16,12 @@
         <item>D</item>
         <item>F</item>
     </string-array>
+    <string-array name="GradeConfigs">
+        <item>checkBox</item>
+        <item>attendance</item>
+        <item>gradeNN-HD</item>
+        <item>gradeA-F</item>
+        <item>score</item>
+    </string-array>
 
 </resources>

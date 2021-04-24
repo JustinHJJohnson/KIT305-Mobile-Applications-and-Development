@@ -14,6 +14,10 @@ const val WEEK_INDEX = "Week_Index"
 val items = mutableListOf<Student>()
 val weekConfig = mutableMapOf<String, Any>()
 
+fun addStudent()
+{
+
+}
 
 class MainActivity : AppCompatActivity()
 {

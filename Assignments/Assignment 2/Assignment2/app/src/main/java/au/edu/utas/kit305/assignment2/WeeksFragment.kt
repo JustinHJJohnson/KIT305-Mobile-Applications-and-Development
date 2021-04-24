@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import au.edu.utas.kit305.assignment2.databinding.FragmentWeeksBinding
-import au.edu.utas.kit305.assignment2.databinding.MyListItemBinding
+import au.edu.utas.kit305.assignment2.databinding.StudentListItemBinding
 
 val weeks = mutableListOf<String>(
     "Week 1",
@@ -43,13 +43,13 @@ class WeeksFragment : Fragment()
         return inflatedView.root
     }
 
-    inner class WeekHolder(var ui: MyListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
+    inner class WeekHolder(var ui: StudentListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
 
     inner class WeekAdapter(private val weeks: MutableList<String>) : RecyclerView.Adapter<WeekHolder>()
     {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekHolder
         {
-            val ui = MyListItemBinding.inflate(layoutInflater, parent, false)   //inflate a new row from the my_list_item.xml
+            val ui = StudentListItemBinding.inflate(layoutInflater, parent, false)   //inflate a new row from the my_list_item.xml
             ui.linearLayout.removeView(ui.txtID)
             return WeekHolder(ui)                                                            //wrap it in a ViewHolder
         }

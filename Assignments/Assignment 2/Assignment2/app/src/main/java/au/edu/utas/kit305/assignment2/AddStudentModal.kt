@@ -16,15 +16,9 @@ class AddStudentModal: DialogFragment()
 {
     companion object {
 
-        const val TAG = "SimpleDialog"
+        const val TAG = "AddStudentModal"
 
-        fun newInstance(): AddStudentModal {
-            //val args = Bundle()
-            //args.putString(KEY_TITLE, title)
-            //args.putString(KEY_SUBTITLE, subTitle)
-            //fragment.arguments = args
-            return AddStudentModal()
-        }
+        fun newInstance(): AddStudentModal {return AddStudentModal()}
 
     }
 
@@ -34,11 +28,11 @@ class AddStudentModal: DialogFragment()
             savedInstanceState: Bundle?
     ): View?
     {
-        var inflatedView = ModalAddStudentBinding.inflate(layoutInflater, container, false)
+        val inflatedView = ModalAddStudentBinding.inflate(layoutInflater, container, false)
         dialog?.window?.setBackgroundDrawableResource(R.drawable.round_corners); //These rounded corners came from this post https://medium.com/swlh/alertdialog-and-customdialog-in-android-with-kotlin-f42a168c1936
         val db = Firebase.firestore
-        var studentsCollection = db.collection("students")
-        var gradesCollection = db.collection("grades")
+        val studentsCollection = db.collection("students")
+        val gradesCollection = db.collection("grades")
 
         inflatedView.btnAddStudent.setOnClickListener {
             val studentNumber = inflatedView.editStudentNumber.text.toString()
