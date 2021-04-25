@@ -1,15 +1,17 @@
 package au.edu.utas.kit305.assignment2
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import au.edu.utas.kit305.assignment2.databinding.ActivityStudentDetailsBinding
@@ -17,12 +19,16 @@ import au.edu.utas.kit305.assignment2.databinding.StudentListItemBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
+import java.lang.Exception
 import kotlin.math.roundToInt
 
 
 class StudentDetails : AppCompatActivity()
 {
     private lateinit var ui : ActivityStudentDetailsBinding
+    private lateinit var student: Student
 
     private val grades = mutableMapOf<String, Any>()
     private val gradeSet = Array(12) { _ -> false}
@@ -41,6 +47,8 @@ class StudentDetails : AppCompatActivity()
         ui.gradeList.layoutManager = LinearLayoutManager(this)
 
         val studentIndex = intent.getIntExtra(STUDENT_INDEX, -1)
+        student = items[studentIndex]
+        //Log.d(FIREBASE_TAG, "val is $student, in onCreate is $studentIndex")
 
         //get db connection
         val db = Firebase.firestore
@@ -54,33 +62,38 @@ class StudentDetails : AppCompatActivity()
                 }
 
         //get student object using id from intent
-        val studentObject = items[studentIndex]
-        ui.txtStudentName.text = "${studentObject.firstName} ${studentObject.lastName}";
-        ui.txtStudentID.text = studentObject.studentID;
+        //val student = items[studentIndex]
+        ui.txtStudentName.text = "${student.firstName} ${student.lastName}";
+        ui.txtStudentID.text = student.studentID;
+
+        if(student.image != null)
+        {
+            setPic(ui.imgStudent)
+        }
 
         ui.btnDeleteStudent.setOnClickListener {
             //Made this AlertDialog with help from https://www.journaldev.com/309/android-alert-dialog-using-kotlin
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Delete student")
-            builder.setMessage("Are you sure you want to delete ${studentObject.firstName} ${studentObject.lastName}?")
+            builder.setMessage("Are you sure you want to delete ${student.firstName} ${student.lastName}?")
 
-            builder.setPositiveButton("yes") { dialog, which ->
-                db.collection("students").document(studentObject.studentID.toString())
+            builder.setPositiveButton("yes") { _, _ ->
+                db.collection("students").document(student.studentID.toString())
                         .delete()
                         .addOnSuccessListener {
                             for(i in 0..items.size)
                             {
-                                if(items[i].studentID == studentObject.studentID)
+                                if(items[i].studentID == student.studentID)
                                 {
                                     items.removeAt(i)
                                     break
                                 }
                             }
-                            db.collection("grades").document(studentObject.studentID.toString())
+                            db.collection("grades").document(student.studentID.toString())
                                     .delete()
                                     .addOnSuccessListener {  }
                                     .addOnFailureListener {  }
-                            Toast.makeText(this@StudentDetails, "deleted ${studentObject.firstName} ${studentObject.lastName}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@StudentDetails, "deleted ${student.firstName} ${student.lastName}", Toast.LENGTH_SHORT).show()
                             finish()
                         }
                         .addOnFailureListener { Toast.makeText(this@StudentDetails, "Error deleting student, try again later", Toast.LENGTH_SHORT).show() }
@@ -88,6 +101,82 @@ class StudentDetails : AppCompatActivity()
 
             builder.setNegativeButton("no") {_,_ ->}
             builder.show()
+        }
+
+        ui.btnShare.setOnClickListener {
+            var shareString = "First name,Last name,Student ID,Average Grade,Week 1,Week 2,Week 3,Week 4,Week 5,Week 6,Week 7,Week 8,Week 9,Week 10,Week 11,Week 12\n"
+            shareString += "${student.firstName},${student.lastName},${student.studentID},${"%.2f".format(gradeTotal / 12)}"
+            for((k, v) in grades)
+            {
+                shareString += ",$v"
+            }
+
+            Log.d(FIREBASE_TAG, shareString)
+            var sendIntent = Intent().apply{
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, shareString)
+                type = "text/plain"
+            }
+            startActivity(Intent.createChooser(sendIntent, "Share via..."))
+        }
+    }
+
+    private fun setPic(imageView: ImageView)
+    {
+        //Toast.makeText(this@StudentDetails, "${student.image}", Toast.LENGTH_SHORT).show()
+        if(!student.image!!.contains("/"))
+        {
+            // Get the dimensions of the View
+            val targetW: Int = imageView.measuredWidth
+            val targetH: Int = imageView.measuredHeight
+
+            var storage = Firebase.storage
+            var storageRef = storage.reference
+            val pathReference = storageRef.child("images/${student.image}")
+            val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+            val localFile = File.createTempFile(
+                    student.image, /* prefix */
+                    ".jpg", /* suffix */
+                    storageDir /* directory */
+            )
+            pathReference.getFile(localFile)
+                    .addOnSuccessListener {
+                        Log.d(FIREBASE_TAG, "Successfully downloaded image")
+                        /*val bmOptions = BitmapFactory.Options().apply {
+                            // Get the dimensions of the bitmap
+                            inJustDecodeBounds = true
+
+                            BitmapFactory.decodeFile(localFile.path, this)
+
+                            val photoW: Int = outWidth
+                            val photoH: Int = outHeight
+                            Log.d(FIREBASE_TAG, "outW: $photoW outH: $photoH")
+
+                            // Determine how much to scale down the image
+                            val scaleFactor: Int = Math.max(1, Math.min(photoW / targetW, photoH / targetH))
+
+                            // Decode the image file into a Bitmap sized to fill the View
+                            inJustDecodeBounds = false
+                            inSampleSize = scaleFactor
+                        }
+                        BitmapFactory.decodeFile(localFile.path, bmOptions)?.also { bitmap ->
+                            imageView.setImageBitmap(bitmap)
+                        }*/
+                        BitmapFactory.decodeFile(localFile.path)?.also { bitmap -> imageView.setImageBitmap(bitmap)}
+                        for(i in 0..items.size)
+                        {
+                            if(items[i].studentID == student.studentID)
+                            {
+                                items[i].image = localFile.path
+                                break
+                            }
+                        }
+                    }
+                    .addOnFailureListener { Log.d(FIREBASE_TAG, "Failed to download image") }
+        }
+        else
+        {
+            BitmapFactory.decodeFile(student.image)?.also { bitmap -> imageView.setImageBitmap(bitmap)}
         }
     }
 
@@ -128,7 +217,10 @@ class StudentDetails : AppCompatActivity()
         {
             val weekNum = position + 1
             val gradeType = weekConfig["week$weekNum"]
-            val grade = grades["week$weekNum"].toString().toInt()
+            var grade = 0
+            try{
+                grade = grades["week$weekNum"].toString().toInt()
+            }catch(e: Exception){}
 
             if(!gradeAverageSet)
             {

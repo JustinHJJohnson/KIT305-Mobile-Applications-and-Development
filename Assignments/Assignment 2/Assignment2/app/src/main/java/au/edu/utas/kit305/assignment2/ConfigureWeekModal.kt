@@ -47,7 +47,6 @@ class ConfigureWeekModal: DialogFragment()
     ): View?
     {
         val inflatedView = ModalConfigureWeekBinding.inflate(layoutInflater, container, false)
-        dialog?.window?.setBackgroundDrawableResource(R.drawable.round_corners); //These rounded corners came from this post https://medium.com/swlh/alertdialog-and-customdialog-in-android-with-kotlin-f42a168c1936
 
         val gradeConfigs = resources.getStringArray(R.array.GradeConfigs)
         val weekType = arguments!!.getString("weekType")
@@ -109,10 +108,6 @@ class ConfigureWeekModal: DialogFragment()
             {
                 onResult?.invoke(newWeekType.toString(), -1)
             }
-
-            //val gradeConfigs = resources.getStringArray(R.array.GradeConfigs);
-
-            /**/
 
             dismiss()
         }

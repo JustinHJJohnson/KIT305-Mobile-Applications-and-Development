@@ -1,7 +1,9 @@
 package au.edu.utas.kit305.assignment2
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,23 +16,25 @@ import au.edu.utas.kit305.assignment2.databinding.StudentListItemBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 
 
 class StudentsFragment : Fragment()
 {
-    private lateinit var inflatedView : FragmentStudentBinding
+    private lateinit var ui : FragmentStudentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        inflatedView = FragmentStudentBinding.inflate(layoutInflater, container, false)
+        ui = FragmentStudentBinding.inflate(layoutInflater, container, false)
 
-        inflatedView.myList.adapter = StudentAdapter(students = items)
+        ui.myList.adapter = StudentAdapter(students = items)
 
         //vertical list
-        inflatedView.myList.layoutManager = LinearLayoutManager(requireContext())
+        ui.myList.layoutManager = LinearLayoutManager(requireContext())
 
         //get db connection
         val db = Firebase.firestore
@@ -42,14 +46,14 @@ class StudentsFragment : Fragment()
         studentsCollection
             .get()
             .addOnSuccessListener { result ->
-                Log.d(FIREBASE_TAG, "--- all students ---")
+                //Log.d(FIREBASE_TAG, "--- all students ---")
                 for (document in result)
                 {
                     //Log.d(FIREBASE_TAG, document.toString())
                     val student = document.toObject<Student>()
                     //Log.d(FIREBASE_TAG, student.toString())
                     items.add(student)
-                    (inflatedView.myList.adapter as StudentAdapter).notifyDataSetChanged()
+                    (ui.myList.adapter as StudentAdapter).notifyDataSetChanged()
                 }
             }
 
@@ -59,18 +63,18 @@ class StudentsFragment : Fragment()
                 weekConfig.putAll(result.data!!)
             }
 
-        inflatedView.addStudentFab.setOnClickListener{
-            AddStudentModal.newInstance().show(fragmentManager!!, AddStudentModal.TAG)
+        ui.addStudentFab.setOnClickListener{
+            AddStudentModal.newInstance("").show(fragmentManager!!, AddStudentModal.TAG)
         }
 
-        return inflatedView.root
+        return ui.root
     }
 
     override fun onResume()
     {
         super.onResume()
 
-        inflatedView.myList.adapter!!.notifyDataSetChanged()
+        ui.myList.adapter!!.notifyDataSetChanged()
     }
 
     inner class StudentHolder(var ui: StudentListItemBinding) : RecyclerView.ViewHolder(ui.root) {}

@@ -1,5 +1,6 @@
 package au.edu.utas.kit305.assignment2
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -99,6 +100,19 @@ class WeekDetails : AppCompatActivity()
                 ui.gradeList.adapter!!.notifyDataSetChanged()
             }
             dialog.show(supportFragmentManager, "WeekConfigModal")
+        }
+
+        ui.btnShare.setOnClickListener {
+            var shareString = "First name,Last name,Student ID,grade"
+            for(i in items.indices) shareString += "\n${items[i].firstName},${items[i].lastName},${items[i].studentID},${grades[i].second}"
+
+            Log.d(FIREBASE_TAG, shareString)
+            var sendIntent = Intent().apply{
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, shareString)
+                type = "text/plain"
+            }
+            startActivity(Intent.createChooser(sendIntent, "Share via..."))
         }
     }
 
