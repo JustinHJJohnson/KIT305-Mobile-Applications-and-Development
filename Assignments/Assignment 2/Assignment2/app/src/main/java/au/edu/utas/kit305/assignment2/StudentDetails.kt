@@ -126,9 +126,9 @@ class StudentDetails : AppCompatActivity()
         //Toast.makeText(this@StudentDetails, "${student.image}", Toast.LENGTH_SHORT).show()
         if(!student.image!!.contains("/"))
         {
-            // Get the dimensions of the View
-            val targetW: Int = imageView.measuredWidth
-            val targetH: Int = imageView.measuredHeight
+            //Hardcoded as the dynamic version was getting 0 as the result and crashing
+            val targetW: Int = 400
+            val targetH: Int = 400
 
             var storage = Firebase.storage
             var storageRef = storage.reference
@@ -142,7 +142,7 @@ class StudentDetails : AppCompatActivity()
             pathReference.getFile(localFile)
                     .addOnSuccessListener {
                         Log.d(FIREBASE_TAG, "Successfully downloaded image")
-                        /*val bmOptions = BitmapFactory.Options().apply {
+                        val bmOptions = BitmapFactory.Options().apply {
                             // Get the dimensions of the bitmap
                             inJustDecodeBounds = true
 
@@ -154,15 +154,13 @@ class StudentDetails : AppCompatActivity()
 
                             // Determine how much to scale down the image
                             val scaleFactor: Int = Math.max(1, Math.min(photoW / targetW, photoH / targetH))
+                            Log.d(FIREBASE_TAG, "scaleFactor $scaleFactor")
 
                             // Decode the image file into a Bitmap sized to fill the View
                             inJustDecodeBounds = false
                             inSampleSize = scaleFactor
                         }
-                        BitmapFactory.decodeFile(localFile.path, bmOptions)?.also { bitmap ->
-                            imageView.setImageBitmap(bitmap)
-                        }*/
-                        BitmapFactory.decodeFile(localFile.path)?.also { bitmap -> imageView.setImageBitmap(bitmap)}
+                        BitmapFactory.decodeFile(localFile.path, bmOptions)?.also { bitmap -> imageView.setImageBitmap(bitmap)}
                         for(i in 0..items.size)
                         {
                             if(items[i].studentID == student.studentID)
@@ -176,7 +174,29 @@ class StudentDetails : AppCompatActivity()
         }
         else
         {
-            BitmapFactory.decodeFile(student.image)?.also { bitmap -> imageView.setImageBitmap(bitmap)}
+            // Get the dimensions of the View
+            val targetW: Int = 400
+            val targetH: Int = 400
+
+            val bmOptions = BitmapFactory.Options().apply {
+                // Get the dimensions of the bitmap
+                inJustDecodeBounds = true
+
+                BitmapFactory.decodeFile(student.image, this)
+
+                val photoW: Int = outWidth
+                val photoH: Int = outHeight
+                Log.d(FIREBASE_TAG, "outW: $photoW outH: $photoH")
+
+                // Determine how much to scale down the image
+                val scaleFactor: Int = Math.max(1, Math.min(photoW / targetW, photoH / targetH))
+                Log.d(FIREBASE_TAG, "scaleFactor $scaleFactor")
+
+                // Decode the image file into a Bitmap sized to fill the View
+                inJustDecodeBounds = false
+                inSampleSize = scaleFactor
+            }
+            BitmapFactory.decodeFile(student.image, bmOptions)?.also { bitmap -> imageView.setImageBitmap(bitmap)}
         }
     }
 
