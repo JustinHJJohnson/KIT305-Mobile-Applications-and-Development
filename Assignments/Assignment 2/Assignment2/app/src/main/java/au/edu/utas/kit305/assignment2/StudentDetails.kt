@@ -1,6 +1,7 @@
 package au.edu.utas.kit305.assignment2
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +12,13 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import au.edu.utas.kit305.assignment2.databinding.ActivityStudentDetailsBinding
 import au.edu.utas.kit305.assignment2.databinding.StudentListItemBinding
+import com.google.android.material.internal.ViewUtils.getContentView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -106,13 +109,13 @@ class StudentDetails : AppCompatActivity()
         ui.btnShare.setOnClickListener {
             var shareString = "First name,Last name,Student ID,Average Grade,Week 1,Week 2,Week 3,Week 4,Week 5,Week 6,Week 7,Week 8,Week 9,Week 10,Week 11,Week 12\n"
             shareString += "${student.firstName},${student.lastName},${student.studentID},${"%.2f".format(gradeTotal / 12)}"
-            for((k, v) in grades)
+            for((_, v) in grades)
             {
                 shareString += ",$v"
             }
 
             Log.d(FIREBASE_TAG, shareString)
-            var sendIntent = Intent().apply{
+            val sendIntent = Intent().apply{
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, shareString)
                 type = "text/plain"
@@ -130,12 +133,12 @@ class StudentDetails : AppCompatActivity()
             val targetW: Int = 400
             val targetH: Int = 400
 
-            var storage = Firebase.storage
-            var storageRef = storage.reference
+            val storage = Firebase.storage
+            val storageRef = storage.reference
             val pathReference = storageRef.child("images/${student.image}")
             val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
             val localFile = File.createTempFile(
-                    student.image, /* prefix */
+                    student.image!!, /* prefix */
                     ".jpg", /* suffix */
                     storageDir /* directory */
             )
@@ -220,7 +223,7 @@ class StudentDetails : AppCompatActivity()
             val currentGrade = holder.ui.txtID.text.toString().substringBefore('/').toInt()
             gradeTotal = gradeTotal - currentGrade + newGrade
             ui.txtGradeAverage.text = "Average grade is ${"%.2f".format(gradeTotal/12)}%"
-            db.collection("grades").document(ui.txtStudentID.text.toString())
+            db.collection("grades").document(student.studentID.toString())
                     .update("week${position + 1}", newGrade)
                     .addOnSuccessListener {
                         Log.d(FIREBASE_TAG, "successfully updated grade for week ${position + 1} from $currentGrade to $newGrade")
@@ -229,7 +232,6 @@ class StudentDetails : AppCompatActivity()
                         Log.e(FIREBASE_TAG, "Error writing document", it)
                     }
             Toast.makeText(this@StudentDetails, "updated grade for week ${position + 1} from $currentGrade to $newGrade", Toast.LENGTH_SHORT).show()
-            //this@StudentDetails.grades["week$position"] = newGrade
             holder.ui.txtID.text = "$newGrade/100"
         }
 
@@ -244,7 +246,7 @@ class StudentDetails : AppCompatActivity()
 
             if(!gradeAverageSet)
             {
-                for((key, value) in grades)  gradeTotal += value.toString().toInt()
+                for((_, value) in grades)  gradeTotal += value.toString().toInt()
                 ui.txtGradeAverage.text = "Average grade is ${"%.2f".format(gradeTotal/12)}%"
                 gradeAverageSet = true
             }
