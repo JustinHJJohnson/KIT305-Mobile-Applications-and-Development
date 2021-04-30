@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Tutorial Grader</string>
+
+    <string-array name="GradesNNHD">
+        <item>HD+</item>
+        <item>HD</item>
+        <item>DN</item>
+        <item>CR</item>
+        <item>PP</item>
+        <item>NN</item>
+    </string-array>
+    <string-array name="GradesAF">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>F</item>
+    </string-array>
+    <string-array name="GradeConfigs">
+        <item>checkBox</item>
+        <item>attendance</item>
+        <item>gradeNN-HD</item>
+        <item>gradeA-F</item>
+        <item>score</item>
+    </string-array>
+
+</resources>

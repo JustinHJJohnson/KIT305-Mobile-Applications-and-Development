@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "852816017821",
+    "project_id": "kit305-a71c9",
+    "storage_bucket": "kit305-a71c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852816017821:android:9ec8ffca3697ae8f215774",
+        "android_client_info": {
+          "package_name": "au.edu.utas.kit305.tutorial05"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852816017821-r90288ug88slk0mqmdpbtcps969jeeip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvZ-zs10Qxru34cqC0J7reMLRSvj4PZoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852816017821-r90288ug88slk0mqmdpbtcps969jeeip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
