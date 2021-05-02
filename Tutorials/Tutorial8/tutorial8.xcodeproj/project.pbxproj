@@ -13,11 +13,11 @@
 		5CDA9EB4263A63D3003B6A6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CDA9EB2263A63D3003B6A6A /* Main.storyboard */; };
 		5CDA9EB6263A63D3003B6A6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CDA9EB5263A63D3003B6A6A /* Assets.xcassets */; };
 		5CDA9EB9263A63D3003B6A6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CDA9EB7263A63D3003B6A6A /* LaunchScreen.storyboard */; };
-		5CDA9ED6263A6487003B6A6A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CDA9ED5263A6487003B6A6A /* GoogleService-Info.plist */; };
 		5CDA9EEC263A661B003B6A6A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDA9EEB263A661B003B6A6A /* Movie.swift */; };
 		5CDA9EEF263A6982003B6A6A /* MovieUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDA9EEE263A6982003B6A6A /* MovieUITableViewCell.swift */; };
 		5CDA9EF2263A6D1B003B6A6A /* MovieUITableViewController”TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDA9EF1263A6D1B003B6A6A /* MovieUITableViewController”TableViewController.swift */; };
 		5CDA9EF5263A71F3003B6A6A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDA9EF4263A71F3003B6A6A /* DetailViewController.swift */; };
+		D0F85DAF263BE7DD00429F33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0F85DAE263BE7DD00429F33 /* GoogleService-Info.plist */; };
 		E31CF8497FA2413137AA70EB /* Pods_tutorial8.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBDC7158E10FD13F687BF9B8 /* Pods_tutorial8.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,12 +30,12 @@
 		5CDA9EB5263A63D3003B6A6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5CDA9EB8263A63D3003B6A6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5CDA9EBA263A63D3003B6A6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5CDA9ED5263A6487003B6A6A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5CDA9EEB263A661B003B6A6A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5CDA9EEE263A6982003B6A6A /* MovieUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUITableViewCell.swift; sourceTree = "<group>"; };
 		5CDA9EF1263A6D1B003B6A6A /* MovieUITableViewController”TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieUITableViewController”TableViewController.swift"; sourceTree = "<group>"; };
 		5CDA9EF4263A71F3003B6A6A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		5EF4DDB47D6F4B64BD0685D0 /* Pods-tutorial8.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tutorial8.debug.xcconfig"; path = "Target Support Files/Pods-tutorial8/Pods-tutorial8.debug.xcconfig"; sourceTree = "<group>"; };
+		D0F85DAE263BE7DD00429F33 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA253725C7FACAD43BC5F5A8 /* Pods-tutorial8.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tutorial8.release.xcconfig"; path = "Target Support Files/Pods-tutorial8/Pods-tutorial8.release.xcconfig"; sourceTree = "<group>"; };
 		FBDC7158E10FD13F687BF9B8 /* Pods_tutorial8.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tutorial8.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -73,7 +73,7 @@
 		5CDA9EAB263A63D3003B6A6A /* tutorial8 */ = {
 			isa = PBXGroup;
 			children = (
-				5CDA9ED5263A6487003B6A6A /* GoogleService-Info.plist */,
+				D0F85DAE263BE7DD00429F33 /* GoogleService-Info.plist */,
 				5CDA9EAC263A63D3003B6A6A /* AppDelegate.swift */,
 				5CDA9EAE263A63D3003B6A6A /* SceneDelegate.swift */,
 				5CDA9EB0263A63D3003B6A6A /* ViewController.swift */,
@@ -166,7 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CDA9EB9263A63D3003B6A6A /* LaunchScreen.storyboard in Resources */,
-				5CDA9ED6263A6487003B6A6A /* GoogleService-Info.plist in Resources */,
+				D0F85DAF263BE7DD00429F33 /* GoogleService-Info.plist in Resources */,
 				5CDA9EB6263A63D3003B6A6A /* Assets.xcassets in Resources */,
 				5CDA9EB4263A63D3003B6A6A /* Main.storyboard in Resources */,
 			);
