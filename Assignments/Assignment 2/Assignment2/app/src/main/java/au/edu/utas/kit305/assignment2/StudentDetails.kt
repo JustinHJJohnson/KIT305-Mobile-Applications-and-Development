@@ -1,31 +1,25 @@
 package au.edu.utas.kit305.assignment2
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.text.InputType
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import au.edu.utas.kit305.assignment2.databinding.ActivityStudentDetailsBinding
 import au.edu.utas.kit305.assignment2.databinding.StudentListItemBinding
-import com.google.android.material.internal.ViewUtils.getContentView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.File
-import java.lang.Exception
-import kotlin.math.roundToInt
 
 
 class StudentDetails : AppCompatActivity()
@@ -34,6 +28,7 @@ class StudentDetails : AppCompatActivity()
     private lateinit var student: Student
 
     private val grades = mutableMapOf<String, Any>()
+    private var grades2 = arrayOfNulls<Grade>(12)
     private val gradeSet = Array(12) { _ -> false}
     private var gradeTotal = 0.0
     private var gradeAverageSet = false
@@ -44,7 +39,8 @@ class StudentDetails : AppCompatActivity()
         ui = ActivityStudentDetailsBinding.inflate(layoutInflater)
         setContentView(ui.root)
 
-        ui.gradeList.adapter = GradeAdapter(grades = grades)
+        //ui.gradeList.adapter = GradeAdapter(grades = grades)
+
 
         //vertical list
         ui.gradeList.layoutManager = LinearLayoutManager(this)
@@ -60,9 +56,17 @@ class StudentDetails : AppCompatActivity()
         db.collection("grades").document(items[studentIndex].studentID!!)
                 .get()
                 .addOnSuccessListener { result ->
-                    grades.putAll(result.data!!)
+                    //grades.putAll(result.data!!)
+                    for (i in 0..11)
+                    {
+                        if(weekConfig["week${i+1}"] == "checkBox")  grades2[i] = Grade(i + 1, result["week${i+1}"].toString().toInt(), weekConfig["week${i+1}CheckBoxNum"].toString())
+                        else grades2[i] = Grade(i + 1, result["week${i+1}"].toString().toInt(), weekConfig["week${i+1}"].toString())
+                    }
+                    for (i in 0..11) Log.d(FIREBASE_TAG, "$i ${grades2[i]!!.viewType}")
                     (ui.gradeList.adapter as GradeAdapter).notifyDataSetChanged()
                 }
+
+        ui.gradeList.adapter = GradeAdapter(grades = grades2)
 
         //get student object using id from intent
         //val student = items[studentIndex]
@@ -205,11 +209,97 @@ class StudentDetails : AppCompatActivity()
 
     inner class GradeHolder(var ui: StudentListItemBinding) : RecyclerView.ViewHolder(ui.root) {}
 
-    inner class GradeAdapter(private val grades: Map<String, Any>) : RecyclerView.Adapter<GradeHolder>()
+    //inner class GradeAdapter(private val grades: Map<String, Any>) : RecyclerView.Adapter<GradeHolder>()
+    inner class GradeAdapter(private val grades: Array<Grade?>) : RecyclerView.Adapter<GradeHolder>()
     {
+        override fun getItemViewType(position: Int): Int
+        {
+            return when(weekConfig["week${position + 1}"].toString())
+            {
+                "attendance" -> 0
+                "score" -> 1
+                "gradeNN-HD" -> 2
+                "gradeA-F" -> 3
+                else -> 10 + weekConfig["week${position + 1}CheckBoxNum"].toString().toInt()
+            }
+            //return grades2[position]!!.viewType
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentDetails.GradeHolder
         {
             val ui = StudentListItemBinding.inflate(layoutInflater, parent, false)   //inflate a new row from the my_list_item.xml
+            /*when(viewType)
+            {
+                0 -> ui.txtName.text = "attendance"
+                1 -> ui.txtName.text = "score"
+                2 -> ui.txtName.text = "gradeNN-HD"
+                3 -> ui.txtName.text = "gradeA-F"
+                else -> {
+                    ui.txtName.text = "checkBox"
+                    ui.txtID.text = "${viewType - 10} checkBoxes"
+                }
+            }*/
+
+            when (viewType)
+            {
+                0 -> {
+                    val gradeCheckBox = CheckBox(this@StudentDetails)
+                    gradeCheckBox.text = "attendance"
+
+                    ui.gradeLayout.addView(gradeCheckBox)
+                }
+                1 -> {
+                    //val maxScore = weekConfig["week${weekNum}MaxScore"].toString().toInt()
+                    val scoreText = TextView(this@StudentDetails)
+                    val scoreEdit = EditText(this@StudentDetails)
+
+                    scoreEdit.setText(0)
+                    //scoreText.text = "/$maxScore"
+                    scoreText.text = "/10"
+                    scoreEdit.inputType = InputType.TYPE_CLASS_NUMBER
+                    scoreEdit.imeOptions = EditorInfo.IME_ACTION_DONE
+
+                    ui.gradeLayout.addView(scoreEdit)
+                    ui.gradeLayout.addView(scoreText)
+                }
+                2 -> {
+                    val spinner = Spinner(this@StudentDetails)
+
+                    val adapter = ArrayAdapter(
+                        this@StudentDetails,
+                        android.R.layout.simple_spinner_item,
+                        resources.getStringArray(R.array.GradesNNHD)
+                    )
+
+                    spinner.adapter = adapter
+
+                    ui.gradeLayout.addView(spinner)
+                }
+                3 -> {
+                    val spinner = Spinner(this@StudentDetails)
+
+                    val adapter = ArrayAdapter(
+                        this@StudentDetails,
+                        android.R.layout.simple_spinner_item,
+                        resources.getStringArray(R.array.GradesAF)
+                    )
+
+                    spinner.adapter = adapter
+
+                    ui.gradeLayout.addView(spinner)
+                }
+                else -> {
+                    val numCheckBoxes = viewType - 10
+
+                    for(i in 1..numCheckBoxes)
+                    {
+                        val gradeCheckBox = CheckBox(this@StudentDetails)
+                        gradeCheckBox.text = i.toString()
+
+                        ui.gradeLayout.addView(gradeCheckBox)
+                    }
+                }
+            }
             return GradeHolder(ui)                                                            //wrap it in a ViewHolder
         }
 
@@ -237,7 +327,9 @@ class StudentDetails : AppCompatActivity()
 
         override fun onBindViewHolder(holder: StudentDetails.GradeHolder, position: Int)
         {
-            val weekNum = position + 1
+
+
+            /*val weekNum = position + 1
             val gradeType = weekConfig["week$weekNum"]
             var grade = 0
             try{
@@ -416,7 +508,7 @@ class StudentDetails : AppCompatActivity()
                         gradeSet[position] = true
                     }
                 }
-            }
+            }*/
         }
     }
 }
