@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D04421092648EBC9004D54B5 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04421082648EBC9004D54B5 /* TabBarViewController.swift */; };
+		D044210B264911CE004D54B5 /* StudentUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044210A264911CE004D54B5 /* StudentUITableViewCell.swift */; };
+		D044210D26491B5C004D54B5 /* StudentUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */; };
 		D06343AA2643AE5A002F8200 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06343A92643AE5A002F8200 /* AppDelegate.swift */; };
 		D06343AC2643AE5A002F8200 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06343AB2643AE5A002F8200 /* SceneDelegate.swift */; };
 		D06343AE2643AE5A002F8200 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06343AD2643AE5A002F8200 /* ViewController.swift */; };
@@ -22,6 +25,9 @@
 		0E27359DB3329B1FD67DFB26 /* Pods-Assignment3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assignment3.release.xcconfig"; path = "Target Support Files/Pods-Assignment3/Pods-Assignment3.release.xcconfig"; sourceTree = "<group>"; };
 		4BC4160A0B5CC97252B1E84B /* Pods_Assignment3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Assignment3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F7097936E4974E7EC924187 /* Pods-Assignment3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assignment3.debug.xcconfig"; path = "Target Support Files/Pods-Assignment3/Pods-Assignment3.debug.xcconfig"; sourceTree = "<group>"; };
+		D04421082648EBC9004D54B5 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		D044210A264911CE004D54B5 /* StudentUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudentUITableViewCell.swift; path = Pods/StudentUITableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUITableViewController.swift; sourceTree = "<group>"; };
 		D06343A62643AE5A002F8200 /* Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06343A92643AE5A002F8200 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D06343AB2643AE5A002F8200 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +90,8 @@
 		D06343A82643AE5A002F8200 /* Assignment3 */ = {
 			isa = PBXGroup;
 			children = (
+				D044210A264911CE004D54B5 /* StudentUITableViewCell.swift */,
+				D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */,
 				D06343A92643AE5A002F8200 /* AppDelegate.swift */,
 				D06343AB2643AE5A002F8200 /* SceneDelegate.swift */,
 				D06343C22643C777002F8200 /* Student.swift */,
@@ -93,6 +101,7 @@
 				D06343B42643AE5B002F8200 /* LaunchScreen.storyboard */,
 				D06343B72643AE5B002F8200 /* Info.plist */,
 				D06343BD2643AF00002F8200 /* GoogleService-Info.plist */,
+				D04421082648EBC9004D54B5 /* TabBarViewController.swift */,
 			);
 			path = Assignment3;
 			sourceTree = "<group>";
@@ -213,8 +222,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D06343AE2643AE5A002F8200 /* ViewController.swift in Sources */,
+				D044210B264911CE004D54B5 /* StudentUITableViewCell.swift in Sources */,
 				D06343AA2643AE5A002F8200 /* AppDelegate.swift in Sources */,
 				D06343AC2643AE5A002F8200 /* SceneDelegate.swift in Sources */,
+				D044210D26491B5C004D54B5 /* StudentUITableViewController.swift in Sources */,
+				D04421092648EBC9004D54B5 /* TabBarViewController.swift in Sources */,
 				D06343C32643C777002F8200 /* Student.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
