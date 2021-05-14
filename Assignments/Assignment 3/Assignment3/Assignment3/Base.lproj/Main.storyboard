@@ -27,7 +27,7 @@
                         <viewLayoutGuide key="safeArea" id="i2R-dJ-bYv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="L1v-4K-3dZ"/>
+                    <tabBarItem key="tabBarItem" title="Weeks" image="calendar" catalog="system" id="L1v-4K-3dZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wRG-Ar-vGl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -76,7 +76,7 @@
                             <outlet property="delegate" destination="nzu-Kv-thb" id="x2c-Sn-Vkk"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="pjZ-9d-LwX"/>
+                    <tabBarItem key="tabBarItem" title="Students" image="person" catalog="system" id="pjZ-9d-LwX"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iWk-Wl-XqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -107,7 +107,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Go to week &amp; student lists"/>
                                 <connections>
-                                    <segue destination="2Vd-jt-fau" kind="showDetail" id="Bvc-2Y-Xfc"/>
+                                    <segue destination="2Vd-jt-fau" kind="show" animates="NO" id="Bvc-2Y-Xfc"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -122,7 +122,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="lsd-Zo-j5I">
             <objects>
-                <tabBarController id="2Vd-jt-fau" customClass="TabBarViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController modalPresentationStyle="fullScreen" id="2Vd-jt-fau" customClass="TabBarViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="lFP-2q-RYp"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3Gi-IL-lIp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -140,6 +140,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="person" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
