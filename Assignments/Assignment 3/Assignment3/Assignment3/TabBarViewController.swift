@@ -19,6 +19,7 @@ class TabBarViewController: UITabBarController
         super.viewDidLoad()
         
         //print("Just loading the TabBarController")
+        self.navigationItem.title = "Weeks & Students"
         
         
         students.removeAll()
