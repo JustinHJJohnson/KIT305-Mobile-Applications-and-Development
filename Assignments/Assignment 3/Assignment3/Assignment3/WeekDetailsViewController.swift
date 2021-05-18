@@ -7,10 +7,11 @@
 
 import UIKit
 
-class AttendanceCell: UITableViewCell
+class AttendanceTableViewCell: UITableViewCell
 {
-    @IBOutlet var weekLabel: UILabel!
+    @IBOutlet var studentNameLabel: UILabel!
     @IBOutlet var attendanceSwitch: UISwitch!
+    @IBOutlet var studentIDLabel: UILabel!
     
     override func awakeFromNib()
     {
@@ -25,30 +26,36 @@ class AttendanceCell: UITableViewCell
     }
 }
 
-class ScoreCell: UITableViewCell
+class ScoreTableViewCell: UITableViewCell
 {
-    @IBOutlet var weekLabel: UILabel!
+    @IBOutlet var studentNameLabel: UILabel!
+    @IBOutlet var studentIDLabel: UILabel!
     @IBOutlet var scoreTextField: UITextField!
     @IBOutlet var maxScoreLabel: UILabel!
 }
 
-class NNToHDCell: UITableViewCell
+class NNToHDTableViewCell: UITableViewCell
 {
-    @IBOutlet var weekLabel: UILabel!
+    @IBOutlet var studentNameLabel: UILabel!
+    @IBOutlet var studentIDLabel: UILabel!
     @IBOutlet var selector: UISegmentedControl!
 }
 
-class FToACell: UITableViewCell
+class FToATableViewCell: UITableViewCell
 {
-    @IBOutlet var weekLabel: UILabel!
+    @IBOutlet var studentNameLabel: UILabel!
+    @IBOutlet var studentIDLabel: UILabel!
     @IBOutlet var selector: UISegmentedControl!
 }
 
-class CheckpointsCell: UITableViewCell
+class CheckpointsTableViewCell: UITableViewCell
 {
-    @IBOutlet var weekLabel: UILabel!
+    @IBOutlet var studentNameLabel: UILabel!
+    @IBOutlet var studentIDLabel: UILabel!
 }
-//Tbaleview stuff https://stackoverflow.com/questions/30774671/uitableview-with-more-than-one-custom-cells-with-swift
+
+//My tableview code came fron this tutorial https://guides.codepath.com/ios/Table-View-Quickstart
+//Note I made the cells in this class because I couldn't get the assistant to detect them as seperate classes so I couldn't do the binding
 class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
     
@@ -65,84 +72,118 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         self.navigationItem.title = "Week \(week!)"
         weekLabel.text = "Week \(week!)"
         
-        self.gradesView.delegate = self
-        self.gradesView.dataSource = self
+        gradesView.dataSource = self
+        gradesView.delegate = self
 
         // Do any additional setup after loading the view.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return data.count
+        return students.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        switch indexPath.row
+        //print("Week\(week!)")
+        //print(weekConfigs["Week\(week!)"])
+        
+        let weekType = weekConfigs["week\(week!)"] as! String
+        
+        switch weekType
         {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceCell", for: indexPath)
+            case "attendance":
+                /*let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceCell", for: indexPath)
                 
-                if let weekCell = cell as? AttendanceCell
+                if let weekCell = cell as? AttendanceTableViewCell
                 {
                     //populate the cell
                     weekCell.weekLabel.text = "Week \(week!)"
                     weekCell.attendanceSwitch.setOn(true, animated: true)
-                }
+                }*/
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceCell", for: indexPath) as! AttendanceTableViewCell
+                cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
+                cell.studentIDLabel.text = students[indexPath.row].studentID
+                cell.attendanceSwitch.setOn(true, animated: true)
                 
                 return cell
-            case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreCell", for: indexPath)
+            case "score":
+                /*let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreCell", for: indexPath)
                 
-                if let weekCell = cell as? ScoreCell
+                if let weekCell = cell as? ScoreTableViewCell
                 {
                     //populate the cell
                     weekCell.weekLabel.text = "Week \(week!)"
                     weekCell.scoreTextField.text = "12"
                     weekCell.maxScoreLabel.text = "/ 50"
-                }
+                }*/
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreCell", for: indexPath) as! ScoreTableViewCell
+                cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
+                cell.studentIDLabel.text = students[indexPath.row].studentID
+                cell.scoreTextField.text = "12"
+                cell.maxScoreLabel.text = "/ 50"
                 
                 return cell
-            case 2:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "NNToHDCell", for: indexPath)
+            case "gradeNN-HD":
+                /*let cell = tableView.dequeueReusableCell(withIdentifier: "NNToHDCell", for: indexPath)
                 
-                if let weekCell = cell as? NNToHDCell
+                if let weekCell = cell as? NNToHDTableViewCell
                 {
                     //populate the cell
                     weekCell.weekLabel.text = "Week \(week!)"
                     weekCell.selector.setEnabled(true, forSegmentAt: 3)
-                }
+                }*/
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "NNToHDCell", for: indexPath) as! NNToHDTableViewCell
+                cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
+                cell.studentIDLabel.text = students[indexPath.row].studentID
+                cell.selector.setEnabled(true, forSegmentAt: 3)
+                
                 
                 return cell
-            case 3:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "FToACell", for: indexPath)
+            case "gradeA-F":
+                /*let cell = tableView.dequeueReusableCell(withIdentifier: "FToACell", for: indexPath)
                 
-                if let weekCell = cell as? FToACell
+                if let weekCell = cell as? FToATableViewCell
                 {
                     //populate the cell
                     weekCell.weekLabel.text = "Week \(week!)"
                     weekCell.selector.setEnabled(true, forSegmentAt: 2)
-                }
+                }*/
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "FToACell", for: indexPath) as! FToATableViewCell
+                cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
+                cell.studentIDLabel.text = students[indexPath.row].studentID
+                cell.selector.setEnabled(true, forSegmentAt: 2)
                 
                 return cell
-            case 4:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath)
+            case "checkBox":
+                /*let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath)
                 
-                if let weekCell = cell as? CheckpointsCell
+                if let weekCell = cell as? CheckpointsTableViewCell
                 {
                     //populate the cell
                     weekCell.weekLabel.text = "Week \(week!)"
-                }
+                }*/
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath) as! CheckpointsTableViewCell
+                cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
+                cell.studentIDLabel.text = students[indexPath.row].studentID
                 
                 return cell
             default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath)
+                /*let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath)
                 
-                if let weekCell = cell as? CheckpointsCell
+                if let weekCell = cell as? CheckpointsTableViewCell
                 {
                     //populate the cell
                     weekCell.weekLabel.text = "Failed to find Right cell"
-                }
+                }*/
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath) as! CheckpointsTableViewCell
+                cell.studentNameLabel.text = "Failed to find Right cell"
                 
                 return cell
         }

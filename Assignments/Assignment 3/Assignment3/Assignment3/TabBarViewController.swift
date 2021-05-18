@@ -9,8 +9,8 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-var students = [Student]()
-var weeks:[String] = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8", "Week 9", "Week 10", "Week 11", "Week 12"]
+//var students = [Student]()
+//var weeks:[String] = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8", "Week 9", "Week 10", "Week 11", "Week 12"]
 
 class TabBarViewController: UITabBarController
 {
@@ -22,7 +22,7 @@ class TabBarViewController: UITabBarController
         self.navigationItem.title = "Weeks & Students"
         
         
-        students.removeAll()
+        /*students.removeAll()
         let db = Firestore.firestore()
         
         let studentCollection = db.collection("students")
@@ -74,7 +74,7 @@ class TabBarViewController: UITabBarController
                     print("\t\(student.firstName) \(student.lastName)")
                 }
             }
-        }
+        }*/
         
         
         // Do any additional setup after loading the view.

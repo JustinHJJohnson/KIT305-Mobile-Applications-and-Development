@@ -132,14 +132,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeekUITableViewCell" id="3ad-xA-2WC" customClass="WeekUITableViewCell" customModule="Assignment3" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="47.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="47"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3ad-xA-2WC" id="Xub-SK-dIg">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="47.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="47"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Week Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mi-K8-fYM">
-                                            <rect key="frame" x="28" y="13" width="88.5" height="21.5"/>
+                                            <rect key="frame" x="28" y="13" width="88.5" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -176,89 +176,117 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vPM-XA-fKd">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vPM-XA-fKd">
                                 <rect key="frame" x="0.0" y="180" width="414" height="682"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendanceCell" id="nJP-YL-ZqP" customClass="AttendanceCell" customModule="Assignment3" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendanceCell" id="nJP-YL-ZqP" customClass="AttendanceTableViewCell" customModule="Assignment3" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nJP-YL-ZqP" id="FgG-bT-ZXg" customClass="AttendanceCell" customModule="Assignment3" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HF6-Lp-0c7">
-                                                    <rect key="frame" x="20" y="11" width="82" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HF6-Lp-0c7">
+                                                    <rect key="frame" x="20" y="11" width="145" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Attendance" translatesAutoresizingMaskIntoConstraints="NO" id="dbY-5q-JB7">
-                                                    <rect key="frame" x="347" y="6" width="49" height="31"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Attendance" translatesAutoresizingMaskIntoConstraints="NO" id="dbY-5q-JB7">
+                                                    <rect key="frame" x="345" y="10" width="51" height="40"/>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Attendance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yd-pK-acc">
-                                                    <rect key="frame" x="178" y="12" width="88" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yd-pK-acc">
+                                                    <rect key="frame" x="249" y="16" width="88" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zor-z5-W4H">
+                                                    <rect key="frame" x="20" y="27" width="86" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="dbY-5q-JB7" secondAttribute="trailing" constant="20" id="5oy-kq-Zpb"/>
+                                                <constraint firstItem="dbY-5q-JB7" firstAttribute="top" secondItem="FgG-bT-ZXg" secondAttribute="top" constant="10" id="6Z8-dm-9qR"/>
+                                                <constraint firstItem="7yd-pK-acc" firstAttribute="top" secondItem="FgG-bT-ZXg" secondAttribute="topMargin" constant="5" id="AsR-Jy-tvK"/>
+                                                <constraint firstItem="7yd-pK-acc" firstAttribute="top" secondItem="FgG-bT-ZXg" secondAttribute="topMargin" constant="5" id="HLB-5F-t7j"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="7yd-pK-acc" secondAttribute="bottom" constant="5" id="IMo-xW-Qzt"/>
                                                 <constraint firstItem="dbY-5q-JB7" firstAttribute="leading" secondItem="7yd-pK-acc" secondAttribute="trailing" constant="8" id="Mgh-j6-urr"/>
+                                                <constraint firstAttribute="bottom" secondItem="dbY-5q-JB7" secondAttribute="bottom" constant="10" id="Mya-4x-yfF"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="7yd-pK-acc" secondAttribute="bottom" constant="5" id="vcD-Z6-37p"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="attendanceSwitch" destination="dbY-5q-JB7" id="1qT-In-3DF"/>
-                                            <outlet property="weekLabel" destination="HF6-Lp-0c7" id="r9W-vb-lTc"/>
+                                            <outlet property="studentIDLabel" destination="zor-z5-W4H" id="HVX-ls-tRq"/>
+                                            <outlet property="studentNameLabel" destination="HF6-Lp-0c7" id="r9W-vb-lTc"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScoreCell" id="2ZD-0t-idD" customClass="ScoreCell" customModule="Assignment3" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="78" width="414" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScoreCell" id="2ZD-0t-idD" customClass="ScoreTableViewCell" customModule="Assignment3" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="88" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2ZD-0t-idD" id="9aU-LP-Tug" customClass="ScoreCell" customModule="Assignment3" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSj-4l-VLG">
-                                                    <rect key="frame" x="20" y="11" width="82" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSj-4l-VLG">
+                                                    <rect key="frame" x="20" y="11" width="145" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="/ 20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipr-4x-Qmq">
-                                                    <rect key="frame" x="364" y="10" width="30" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/ 20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipr-4x-Qmq">
+                                                    <rect key="frame" x="364" y="10" width="30" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zQR-1E-JA6">
-                                                    <rect key="frame" x="320" y="3" width="36" height="34"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zQR-1E-JA6">
+                                                    <rect key="frame" x="320" y="10" width="36" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                                 </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u7T-Xn-uil">
+                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Ipr-4x-Qmq" secondAttribute="bottom" constant="10" id="5Jw-qo-qDD"/>
+                                                <constraint firstItem="zQR-1E-JA6" firstAttribute="top" secondItem="9aU-LP-Tug" secondAttribute="top" constant="10" id="6qL-s5-POr"/>
                                                 <constraint firstItem="Ipr-4x-Qmq" firstAttribute="leading" secondItem="zQR-1E-JA6" secondAttribute="trailing" constant="8" id="E8K-wO-NSm"/>
+                                                <constraint firstAttribute="bottom" secondItem="Ipr-4x-Qmq" secondAttribute="bottom" constant="10" id="Qen-CL-XiK"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ipr-4x-Qmq" secondAttribute="trailing" constant="20" id="Qet-X9-dC1"/>
+                                                <constraint firstAttribute="bottom" secondItem="zQR-1E-JA6" secondAttribute="bottom" constant="10" id="cyc-4s-Xd5"/>
+                                                <constraint firstItem="Ipr-4x-Qmq" firstAttribute="top" secondItem="9aU-LP-Tug" secondAttribute="top" constant="10" id="ks2-1D-I84"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="maxScoreLabel" destination="Ipr-4x-Qmq" id="RLz-2v-rse"/>
                                             <outlet property="scoreTextField" destination="zQR-1E-JA6" id="cxY-FR-dog"/>
-                                            <outlet property="weekLabel" destination="aSj-4l-VLG" id="3NS-CB-hkd"/>
+                                            <outlet property="studentIDLabel" destination="u7T-Xn-uil" id="kgF-yq-Ubf"/>
+                                            <outlet property="studentNameLabel" destination="aSj-4l-VLG" id="3NS-CB-hkd"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NNToHDCell" id="B5X-NE-Y4p" customClass="NNToHDCell" customModule="Assignment3" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="128" width="414" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NNToHDCell" id="B5X-NE-Y4p" customClass="NNToHDTableViewCell" customModule="Assignment3" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="148" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B5X-NE-Y4p" id="TTn-2A-msK" customClass="NNToHDCell" customModule="Assignment3" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jxJ-v4-PzL">
-                                                    <rect key="frame" x="20" y="11" width="82" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jxJ-v4-PzL">
+                                                    <rect key="frame" x="20" y="11" width="145" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -276,22 +304,30 @@
                                                         <segment title="HD+"/>
                                                     </segments>
                                                 </segmentedControl>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRz-S5-2cQ">
+                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="selector" destination="Gt5-Vu-qmt" id="1vD-gx-ec3"/>
-                                            <outlet property="weekLabel" destination="jxJ-v4-PzL" id="mI3-L1-A5J"/>
+                                            <outlet property="studentIDLabel" destination="rRz-S5-2cQ" id="5IN-GV-NCe"/>
+                                            <outlet property="studentNameLabel" destination="jxJ-v4-PzL" id="mI3-L1-A5J"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FToACell" id="WdE-CR-0XI" customClass="FToACell" customModule="Assignment3" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="178" width="414" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FToACell" id="WdE-CR-0XI" customClass="FToATableViewCell" customModule="Assignment3" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="208" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WdE-CR-0XI" id="XbX-9i-o4R" customClass="FToACell" customModule="Assignment3" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1g-Rm-zLW">
-                                                    <rect key="frame" x="20" y="11" width="82" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1g-Rm-zLW">
+                                                    <rect key="frame" x="20" y="11" width="145" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -308,30 +344,46 @@
                                                         <segment title="A"/>
                                                     </segments>
                                                 </segmentedControl>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="selector" destination="sF7-7m-2lP" id="FlM-w8-Jy9"/>
-                                            <outlet property="weekLabel" destination="g1g-Rm-zLW" id="B3m-Fc-KAS"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckpointsCell" id="IR4-qA-G9o" customClass="CheckpointsCell" customModule="Assignment3" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="228" width="414" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IR4-qA-G9o" id="BAo-WS-MaR" customClass="CheckpointsCell" customModule="Assignment3" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHf-Q2-s21">
-                                                    <rect key="frame" x="20" y="11" width="82" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZb-SD-rrV">
+                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="selector" destination="sF7-7m-2lP" id="FlM-w8-Jy9"/>
+                                            <outlet property="studentIDLabel" destination="gZb-SD-rrV" id="nv6-Jf-mtN"/>
+                                            <outlet property="weekLabel" destination="g1g-Rm-zLW" id="B3m-Fc-KAS"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckpointsCell" id="IR4-qA-G9o" customClass="CheckpointsTableViewCell" customModule="Assignment3" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="268" width="414" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IR4-qA-G9o" id="BAo-WS-MaR" customClass="CheckpointsCell" customModule="Assignment3" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHf-Q2-s21">
+                                                    <rect key="frame" x="20" y="11" width="145" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yh-NO-QAu">
+                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="studentIDLabel" destination="1yh-NO-QAu" id="KJF-3Y-tlX"/>
                                             <outlet property="weekLabel" destination="WHf-Q2-s21" id="Ft7-EI-x0e"/>
                                         </connections>
                                     </tableViewCell>
@@ -341,9 +393,8 @@
                                     <outlet property="delegate" destination="csF-RO-w8x" id="WVQ-lV-Yog"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1p-gO-bdk">
-                                <rect key="frame" x="186" y="120" width="82" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1p-gO-bdk">
+                                <rect key="frame" x="166" y="118" width="82" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -352,9 +403,14 @@
                         <viewLayoutGuide key="safeArea" id="0XR-3c-Q9N"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vPM-XA-fKd" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" id="FL9-m4-HMv"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" id="Hyb-ox-gAa"/>
+                            <constraint firstItem="0XR-3c-Q9N" firstAttribute="trailing" secondItem="B1p-gO-bdk" secondAttribute="trailing" constant="166" id="IA0-To-K2J"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" id="Q2b-ia-NHH"/>
+                            <constraint firstItem="B1p-gO-bdk" firstAttribute="top" secondItem="0XR-3c-Q9N" secondAttribute="top" constant="30" id="TX5-er-5bY"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="trailing" secondItem="0XR-3c-Q9N" secondAttribute="trailing" id="YIu-CH-3GM"/>
+                            <constraint firstItem="vPM-XA-fKd" firstAttribute="top" secondItem="B1p-gO-bdk" secondAttribute="bottom" constant="41" id="b1K-Q1-h35"/>
+                            <constraint firstItem="B1p-gO-bdk" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" constant="166" id="g4o-Qx-JBU"/>
                             <constraint firstItem="0XR-3c-Q9N" firstAttribute="trailing" secondItem="vPM-XA-fKd" secondAttribute="trailing" id="gj5-5D-6z4"/>
                             <constraint firstItem="0XR-3c-Q9N" firstAttribute="bottom" secondItem="vPM-XA-fKd" secondAttribute="bottom" id="khg-Om-F6w"/>
                             <constraint firstItem="0XR-3c-Q9N" firstAttribute="bottom" secondItem="vPM-XA-fKd" secondAttribute="bottom" id="tzB-Bh-QhK"/>
