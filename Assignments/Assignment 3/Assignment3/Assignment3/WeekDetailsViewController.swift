@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class AttendanceTableViewCell: UITableViewCell
 {
@@ -60,6 +61,9 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
 {
     
     var week: Int?
+    //var allGrades: [(studentID:String, grade:Int)]?
+    
+    var test: Int = grades[0].grades.week
     var data: [String] = ["This", "Is", "A", "Test", "Please", "Work"]
     
     @IBOutlet var gradesView: UITableView!
@@ -74,8 +78,38 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         
         gradesView.dataSource = self
         gradesView.delegate = self
-
-        // Do any additional setup after loading the view.
+        
+        allGrades.removeAll()
+        let db = Firestore.firestore()
+        
+        let gradeCollection = db.collection("grades")
+        print("\nGot the grades collection")
+        
+        gradeCollection.getDocuments() { (result, err) in
+            //check for server error
+            if let err = err
+            {
+                print("Error getting documents: \(err)")
+            }
+            else
+            {
+                //loop through the results
+                for document in result!.documents
+                {
+                    for (key, value) in document.data() where key == "week\(self.week!)"
+                    {
+                        print("Student \(document.documentID) grade: \(value)")
+                        self.allGrades.append((key, value as! Int))
+                    }
+                }
+                
+                print("\nGrades in the list:")
+                for studentGrades in self.allGrades
+                {
+                    print("\t\(studentGrades)")
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -105,7 +139,16 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceCell", for: indexPath) as! AttendanceTableViewCell
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
                 cell.studentIDLabel.text = students[indexPath.row].studentID
-                cell.attendanceSwitch.setOn(true, animated: true)
+                
+                if(allGrades[indexPath.row].grade == 100)
+                {
+                    cell.attendanceSwitch.setOn(true, animated: false)
+                    
+                }
+                else
+                {
+                    cell.attendanceSwitch.setOn(false, animated: false)
+                }
                 
                 return cell
             case "score":

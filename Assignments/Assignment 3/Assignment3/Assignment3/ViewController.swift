@@ -11,6 +11,7 @@ import FirebaseFirestore
 var students = [Student]()
 var weeks:[String] = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8", "Week 9", "Week 10", "Week 11", "Week 12"]
 var weekConfigs: [String: Any] = [:]
+var grades: [(studentID:String, grades:Grades)] = []
 
 class ViewController: UIViewController
 {
@@ -102,6 +103,57 @@ class ViewController: UIViewController
                 for config in weekConfigs
                 {
                     print("\t\(config.key): \(config.value)")
+                }
+            }
+        }
+        
+        let gradesCollection = db.collection("grades")
+        print("\nGot the collection")
+        
+        gradesCollection.getDocuments() { (result, err) in
+            //check for server error
+            if let err = err
+            {
+                print("Error getting documents: \(err)")
+            }
+            else
+            {
+                //loop through the results
+                for document in result!.documents
+                {
+                    //attempt to convert to Student object
+                    let conversionResult = Result
+                    {
+                        try document.data(as: Grades.self)
+                    }
+                    
+                    //check if conversionResult is a success or failure (i.e was an exception/error thrown?)
+                    switch conversionResult
+                    {
+                        //success, but could still be nil
+                        case .success(let convertedDoc):
+                            if let studentGrades = convertedDoc
+                            {
+                                //A Student was successfully initialized from the DocumentSnapshot
+                                print("Student \(document.documentID) grades: \(studentGrades)")
+                                grades.append((document.documentID, studentGrades))
+                            }
+                            else
+                            {
+                                //a nil value was successful converted to a Student, or there were no documents
+                                print("Document does not exist")
+                            }
+                        
+                        case .failure(let error):
+                            //a Student could not be initialized from the DocumentSnapshot
+                            print("Error decoding grades: \(error)")
+                    }
+                }
+                
+                print("\ngrades in the list:")
+                for studentGrades in grades
+                {
+                    print("\tStudent \(studentGrades.studentID) grades: \(studentGrades)")
                 }
             }
         }
