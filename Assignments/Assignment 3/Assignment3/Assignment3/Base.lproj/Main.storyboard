@@ -67,24 +67,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="It is currently week 9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVZ-iw-4K3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It is currently week 9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVZ-iw-4K3">
                                 <rect key="frame" x="128" y="321" width="158" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5KI-1E-txb">
-                                <rect key="frame" x="139" y="350" width="136" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5KI-1E-txb">
+                                <rect key="frame" x="139" y="352" width="136" height="30"/>
                                 <state key="normal" title="Got to current week"/>
                                 <connections>
                                     <segue destination="csF-RO-w8x" kind="show" identifier="showWeekDetailsSegue" id="wTc-jL-zUe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tT6-Tn-sIU">
-                                <rect key="frame" x="118" y="388" width="179" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tT6-Tn-sIU">
+                                <rect key="frame" x="117.5" y="388" width="179" height="30"/>
                                 <state key="normal" title="Go to week &amp; student lists"/>
                                 <connections>
                                     <segue destination="2Vd-jt-fau" kind="show" animates="NO" id="Bvc-2Y-Xfc"/>
@@ -93,6 +90,14 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UlN-OY-Vg9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WVZ-iw-4K3" firstAttribute="top" secondItem="UlN-OY-Vg9" secondAttribute="top" constant="233" id="CYt-uX-FTl"/>
+                            <constraint firstItem="5KI-1E-txb" firstAttribute="top" secondItem="WVZ-iw-4K3" secondAttribute="bottom" constant="10" id="JGE-oD-QU5"/>
+                            <constraint firstItem="5KI-1E-txb" firstAttribute="centerX" secondItem="UlN-OY-Vg9" secondAttribute="centerX" id="Y4p-hg-dNX"/>
+                            <constraint firstItem="WVZ-iw-4K3" firstAttribute="centerX" secondItem="UlN-OY-Vg9" secondAttribute="centerX" id="ZXf-Cp-Fwj"/>
+                            <constraint firstItem="tT6-Tn-sIU" firstAttribute="centerX" secondItem="UlN-OY-Vg9" secondAttribute="centerX" id="dAz-Gk-3De"/>
+                            <constraint firstItem="tT6-Tn-sIU" firstAttribute="top" secondItem="5KI-1E-txb" secondAttribute="bottom" constant="6" id="t37-NH-Qe6"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3FV-9W-Hbj"/>
                     <connections>
@@ -132,14 +137,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeekUITableViewCell" id="3ad-xA-2WC" customClass="WeekUITableViewCell" customModule="Assignment3" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="47.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="47"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3ad-xA-2WC" id="Xub-SK-dIg">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="47.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="47"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Week Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mi-K8-fYM">
-                                            <rect key="frame" x="28" y="13" width="88.5" height="21.5"/>
+                                            <rect key="frame" x="28" y="13" width="88.5" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -197,6 +202,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Attendance" translatesAutoresizingMaskIntoConstraints="NO" id="dbY-5q-JB7">
                                                     <rect key="frame" x="345" y="10" width="51" height="40"/>
+                                                    <connections>
+                                                        <action selector="attendanceSwitchClicked:" destination="nJP-YL-ZqP" eventType="valueChanged" id="eqI-sT-98i"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yd-pK-acc">
                                                     <rect key="frame" x="249" y="16" width="88" height="28"/>
@@ -253,6 +261,9 @@
                                                     <rect key="frame" x="320" y="10" width="36" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
+                                                    <connections>
+                                                        <action selector="updatedGrade:" destination="2ZD-0t-idD" eventType="editingDidEnd" id="Cbf-Fh-j0W"/>
+                                                    </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u7T-Xn-uil">
                                                     <rect key="frame" x="20" y="28" width="86" height="15"/>
@@ -293,8 +304,15 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRz-S5-2cQ">
+                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Gt5-Vu-qmt">
-                                                    <rect key="frame" x="172" y="7" width="222" height="32"/>
+                                                    <rect key="frame" x="172" y="12" width="222" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <segments>
                                                         <segment title="NN"/>
@@ -304,14 +322,10 @@
                                                         <segment title="HD"/>
                                                         <segment title="HD+"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="changedSelection:" destination="B5X-NE-Y4p" eventType="valueChanged" id="QqQ-F6-aeg"/>
+                                                    </connections>
                                                 </segmentedControl>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRz-S5-2cQ">
-                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
@@ -334,8 +348,15 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZb-SD-rrV">
+                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="sF7-7m-2lP">
-                                                    <rect key="frame" x="263" y="7" width="131" height="32"/>
+                                                    <rect key="frame" x="263" y="15" width="131" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <segments>
                                                         <segment title="F"/>
@@ -344,20 +365,16 @@
                                                         <segment title="B"/>
                                                         <segment title="A"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="changedSelection:" destination="WdE-CR-0XI" eventType="valueChanged" id="jWx-Cr-L9G"/>
+                                                    </connections>
                                                 </segmentedControl>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="studentIDLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZb-SD-rrV">
-                                                    <rect key="frame" x="20" y="28" width="86" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="selector" destination="sF7-7m-2lP" id="FlM-w8-Jy9"/>
                                             <outlet property="studentIDLabel" destination="gZb-SD-rrV" id="nv6-Jf-mtN"/>
-                                            <outlet property="weekLabel" destination="g1g-Rm-zLW" id="B3m-Fc-KAS"/>
+                                            <outlet property="studentNameLabel" destination="g1g-Rm-zLW" id="emn-Fp-kRd"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckpointsCell" id="IR4-qA-G9o" customClass="CheckpointsTableViewCell" customModule="Assignment3" customModuleProvider="target">
@@ -385,7 +402,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="studentIDLabel" destination="1yh-NO-QAu" id="KJF-3Y-tlX"/>
-                                            <outlet property="weekLabel" destination="WHf-Q2-s21" id="Ft7-EI-x0e"/>
+                                            <outlet property="studentNameLabel" destination="WHf-Q2-s21" id="txx-4m-22s"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -394,8 +411,8 @@
                                     <outlet property="delegate" destination="csF-RO-w8x" id="WVQ-lV-Yog"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="weekLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1p-gO-bdk">
-                                <rect key="frame" x="166" y="118" width="82" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gradeAverageLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1p-gO-bdk">
+                                <rect key="frame" x="133.5" y="118" width="147" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -404,23 +421,21 @@
                         <viewLayoutGuide key="safeArea" id="0XR-3c-Q9N"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="B1p-gO-bdk" firstAttribute="centerX" secondItem="0XR-3c-Q9N" secondAttribute="centerX" id="6gs-Fe-oxt"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" id="FL9-m4-HMv"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" id="Hyb-ox-gAa"/>
-                            <constraint firstItem="0XR-3c-Q9N" firstAttribute="trailing" secondItem="B1p-gO-bdk" secondAttribute="trailing" constant="166" id="IA0-To-K2J"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" id="Q2b-ia-NHH"/>
                             <constraint firstItem="B1p-gO-bdk" firstAttribute="top" secondItem="0XR-3c-Q9N" secondAttribute="top" constant="30" id="TX5-er-5bY"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="trailing" secondItem="0XR-3c-Q9N" secondAttribute="trailing" id="YIu-CH-3GM"/>
                             <constraint firstItem="vPM-XA-fKd" firstAttribute="top" secondItem="B1p-gO-bdk" secondAttribute="bottom" constant="41" id="b1K-Q1-h35"/>
-                            <constraint firstItem="B1p-gO-bdk" firstAttribute="leading" secondItem="0XR-3c-Q9N" secondAttribute="leading" constant="166" id="g4o-Qx-JBU"/>
-                            <constraint firstItem="0XR-3c-Q9N" firstAttribute="trailing" secondItem="vPM-XA-fKd" secondAttribute="trailing" id="gj5-5D-6z4"/>
                             <constraint firstItem="0XR-3c-Q9N" firstAttribute="bottom" secondItem="vPM-XA-fKd" secondAttribute="bottom" id="khg-Om-F6w"/>
                             <constraint firstItem="0XR-3c-Q9N" firstAttribute="bottom" secondItem="vPM-XA-fKd" secondAttribute="bottom" id="tzB-Bh-QhK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8Pi-uP-Sh8"/>
                     <connections>
+                        <outlet property="gradeAverageLabel" destination="B1p-gO-bdk" id="kEe-Gr-hNq"/>
                         <outlet property="gradesView" destination="vPM-XA-fKd" id="K6A-4d-Kz4"/>
-                        <outlet property="weekLabel" destination="B1p-gO-bdk" id="ZEx-3B-gh1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1t4-dy-Jqt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -447,7 +462,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pkp-WK-7hN"/>
+        <segue reference="wTc-jL-zUe"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="calendar" catalog="system" width="128" height="106"/>

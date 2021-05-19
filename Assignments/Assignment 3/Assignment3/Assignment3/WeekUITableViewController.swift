@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class WeekUITableViewController: UITableViewController
 {
@@ -79,7 +80,42 @@ class WeekUITableViewController: UITableViewController
             }
 
             //send it to the details screen
-            detailViewController.week = indexPath.row + 1
+            let weekNum = indexPath.row + 1
+            detailViewController.week = weekNum
+            
+            /*let db = Firestore.firestore()
+            
+            let gradeCollection = db.collection("grades")
+            print("\nGot the grades collection")
+            
+            detailViewController.allGrades = []
+            detailViewController.allGrades!.append(("Testname", 100))
+            
+            gradeCollection.getDocuments() { (result, err) in
+                //check for server error
+                if let err = err
+                {
+                    print("Error getting documents: \(err)")
+                }
+                else
+                {
+                    //loop through the results
+                    for document in result!.documents
+                    {
+                        for (key, value) in document.data() where key == "week\(weekNum)"
+                        {
+                            print("Student \(document.documentID) grade: \(value)")
+                            detailViewController.allGrades!.append((key, value as! Int))
+                        }
+                    }
+                    
+                    print("\nGrades in the list:")
+                    for studentGrades in detailViewController.allGrades!
+                    {
+                        print("\t\(studentGrades)")
+                    }
+                }
+            }*/
         }
     }
 

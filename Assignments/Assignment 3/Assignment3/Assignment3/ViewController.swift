@@ -11,7 +11,7 @@ import FirebaseFirestore
 var students = [Student]()
 var weeks:[String] = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8", "Week 9", "Week 10", "Week 11", "Week 12"]
 var weekConfigs: [String: Any] = [:]
-var grades: [(studentID:String, grades:Grades)] = []
+//var grades: [(studentID:String, grades:Grades)] = []
 
 class ViewController: UIViewController
 {
@@ -23,7 +23,7 @@ class ViewController: UIViewController
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        currentWeekLabel.text = "It is week \(currentWeek)"
+        currentWeekLabel.text = "It is currently week \(currentWeek)"
         
         students.removeAll()
         let db = Firestore.firestore()
@@ -107,7 +107,7 @@ class ViewController: UIViewController
             }
         }
         
-        let gradesCollection = db.collection("grades")
+        /*let gradesCollection = db.collection("grades")
         print("\nGot the collection")
         
         gradesCollection.getDocuments() { (result, err) in
@@ -156,7 +156,7 @@ class ViewController: UIViewController
                     print("\tStudent \(studentGrades.studentID) grades: \(studentGrades)")
                 }
             }
-        }
+        }*/
         
     }
     
