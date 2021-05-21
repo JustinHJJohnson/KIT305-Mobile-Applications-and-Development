@@ -10,6 +10,7 @@ import FirebaseFirestoreSwift
 
 public struct Grades : Codable
 {
+    @DocumentID var id:String?
     var week1:Int
     var week2:Int
     var week3:Int

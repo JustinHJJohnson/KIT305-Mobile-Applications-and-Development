@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class StudentUITableViewController: UITableViewController
 {
@@ -36,7 +37,46 @@ class StudentUITableViewController: UITableViewController
     @objc
     func addStudentButtonPressed()
     {
-        print("Add a student")
+        performSegue(withIdentifier: "showAddStudentSegue", sender: nil)
+    }
+    
+    func deleteStudent(at indexPath: IndexPath)
+    {
+        let row = indexPath.row
+        // alert controller stuff from here https://learnappmaking.com/uialertcontroller-alerts-swift-how-to/
+        let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to delete \(students[row].firstName) \(students[row].lastName)?", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
+            let studentID = students[row].studentID!
+            let db = Firestore.firestore()
+            
+            let studentCollection = db.collection("students")
+            studentCollection.document(studentID).delete() {err in
+                if let err = err
+                {
+                    print("Failed to remove student: \(err)")
+                }
+                else
+                {
+                    db.collection("grades").document(studentID).delete() {err in
+                        if let err = err
+                        {
+                            print("Failed to remove student: \(err)")
+                        }
+                        else
+                        {
+                            print("student and grades deleted successfully")
+                            students.remove(at: row)
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        }
+                    }
+                }
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
     }
 
     @objc
@@ -55,6 +95,27 @@ class StudentUITableViewController: UITableViewController
         //print(shareString)
     }
 
+    // all code relating to swiping rows is based on this https://programmingwithswift.com/uitableviewcell-swipe-actions-with-swift/
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let action = UIContextualAction(
+            style: .normal,
+            title: "Delete")
+            {
+                [weak self] (action, view, completionHandler) in
+                self?.deleteStudent(at: indexPath)
+                completionHandler(true)
+            }
+        action.backgroundColor = .systemRed
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    
+    //Makes sqiping work on iOS 13 and up
+    override func tableView(_ tableView: UITableView,editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
+    {
+        return .none
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int

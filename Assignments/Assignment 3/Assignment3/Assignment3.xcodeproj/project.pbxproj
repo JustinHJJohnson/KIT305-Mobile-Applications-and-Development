@@ -15,6 +15,7 @@
 		5C79D5782655DA9E00036964 /* CheckpointsUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D5772655DA9E00036964 /* CheckpointsUITableViewCell.swift */; };
 		7C2B2CD92653E348001E6C07 /* Grades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B2CD82653E348001E6C07 /* Grades.swift */; };
 		7C36CF0A26572E20001409B9 /* StudentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C36CF0926572E20001409B9 /* StudentDetailsViewController.swift */; };
+		7C36CF122657E1D2001409B9 /* AddStudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C36CF112657E1D2001409B9 /* AddStudentViewController.swift */; };
 		7C85EEFA264FCCA300E9CE6D /* WeekUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */; };
 		7C85EEFD264FCD2800E9CE6D /* WeekUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */; };
 		7C85EF09264FDF0C00E9CE6D /* WeekDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */; };
@@ -42,6 +43,7 @@
 		5C79D5772655DA9E00036964 /* CheckpointsUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckpointsUITableViewCell.swift; sourceTree = "<group>"; };
 		7C2B2CD82653E348001E6C07 /* Grades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grades.swift; sourceTree = "<group>"; };
 		7C36CF0926572E20001409B9 /* StudentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailsViewController.swift; sourceTree = "<group>"; };
+		7C36CF112657E1D2001409B9 /* AddStudentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentViewController.swift; sourceTree = "<group>"; };
 		7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekUITableViewController.swift; sourceTree = "<group>"; };
 		7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekUITableViewCell.swift; sourceTree = "<group>"; };
 		7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDetailsViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				D04421082648EBC9004D54B5 /* TabBarViewController.swift */,
 				D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */,
 				7C36CF0926572E20001409B9 /* StudentDetailsViewController.swift */,
+				7C36CF112657E1D2001409B9 /* AddStudentViewController.swift */,
 				7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */,
 				7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */,
 				D06343A92643AE5A002F8200 /* AppDelegate.swift */,
@@ -261,6 +264,7 @@
 			files = (
 				5C79D5752655DA7700036964 /* FToAUITableViewCell.swift in Sources */,
 				D06343AE2643AE5A002F8200 /* ViewController.swift in Sources */,
+				7C36CF122657E1D2001409B9 /* AddStudentViewController.swift in Sources */,
 				7C36CF0A26572E20001409B9 /* StudentDetailsViewController.swift in Sources */,
 				D06343AA2643AE5A002F8200 /* AppDelegate.swift in Sources */,
 				7C85EEFA264FCCA300E9CE6D /* WeekUITableViewController.swift in Sources */,

@@ -25,7 +25,7 @@ class CheckpointsUITableViewCell: UITableViewCell
         
         //https://stackoverflow.com/questions/24007650/selector-in-swift
         //https://learnappmaking.com/target-action-swift/
-        //checkpointStepper.addTarget(self, action: #selector(WeekDetailsViewController.updateGrade(ofGradeType:inWeek:withNewGrade:)), for: .valueChanged)
+        checkpointStepper.addTarget(self, action: #selector(WeekDetailsViewController.updateGrade(forWeek:withNewGrade:)), for: .valueChanged)
         numCheckpointsCompletedLabel.text = String(Int(numCheckboxesCompleted))
         
         print("student \(studentNameLabel.text!) grade set to \(newGrade)")

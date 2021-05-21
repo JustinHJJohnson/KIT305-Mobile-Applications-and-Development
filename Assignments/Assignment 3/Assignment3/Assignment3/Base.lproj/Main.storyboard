@@ -57,6 +57,7 @@
                     <navigationItem key="navigationItem" id="ggE-C8-foX"/>
                     <connections>
                         <outlet property="navigationBar" destination="ggE-C8-foX" id="SJA-LN-cZ5"/>
+                        <segue destination="XY7-Dz-BGa" kind="presentation" identifier="showAddStudentSegue" id="ETa-us-lMt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iWk-Wl-XqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -805,9 +806,83 @@
             </objects>
             <point key="canvasLocation" x="-2342.0289855072465" y="409.82142857142856"/>
         </scene>
+        <!--Add Student View Controller-->
+        <scene sceneID="ZAW-wZ-yZC">
+            <objects>
+                <viewController id="XY7-Dz-BGa" customClass="AddStudentViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3oG-Wy-VQa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dqZ-Tl-ycr">
+                                <rect key="frame" x="147" y="82.5" width="120" height="120"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p4P-Eb-6VS">
+                                <rect key="frame" x="167" y="212.5" width="80" height="30"/>
+                                <state key="normal" title="Add Picture"/>
+                                <connections>
+                                    <action selector="imageButtonClicked:" destination="XY7-Dz-BGa" eventType="touchUpInside" id="HWh-gR-RET"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aZu-R8-1Ob">
+                                <rect key="frame" x="20" y="262.5" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cXt-Ga-1wD">
+                                <rect key="frame" x="20" y="304.5" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Student ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0px-e6-wWj">
+                                <rect key="frame" x="20" y="346.5" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B2r-Hz-vNT">
+                                <rect key="frame" x="164" y="388.5" width="86" height="30"/>
+                                <state key="normal" title="Add Student"/>
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="XY7-Dz-BGa" eventType="touchUpInside" id="kUZ-zi-Wuu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pgd-gV-cKO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cXt-Ga-1wD" firstAttribute="top" secondItem="aZu-R8-1Ob" secondAttribute="bottom" constant="8" id="9Qg-23-kpm"/>
+                            <constraint firstItem="aZu-R8-1Ob" firstAttribute="top" secondItem="p4P-Eb-6VS" secondAttribute="bottom" constant="20" id="DRJ-F1-Dz5"/>
+                            <constraint firstItem="aZu-R8-1Ob" firstAttribute="leading" secondItem="pgd-gV-cKO" secondAttribute="leading" constant="20" id="F8p-jZ-TIz"/>
+                            <constraint firstItem="p4P-Eb-6VS" firstAttribute="centerX" secondItem="pgd-gV-cKO" secondAttribute="centerX" id="Hta-U1-Hs1"/>
+                            <constraint firstItem="dqZ-Tl-ycr" firstAttribute="top" secondItem="pgd-gV-cKO" secondAttribute="top" constant="80" id="Jg1-hP-4qr"/>
+                            <constraint firstItem="pgd-gV-cKO" firstAttribute="trailing" secondItem="0px-e6-wWj" secondAttribute="trailing" constant="20" id="MBR-ml-Vdw"/>
+                            <constraint firstItem="0px-e6-wWj" firstAttribute="centerX" secondItem="pgd-gV-cKO" secondAttribute="centerX" id="MST-ay-dv1"/>
+                            <constraint firstItem="dqZ-Tl-ycr" firstAttribute="centerX" secondItem="pgd-gV-cKO" secondAttribute="centerX" id="Xe4-oQ-pWi"/>
+                            <constraint firstItem="B2r-Hz-vNT" firstAttribute="centerX" secondItem="pgd-gV-cKO" secondAttribute="centerX" id="ZB6-wC-4tk"/>
+                            <constraint firstItem="p4P-Eb-6VS" firstAttribute="top" secondItem="dqZ-Tl-ycr" secondAttribute="bottom" constant="8" id="fJB-7c-Kof"/>
+                            <constraint firstItem="cXt-Ga-1wD" firstAttribute="leading" secondItem="pgd-gV-cKO" secondAttribute="leading" constant="20" id="m5U-rm-fsl"/>
+                            <constraint firstItem="0px-e6-wWj" firstAttribute="top" secondItem="cXt-Ga-1wD" secondAttribute="bottom" constant="8" id="pBw-Hf-drB"/>
+                            <constraint firstItem="0px-e6-wWj" firstAttribute="leading" secondItem="pgd-gV-cKO" secondAttribute="leading" constant="20" id="qLV-Bd-Gh3"/>
+                            <constraint firstItem="p4P-Eb-6VS" firstAttribute="top" secondItem="dqZ-Tl-ycr" secondAttribute="bottom" constant="8" id="qcs-Iw-Yu4"/>
+                            <constraint firstItem="B2r-Hz-vNT" firstAttribute="top" secondItem="0px-e6-wWj" secondAttribute="bottom" constant="8" id="vXC-jR-Lje"/>
+                            <constraint firstItem="pgd-gV-cKO" firstAttribute="trailing" secondItem="cXt-Ga-1wD" secondAttribute="trailing" constant="20" id="yKJ-UV-qLE"/>
+                            <constraint firstItem="pgd-gV-cKO" firstAttribute="trailing" secondItem="aZu-R8-1Ob" secondAttribute="trailing" constant="20" id="yMf-C5-Txb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="firstNameField" destination="aZu-R8-1Ob" id="8rp-Pc-EPQ"/>
+                        <outlet property="lastNameField" destination="cXt-Ga-1wD" id="hrw-vD-hg2"/>
+                        <outlet property="studentIDField" destination="0px-e6-wWj" id="geb-zC-dlG"/>
+                        <outlet property="studentImageView" destination="dqZ-Tl-ycr" id="CdM-ez-wlf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="un1-ej-Bky" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="286" y="-617"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pkp-WK-7hN"/>
+        <segue reference="wTc-jL-zUe"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="calendar" catalog="system" width="128" height="106"/>

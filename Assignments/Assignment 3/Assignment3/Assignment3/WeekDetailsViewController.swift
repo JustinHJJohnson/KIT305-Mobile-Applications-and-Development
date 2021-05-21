@@ -43,9 +43,22 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         print("Settings button clicked")
     }
     
-    @objc public func updateGrade(ofGradeType gradeType: String, inWeek week: Int, withNewGrade newGrade: Int)
+    @objc public func updateGrade(forWeek week: Int, withNewGrade newGrade: Int)
     {
+        let db = Firestore.firestore()
         
+        let gradeCollection = db.collection("grades")
+        gradeCollection.document(students[week-1].studentID!).updateData([
+            "week\(week)": newGrade
+        ]) { (err) in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                self.allGrades[week-1] = (students[week-1].studentID!, newGrade)
+                self.gradesView.reloadData()
+                print("Grade updated to newGrade")
+            }
+        }
     }
     
     override func viewDidLoad()
