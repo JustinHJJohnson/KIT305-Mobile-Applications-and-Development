@@ -14,10 +14,34 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
 {
     var week: Int?
     var allGrades: [(studentID:String, grade:Int)] = []
+    var gradesFetched = false
     var weekType: String?
     
     @IBOutlet var gradesView: UITableView!
     @IBOutlet var gradeAverageLabel: UILabel!
+    @IBAction func shareButtonClicked(_ sender: Any)
+    {
+        if(gradesFetched)
+        {
+            var shareString = "Firstname, Lastname, StudentID, Week \(week!) Grade\n"
+            
+            for student in allGrades
+            {
+                shareString.append("\(student.studentID), \(student.grade)\n")
+            }
+            
+            let shareViewController = UIActivityViewController(activityItems: [shareString], applicationActivities:[])
+            present(shareViewController, animated: true, completion: nil)
+        }
+        else
+        {
+            print("Wait")
+        }
+    }
+    @IBAction func settingsButtonClicked(_ sender: Any)
+    {
+        print("Settings button clicked")
+    }
     
     @objc public func updateGrade(ofGradeType gradeType: String, inWeek week: Int, withNewGrade newGrade: Int)
     {
@@ -110,6 +134,7 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 }
                 
                 self.gradesView.reloadData()
+                self.gradesFetched = true
             }
         }
     }

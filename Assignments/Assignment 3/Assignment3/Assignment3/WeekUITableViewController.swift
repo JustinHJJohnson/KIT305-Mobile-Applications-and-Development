@@ -2,7 +2,7 @@
 //  WeekTableViewController.swift
 //  Assignment3
 //
-//  Created by Joseph Holloway on 15/5/21.
+//  Created by Justin Johnson on 15/5/21.
 //
 
 import UIKit
@@ -10,16 +10,40 @@ import FirebaseFirestore
 
 class WeekUITableViewController: UITableViewController
 {
+    @IBOutlet var navigationBar: UINavigationItem!
+    
+    //This code was based on https://stackoverflow.com/questions/12329895/setting-the-title-of-a-navigation-bar-inside-a-tab-bar-controller , https://stackoverflow.com/questions/45740811/how-to-run-a-function-every-time-a-uiviewcontroller-is-loaded and https://stackoverflow.com/questions/32558014/how-to-add-use-default-icons-to-navigation-bar
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
 
+        self.tabBarController?.navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(
+                barButtonSystemItem: UIBarButtonItem.SystemItem.action,
+                target: self,
+                action: #selector(shareAllStudentsButtonPressed)),
+        ]
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        //self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    @objc
+    func shareAllStudentsButtonPressed()
+    {
+        var shareString = "Firstname, Lastname, StudentID\n"
+        
+        for student in students
+        {
+            shareString.append("\(student.firstName), \(student.lastName), \(student.studentID!)\n")
+        }
+        
+        let shareViewController = UIActivityViewController(activityItems: [shareString], applicationActivities:[])
+        present(shareViewController, animated: true, completion: nil)
+        
+        //print(shareString)
     }
 
     // MARK: - Table view data source
@@ -57,7 +81,6 @@ class WeekUITableViewController: UITableViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         super.prepare(for: segue, sender: sender)
-        navigationItem.title = "Weeks & Students"
         
         if segue.identifier == "showWeekDetailsSegue"
         {

@@ -55,6 +55,9 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Students" image="person" catalog="system" id="8g5-9m-nAc"/>
                     <navigationItem key="navigationItem" id="ggE-C8-foX"/>
+                    <connections>
+                        <outlet property="navigationBar" destination="ggE-C8-foX" id="SJA-LN-cZ5"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iWk-Wl-XqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -129,8 +132,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FDY-t3-fCH">
-                                                    <rect key="frame" x="320" y="10" width="36" height="40"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <rect key="frame" x="318" y="10" width="38" height="40"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                                     <connections>
                                                         <action selector="updatedGrade:" destination="pqo-WD-Z9E" eventType="editingDidEnd" id="3O0-Rr-Qmi"/>
@@ -308,7 +311,7 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="studentID" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g2s-Ce-g9C">
                                 <rect key="frame" x="20" y="188" width="234" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" id="JeI-tD-qBK">
                                 <rect key="frame" x="274" y="105.5" width="120" height="120"/>
@@ -336,7 +339,13 @@
                             <constraint firstItem="g2s-Ce-g9C" firstAttribute="top" secondItem="qk7-JO-NtO" secondAttribute="bottom" constant="8" id="zW4-nt-NOv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="AWE-ir-368"/>
+                    <navigationItem key="navigationItem" id="AWE-ir-368">
+                        <barButtonItem key="rightBarButtonItem" title="Share" image="square.and.arrow.up" catalog="system" id="Zb5-P0-dKA">
+                            <connections>
+                                <action selector="shareButtonClicked:" destination="cGb-hB-xds" id="4RF-Qd-byt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="firstNameTextField" destination="1Em-r6-f7R" id="SMt-vy-n2D"/>
                         <outlet property="gradeAverageLabel" destination="LlF-2M-vdV" id="Agd-ia-Sez"/>
@@ -459,7 +468,12 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Weeks" image="calendar" catalog="system" id="ZA5-bD-UBQ"/>
-                    <navigationItem key="navigationItem" title="Weeks" id="QO5-uS-dcN"/>
+                    <navigationItem key="navigationItem" title="Weeks" id="QO5-uS-dcN">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="dal-TK-Ufe"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="navigationBar" destination="QO5-uS-dcN" id="t9k-MR-VdX"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HZC-vP-Zl5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -556,8 +570,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zQR-1E-JA6">
-                                                    <rect key="frame" x="320" y="10" width="36" height="40"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <rect key="frame" x="318" y="10" width="38" height="40"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                                     <connections>
                                                         <action selector="updatedGrade:" destination="2ZD-0t-idD" eventType="editingDidEnd" id="yyU-qk-tQZ"/>
@@ -750,7 +764,20 @@
                             <constraint firstItem="0XR-3c-Q9N" firstAttribute="trailing" secondItem="B1p-gO-bdk" secondAttribute="trailing" constant="10" id="ylc-xf-B9W"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="8Pi-uP-Sh8"/>
+                    <navigationItem key="navigationItem" id="8Pi-uP-Sh8">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="DVf-PW-nDs">
+                                <connections>
+                                    <action selector="shareButtonClicked:" destination="csF-RO-w8x" id="B2a-tJ-9m1"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Settings" image="gearshape" catalog="system" id="FU3-Yd-85B">
+                                <connections>
+                                    <action selector="settingsButtonClicked:" destination="csF-RO-w8x" id="deA-jL-7qD"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="gradeAverageLabel" destination="B1p-gO-bdk" id="kEe-Gr-hNq"/>
                         <outlet property="gradesView" destination="vPM-XA-fKd" id="K6A-4d-Kz4"/>
@@ -780,12 +807,14 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wTc-jL-zUe"/>
+        <segue reference="pkp-WK-7hN"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

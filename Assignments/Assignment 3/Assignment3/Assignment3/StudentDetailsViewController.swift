@@ -2,7 +2,7 @@
 //  StudentDetailsViewController.swift
 //  Assignment3
 //
-//  Created by Joseph Holloway on 21/5/21.
+//  Created by Justin Johnson on 21/5/21.
 //
 
 import UIKit
@@ -21,6 +21,21 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet var studentImage: UIImageView!
     @IBOutlet var gradeAverageLabel: UILabel!
     @IBOutlet var gradesTableView: UITableView!
+    @IBAction func shareButtonClicked(_ sender: UIBarButtonItem)
+    {
+        if(gradesFetched)
+        {
+            let shareString =
+                "Firstname, Lastname, StudentID, Week 1, Week 2, Week 3, Week 4, Week 5, Week 6, Week 7, Week 8, Week 9, Week 10, Week 11, Week 12\n\(students[studentIndex!].firstName), \(students[studentIndex!].lastName), \(students[studentIndex!].studentID!), \(grades!.week1), \(grades!.week2), \(grades!.week3), \(grades!.week4), \(grades!.week5), \(grades!.week6), \(grades!.week7), \(grades!.week8), \(grades!.week9), \(grades!.week10), \(grades!.week11), \(grades!.week12)"
+            
+            let shareViewController = UIActivityViewController(activityItems: [shareString], applicationActivities:[])
+            present(shareViewController, animated: true, completion: nil)
+        }
+        else
+        {
+            print("Wait")
+        }
+    }
     
     override func viewDidLoad()
     {
