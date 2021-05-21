@@ -8,96 +8,6 @@
 import UIKit
 import FirebaseFirestore
 
-class AttendanceTableViewCell: UITableViewCell
-{
-    var week = 0;
-    
-    @IBOutlet var studentNameLabel: UILabel!
-    @IBOutlet var attendanceSwitch: UISwitch!
-    @IBOutlet var studentIDLabel: UILabel!
-    @IBAction func attendanceSwitchClicked(_ sender: UISwitch)
-    {
-        if(attendanceSwitch.isOn)
-        {
-            print("student \(studentNameLabel.text!) grade set to 100 from 0")
-        }
-        else
-        {
-            print("student \(studentNameLabel.text!) grade set to 0 from 100")
-        }
-    }
-}
-
-class ScoreTableViewCell: UITableViewCell
-{
-    var week = 0;
-    
-    @IBOutlet var studentNameLabel: UILabel!
-    @IBOutlet var studentIDLabel: UILabel!
-    @IBOutlet var scoreTextField: UITextField!
-    @IBOutlet var maxScoreLabel: UILabel!
-    @IBAction func updatedGrade(_ sender: Any)
-    {
-        let maxScore = weekConfigs["week\(week)MaxScore"] as! Int
-        
-        if(Int(scoreTextField.text!)! > maxScore)
-        {
-            scoreTextField.text = String(maxScore)
-        }
-        
-        print("student \(studentNameLabel.text!) grade set to \(scoreTextField.text!)")
-    }
-}
-
-class NNToHDTableViewCell: UITableViewCell
-{
-    var week = 0;
-    
-    @IBOutlet var studentNameLabel: UILabel!
-    @IBOutlet var studentIDLabel: UILabel!
-    @IBOutlet var selector: UISegmentedControl!
-    @IBAction func changedSelection(_ sender: Any)
-    {
-        switch selector.selectedSegmentIndex
-        {
-            case 5: print("student \(studentNameLabel.text!) grade set to HD+")
-            case 4: print("student \(studentNameLabel.text!) grade set to HD")
-            case 3: print("student \(studentNameLabel.text!) grade set to DN")
-            case 2: print("student \(studentNameLabel.text!) grade set to CR")
-            case 1: print("student \(studentNameLabel.text!) grade set to PP")
-            default: print("student \(studentNameLabel.text!) grade set to NN")
-        }
-    }
-}
-
-class FToATableViewCell: UITableViewCell
-{
-    var week = 0;
-    
-    @IBOutlet var studentNameLabel: UILabel!
-    @IBOutlet var studentIDLabel: UILabel!
-    @IBOutlet var selector: UISegmentedControl!
-    @IBAction func changedSelection(_ sender: UISegmentedControl)
-    {
-        switch selector.selectedSegmentIndex
-        {
-            case 4: print("student \(studentNameLabel.text!) grade set to A")
-            case 3: print("student \(studentNameLabel.text!) grade set to B")
-            case 2: print("student \(studentNameLabel.text!) grade set to C")
-            case 1: print("student \(studentNameLabel.text!) grade set to D")
-            default: print("student \(studentNameLabel.text!) grade set to F")
-        }
-    }
-}
-
-class CheckpointsTableViewCell: UITableViewCell
-{
-    var week = 0;
-    
-    @IBOutlet var studentNameLabel: UILabel!
-    @IBOutlet var studentIDLabel: UILabel!
-}
-
 //My tableview code came fron this tutorial https://guides.codepath.com/ios/Table-View-Quickstart
 //Note I made the cells in this class because I couldn't get the assistant to detect them as seperate classes so I couldn't do the binding
 class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
@@ -109,11 +19,17 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet var gradesView: UITableView!
     @IBOutlet var gradeAverageLabel: UILabel!
     
+    @objc public func updateGrade(ofGradeType gradeType: String, inWeek week: Int, withNewGrade newGrade: Int)
+    {
+        
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         self.navigationItem.title = "Week \(week!)"
+        self.gradeAverageLabel.numberOfLines = 2
         weekType = weekConfigs["week\(week!)"] as? String
         
         gradesView.dataSource = self
@@ -183,7 +99,11 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                             default: self.gradeAverageLabel.text = "Average grade is F"
                         }
                         
-                    //case "checkBox":
+                    case "checkBox":
+                        let numCheckboxes = weekConfigs["week\(self.week!)CheckBoxNum"] as! Double
+                        let numCheckboxesComplete = Double(gradeAverage) / 100.0 * numCheckboxes
+                        
+                        self.gradeAverageLabel.text = "Average number of checkpoints complete is\n \(Int(numCheckboxesComplete.rounded(.up))) out of \(Int(numCheckboxes))"
                         
                     default: self.gradeAverageLabel.text = "Could not calculate average grade"
                     
@@ -206,7 +126,7 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         switch weekType
         {
             case "attendance":
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceCell", for: indexPath) as! AttendanceTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceUITableViewCell", for: indexPath) as! AttendanceUITableViewCell
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
                 cell.studentIDLabel.text = students[indexPath.row].studentID
                 cell.week = week!
@@ -224,20 +144,20 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 return cell
                 
             case "score":
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreCell", for: indexPath) as! ScoreTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreUITableViewCell", for: indexPath) as! ScoreUITableViewCell
+                let maxScore = weekConfigs["week\(week!)MaxScore"] as! Float
+                let scaledGrade = Int(Float(rawGrade) / 100.0 * maxScore)
+                
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
                 cell.studentIDLabel.text = students[indexPath.row].studentID
                 cell.week = week!
-                
-                let maxScore = weekConfigs["week\(week!)MaxScore"] as! Float
-                let scaledGrade = Int(Float(rawGrade) / 100.0 * maxScore)
                 cell.scoreTextField.text = String(scaledGrade)
-                cell.maxScoreLabel.text = "/ \(weekConfigs["week\(week!)MaxScore"]!)"
+                cell.maxScoreLabel.text = "/ \(Int(maxScore))"
                 
                 return cell
                 
             case "gradeNN-HD":
-                let cell = tableView.dequeueReusableCell(withIdentifier: "NNToHDCell", for: indexPath) as! NNToHDTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "NNToHDUITableViewCell", for: indexPath) as! NNToHDUITableViewCell
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
                 cell.studentIDLabel.text = students[indexPath.row].studentID
                 cell.selector.selectedSegmentTintColor = UIColor.systemBlue     // For getting a blue that changes on system theme https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
@@ -257,12 +177,9 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 return cell
                 
             case "gradeA-F":
-                let cell = tableView.dequeueReusableCell(withIdentifier: "FToACell", for: indexPath) as! FToATableViewCell
-                print("initialised cell")
+                let cell = tableView.dequeueReusableCell(withIdentifier: "FToAUITableViewCell", for: indexPath) as! FToAUITableViewCell
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
-                print("set student name")
                 cell.studentIDLabel.text = students[indexPath.row].studentID
-                print("set student ID")
                 cell.selector.selectedSegmentTintColor = UIColor.systemBlue     // For getting a blue that changes on system theme https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
                 cell.week = week!
                 
@@ -278,15 +195,25 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 return cell
                 
             case "checkBox":
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath) as! CheckpointsTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsUITableViewCell", for: indexPath) as! CheckpointsUITableViewCell
+                let numCheckboxes = weekConfigs["week\(week!)CheckBoxNum"] as! Double
+                let numCheckboxesComplete = Double(rawGrade) / 100.0 * numCheckboxes
+                
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
                 cell.studentIDLabel.text = students[indexPath.row].studentID
+                cell.checkpointStepper.autorepeat = false
+                cell.checkpointStepper.minimumValue = 0.0
+                cell.checkpointStepper.maximumValue = numCheckboxes
+                cell.checkpointStepper.value = numCheckboxesComplete.rounded(.up)
+                cell.checkpointStepper.stepValue = 1.0
+                cell.numCheckpointsCompletedLabel.text = String(Int(numCheckboxesComplete.rounded(.up)))
+                cell.numCheckpointsLabel.text = "/\(Int(numCheckboxes))"
                 cell.week = week!
                 
                 return cell
             default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsCell", for: indexPath) as! CheckpointsTableViewCell
-                cell.studentNameLabel.text = "Failed to find Right cell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: "WeekUITableViewCell", for: indexPath) as! WeekUITableViewCell
+                cell.weekLabel.text = "Failed to find the right cell"
                 
                 return cell
         }

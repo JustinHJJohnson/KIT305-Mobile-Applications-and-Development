@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C79D5652655D7E700036964 /* StudentUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D5642655D7E700036964 /* StudentUITableViewCell.swift */; };
+		5C79D56A2655D9AE00036964 /* ScoreUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D5692655D9AE00036964 /* ScoreUITableViewCell.swift */; };
+		5C79D56E2655DA1B00036964 /* AttendanceUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D56D2655DA1B00036964 /* AttendanceUITableViewCell.swift */; };
+		5C79D5722655DA4600036964 /* NNToHDUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D5712655DA4600036964 /* NNToHDUITableViewCell.swift */; };
+		5C79D5752655DA7700036964 /* FToAUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D5742655DA7700036964 /* FToAUITableViewCell.swift */; };
+		5C79D5782655DA9E00036964 /* CheckpointsUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C79D5772655DA9E00036964 /* CheckpointsUITableViewCell.swift */; };
 		7C2B2CD92653E348001E6C07 /* Grades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B2CD82653E348001E6C07 /* Grades.swift */; };
+		7C36CF0A26572E20001409B9 /* StudentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C36CF0926572E20001409B9 /* StudentDetailsViewController.swift */; };
 		7C85EEFA264FCCA300E9CE6D /* WeekUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */; };
 		7C85EEFD264FCD2800E9CE6D /* WeekUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */; };
 		7C85EF09264FDF0C00E9CE6D /* WeekDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */; };
 		D04421092648EBC9004D54B5 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04421082648EBC9004D54B5 /* TabBarViewController.swift */; };
-		D044210B264911CE004D54B5 /* StudentUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044210A264911CE004D54B5 /* StudentUITableViewCell.swift */; };
 		D044210D26491B5C004D54B5 /* StudentUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */; };
 		D06343AA2643AE5A002F8200 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06343A92643AE5A002F8200 /* AppDelegate.swift */; };
 		D06343AC2643AE5A002F8200 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06343AB2643AE5A002F8200 /* SceneDelegate.swift */; };
@@ -28,13 +34,19 @@
 /* Begin PBXFileReference section */
 		0E27359DB3329B1FD67DFB26 /* Pods-Assignment3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assignment3.release.xcconfig"; path = "Target Support Files/Pods-Assignment3/Pods-Assignment3.release.xcconfig"; sourceTree = "<group>"; };
 		4BC4160A0B5CC97252B1E84B /* Pods_Assignment3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Assignment3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C79D5642655D7E700036964 /* StudentUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUITableViewCell.swift; sourceTree = "<group>"; };
+		5C79D5692655D9AE00036964 /* ScoreUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreUITableViewCell.swift; sourceTree = "<group>"; };
+		5C79D56D2655DA1B00036964 /* AttendanceUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUITableViewCell.swift; sourceTree = "<group>"; };
+		5C79D5712655DA4600036964 /* NNToHDUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NNToHDUITableViewCell.swift; sourceTree = "<group>"; };
+		5C79D5742655DA7700036964 /* FToAUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FToAUITableViewCell.swift; sourceTree = "<group>"; };
+		5C79D5772655DA9E00036964 /* CheckpointsUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckpointsUITableViewCell.swift; sourceTree = "<group>"; };
 		7C2B2CD82653E348001E6C07 /* Grades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grades.swift; sourceTree = "<group>"; };
+		7C36CF0926572E20001409B9 /* StudentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailsViewController.swift; sourceTree = "<group>"; };
 		7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekUITableViewController.swift; sourceTree = "<group>"; };
 		7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekUITableViewCell.swift; sourceTree = "<group>"; };
 		7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDetailsViewController.swift; sourceTree = "<group>"; };
 		9F7097936E4974E7EC924187 /* Pods-Assignment3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assignment3.debug.xcconfig"; path = "Target Support Files/Pods-Assignment3/Pods-Assignment3.debug.xcconfig"; sourceTree = "<group>"; };
 		D04421082648EBC9004D54B5 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		D044210A264911CE004D54B5 /* StudentUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudentUITableViewCell.swift; path = Pods/StudentUITableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUITableViewController.swift; sourceTree = "<group>"; };
 		D06343A62643AE5A002F8200 /* Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06343A92643AE5A002F8200 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +80,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5C79D5682655D96600036964 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */,
+				5C79D5642655D7E700036964 /* StudentUITableViewCell.swift */,
+				5C79D5692655D9AE00036964 /* ScoreUITableViewCell.swift */,
+				5C79D56D2655DA1B00036964 /* AttendanceUITableViewCell.swift */,
+				5C79D5712655DA4600036964 /* NNToHDUITableViewCell.swift */,
+				5C79D5742655DA7700036964 /* FToAUITableViewCell.swift */,
+				5C79D5772655DA9E00036964 /* CheckpointsUITableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		989D57F2D465A0383F63CEA9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -98,22 +124,22 @@
 		D06343A82643AE5A002F8200 /* Assignment3 */ = {
 			isa = PBXGroup;
 			children = (
-				D044210A264911CE004D54B5 /* StudentUITableViewCell.swift */,
+				D06343AF2643AE5A002F8200 /* Main.storyboard */,
+				D06343AD2643AE5A002F8200 /* ViewController.swift */,
+				D04421082648EBC9004D54B5 /* TabBarViewController.swift */,
 				D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */,
-				7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */,
-				7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */,
+				7C36CF0926572E20001409B9 /* StudentDetailsViewController.swift */,
 				7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */,
+				7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */,
 				D06343A92643AE5A002F8200 /* AppDelegate.swift */,
 				D06343AB2643AE5A002F8200 /* SceneDelegate.swift */,
+				5C79D5682655D96600036964 /* Cells */,
 				D06343C22643C777002F8200 /* Student.swift */,
 				7C2B2CD82653E348001E6C07 /* Grades.swift */,
-				D06343AD2643AE5A002F8200 /* ViewController.swift */,
-				D06343AF2643AE5A002F8200 /* Main.storyboard */,
 				D06343B22643AE5B002F8200 /* Assets.xcassets */,
 				D06343B42643AE5B002F8200 /* LaunchScreen.storyboard */,
 				D06343B72643AE5B002F8200 /* Info.plist */,
 				D06343BD2643AF00002F8200 /* GoogleService-Info.plist */,
-				D04421082648EBC9004D54B5 /* TabBarViewController.swift */,
 			);
 			path = Assignment3;
 			sourceTree = "<group>";
@@ -233,17 +259,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C79D5752655DA7700036964 /* FToAUITableViewCell.swift in Sources */,
 				D06343AE2643AE5A002F8200 /* ViewController.swift in Sources */,
-				D044210B264911CE004D54B5 /* StudentUITableViewCell.swift in Sources */,
+				7C36CF0A26572E20001409B9 /* StudentDetailsViewController.swift in Sources */,
 				D06343AA2643AE5A002F8200 /* AppDelegate.swift in Sources */,
 				7C85EEFA264FCCA300E9CE6D /* WeekUITableViewController.swift in Sources */,
 				7C85EEFD264FCD2800E9CE6D /* WeekUITableViewCell.swift in Sources */,
+				5C79D5722655DA4600036964 /* NNToHDUITableViewCell.swift in Sources */,
 				D06343AC2643AE5A002F8200 /* SceneDelegate.swift in Sources */,
 				7C2B2CD92653E348001E6C07 /* Grades.swift in Sources */,
+				5C79D56A2655D9AE00036964 /* ScoreUITableViewCell.swift in Sources */,
+				5C79D5652655D7E700036964 /* StudentUITableViewCell.swift in Sources */,
 				D044210D26491B5C004D54B5 /* StudentUITableViewController.swift in Sources */,
 				7C85EF09264FDF0C00E9CE6D /* WeekDetailsViewController.swift in Sources */,
 				D04421092648EBC9004D54B5 /* TabBarViewController.swift in Sources */,
 				D06343C32643C777002F8200 /* Student.swift in Sources */,
+				5C79D5782655DA9E00036964 /* CheckpointsUITableViewCell.swift in Sources */,
+				5C79D56E2655DA1B00036964 /* AttendanceUITableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
