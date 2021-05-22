@@ -15,6 +15,8 @@ class AddStudentViewController: UIViewController
     @IBOutlet var lastNameField: UITextField!
     @IBOutlet var studentIDField: UITextField!
     
+    
+    
     @IBAction func imageButtonClicked(_ sender: Any)
     {
         
@@ -50,7 +52,7 @@ class AddStudentViewController: UIViewController
         else
         {
             let student = Student(studentID: studentID, firstName: firstName, lastName: lastName, image: "")
-            let grades = Grades(id: studentID ,week1: 0, week2: 0, week3: 0, week4: 0, week5: 0, week6: 0, week7: 0, week8: 0, week9: 0, week10: 0, week11: 0, week12: 0)
+            let grades = Grades(week1: 0, week2: 0, week3: 0, week4: 0, week5: 0, week6: 0, week7: 0, week8: 0, week9: 0, week10: 0, week11: 0, week12: 0)
             
             let db = Firestore.firestore()
             
@@ -85,6 +87,7 @@ class AddStudentViewController: UIViewController
                 //Need to sort this array to ascending order so the order stays the same as the database so the right grades are given to the right student
                 students.sort(by: {$0.studentID! < $1.studentID!})
                 print("Sorted students: \(students)")
+                self.performSegue(withIdentifier: "addStudentUnwindSegue", sender: sender)
             }
             catch let error
             {

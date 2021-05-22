@@ -21,6 +21,7 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet var studentImage: UIImageView!
     @IBOutlet var gradeAverageLabel: UILabel!
     @IBOutlet var gradesTableView: UITableView!
+    
     @IBAction func shareButtonClicked(_ sender: UIBarButtonItem)
     {
         if(gradesFetched)
@@ -35,6 +36,116 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         {
             print("Wait")
         }
+    }
+    
+    @IBAction func updateDetailsClicked(_ sender: Any)
+    {
+        let oldFirstName = students[studentIndex!].firstName
+        let oldLastName = students[studentIndex!].lastName
+        let oldStudentID = studentID
+        let newFirstName = firstNameTextField.text!
+        let newLastName = lastNameTextField.text!
+        let newStudentID = studentIDTextField.text!
+        
+        if(newFirstName == oldFirstName && newLastName == oldLastName && newStudentID == oldStudentID)
+        {
+            displayAlert(withMessage: "Student details are the same, make sure to change the details before trying again")
+        }
+        else if(newFirstName == "")
+        {
+            displayAlert(withMessage: "Please enter a first name")
+        }
+        else if(newLastName == "")
+        {
+            displayAlert(withMessage: "Please enter a last name")
+        }
+        else if(newStudentID == "")
+        {
+            displayAlert(withMessage: "Please enter a student ID")
+        }
+        else if(Int(newStudentID) == nil || newStudentID.count != 6)
+        {
+            displayAlert(withMessage: "Please enter a 6 digit number for the student ID")
+        }
+        // this check for a student with the entered student ID came from here https://stackoverflow.com/questions/26073331/find-object-with-property-in-array
+        else if(students.contains(where: {$0.studentID == newStudentID}))
+        {
+            displayAlert(withMessage: "A student with that ID already exists")
+        }
+        else
+        {
+            let student = Student(studentID: newStudentID, firstName: newFirstName, lastName: newLastName, image: "")
+            
+            let db = Firestore.firestore()
+            
+            let studentCollection = db.collection("students")
+            let gradesCollection = db.collection("grades")
+            
+            do
+            {
+                try studentCollection.document(newStudentID).setData(from: student) {err in
+                    if let err = err
+                    {
+                        print("Failed to add student: \(err)")
+                    }
+                    else
+                    {
+                        print("student added successfully")
+                    }
+                }
+                try gradesCollection.document(newStudentID).setData(from: grades) {err in
+                    if let err = err
+                    {
+                        print("Failed to add grades: \(err)")
+                    }
+                    else
+                    {
+                        print("grades added successfully")
+                    }
+                }
+                
+                students[studentIndex!] = student
+                // sort by object property came from here https://stackoverflow.com/questions/24130026/swift-how-to-sort-array-of-custom-objects-by-property-value
+                //Need to sort this array to ascending order so the order stays the same as the database so the right grades are given to the right student
+                students.sort(by: {$0.studentID! < $1.studentID!})
+                //print("Sorted students: \(students)")
+                
+                studentCollection.document(oldStudentID).delete() {err in
+                    if let err = err
+                    {
+                        print("Failed to remove student: \(err)")
+                    }
+                    else
+                    {
+                        db.collection("grades").document(oldStudentID).delete() {err in
+                            if let err = err
+                            {
+                                print("Failed to remove student: \(err)")
+                            }
+                            else
+                            {
+                                print("student and grades deleted successfully")
+                                self.displayAlert(withMessage: "Successfully updated student details")
+                                self.studentID = newStudentID
+                            }
+                        }
+                    }
+                }
+            }
+            catch let error
+            {
+                print("Error writing student/grades to Firestore: \(error)")
+            }
+        }
+    }
+    
+    func displayAlert(withMessage message: String)
+    {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
     }
     
     override func viewDidLoad()

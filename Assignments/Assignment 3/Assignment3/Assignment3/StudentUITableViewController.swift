@@ -12,6 +12,14 @@ class StudentUITableViewController: UITableViewController
 {
     @IBOutlet var navigationBar: UINavigationItem!
     
+    @IBAction func unwindToStudentList(sender: UIStoryboardSegue)
+    {
+        if ((sender.source as? AddStudentViewController) != nil)
+        {
+            tableView.reloadData()
+        }
+    }
+    
     //This code was based on this https://stackoverflow.com/questions/12329895/setting-the-title-of-a-navigation-bar-inside-a-tab-bar-controller , https://stackoverflow.com/questions/45740811/how-to-run-a-function-every-time-a-uiviewcontroller-is-loaded and https://stackoverflow.com/questions/32558014/how-to-add-use-default-icons-to-navigation-bar
     override func viewDidAppear(_ animated: Bool)
     {
@@ -27,6 +35,8 @@ class StudentUITableViewController: UITableViewController
                 target: self,
                 action: #selector(addStudentButtonPressed))
         ]
+        
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad()

@@ -19,6 +19,7 @@
 		7C85EEFA264FCCA300E9CE6D /* WeekUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */; };
 		7C85EEFD264FCD2800E9CE6D /* WeekUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */; };
 		7C85EF09264FDF0C00E9CE6D /* WeekDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */; };
+		7C924C492658BFCD003D250D /* WeekConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C924C482658BFCD003D250D /* WeekConfigViewController.swift */; };
 		D04421092648EBC9004D54B5 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04421082648EBC9004D54B5 /* TabBarViewController.swift */; };
 		D044210D26491B5C004D54B5 /* StudentUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */; };
 		D06343AA2643AE5A002F8200 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06343A92643AE5A002F8200 /* AppDelegate.swift */; };
@@ -47,6 +48,7 @@
 		7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekUITableViewController.swift; sourceTree = "<group>"; };
 		7C85EEFC264FCD2800E9CE6D /* WeekUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekUITableViewCell.swift; sourceTree = "<group>"; };
 		7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDetailsViewController.swift; sourceTree = "<group>"; };
+		7C924C482658BFCD003D250D /* WeekConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekConfigViewController.swift; sourceTree = "<group>"; };
 		9F7097936E4974E7EC924187 /* Pods-Assignment3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assignment3.debug.xcconfig"; path = "Target Support Files/Pods-Assignment3/Pods-Assignment3.debug.xcconfig"; sourceTree = "<group>"; };
 		D04421082648EBC9004D54B5 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		D044210C26491B5C004D54B5 /* StudentUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentUITableViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				7C36CF112657E1D2001409B9 /* AddStudentViewController.swift */,
 				7C85EEF9264FCCA300E9CE6D /* WeekUITableViewController.swift */,
 				7C85EF08264FDF0C00E9CE6D /* WeekDetailsViewController.swift */,
+				7C924C482658BFCD003D250D /* WeekConfigViewController.swift */,
 				D06343A92643AE5A002F8200 /* AppDelegate.swift */,
 				D06343AB2643AE5A002F8200 /* SceneDelegate.swift */,
 				5C79D5682655D96600036964 /* Cells */,
@@ -278,6 +281,7 @@
 				7C85EF09264FDF0C00E9CE6D /* WeekDetailsViewController.swift in Sources */,
 				D04421092648EBC9004D54B5 /* TabBarViewController.swift in Sources */,
 				D06343C32643C777002F8200 /* Student.swift in Sources */,
+				7C924C492658BFCD003D250D /* WeekConfigViewController.swift in Sources */,
 				5C79D5782655DA9E00036964 /* CheckpointsUITableViewCell.swift in Sources */,
 				5C79D56E2655DA1B00036964 /* AttendanceUITableViewCell.swift in Sources */,
 			);

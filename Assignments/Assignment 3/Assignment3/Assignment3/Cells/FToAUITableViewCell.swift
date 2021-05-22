@@ -15,15 +15,17 @@ class FToAUITableViewCell: UITableViewCell
     @IBOutlet var studentNameLabel: UILabel!
     @IBOutlet var studentIDLabel: UILabel!
     @IBOutlet var selector: UISegmentedControl!
+    var delegate: GradeUpdateDelegate?
+    
     @IBAction func changedSelection(_ sender: UISegmentedControl)
     {
         switch selector.selectedSegmentIndex
         {
-            case 4: print("student \(studentNameLabel.text!) grade set to A")
-            case 3: print("student \(studentNameLabel.text!) grade set to B")
-            case 2: print("student \(studentNameLabel.text!) grade set to C")
-            case 1: print("student \(studentNameLabel.text!) grade set to D")
-            default: print("student \(studentNameLabel.text!) grade set to F")
+            case 4: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 100)
+            case 3: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 80)
+            case 2: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 70)
+            case 1: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 60)
+            default: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 0)
         }
     }
     

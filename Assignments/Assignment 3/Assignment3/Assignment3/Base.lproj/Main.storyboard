@@ -73,7 +73,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="shx-8d-eaU">
-                                <rect key="frame" x="0.0" y="276" width="414" height="586"/>
+                                <rect key="frame" x="0.0" y="298" width="414" height="564"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendanceUITableViewCell" id="K4J-0k-xUD" customClass="AttendanceUITableViewCell" customModule="Assignment3" customModuleProvider="target">
@@ -294,7 +294,7 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gradeAverage" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LlF-2M-vdV">
-                                <rect key="frame" x="154" y="240" width="106" height="21"/>
+                                <rect key="frame" x="154" y="262" width="106" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -318,11 +318,19 @@
                                 <rect key="frame" x="274" y="105.5" width="120" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPP-X4-cbF">
+                                <rect key="frame" x="86" y="230" width="102" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Update Details"/>
+                                <connections>
+                                    <action selector="updateDetailsClicked:" destination="cGb-hB-xds" eventType="touchUpInside" id="WKO-YA-4A7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2m8-dy-hin"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="LlF-2M-vdV" firstAttribute="top" secondItem="g2s-Ce-g9C" secondAttribute="bottom" constant="18" id="2kx-0B-Plm"/>
+                            <constraint firstItem="LlF-2M-vdV" firstAttribute="top" secondItem="g2s-Ce-g9C" secondAttribute="bottom" constant="40" id="2kx-0B-Plm"/>
                             <constraint firstItem="1Em-r6-f7R" firstAttribute="leading" secondItem="2m8-dy-hin" secondAttribute="leading" constant="20" id="9jH-wa-kdg"/>
                             <constraint firstItem="g2s-Ce-g9C" firstAttribute="leading" secondItem="2m8-dy-hin" secondAttribute="leading" constant="20" id="BNE-mw-ZmT"/>
                             <constraint firstItem="JeI-tD-qBK" firstAttribute="leading" secondItem="qk7-JO-NtO" secondAttribute="trailing" constant="20" id="Fye-S2-sTP"/>
@@ -438,14 +446,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeekUITableViewCell" id="3ad-xA-2WC" customClass="WeekUITableViewCell" customModule="Assignment3" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="47.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="47"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3ad-xA-2WC" id="Xub-SK-dIg">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="47.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="47"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Week Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mi-K8-fYM">
-                                            <rect key="frame" x="28" y="13" width="88.5" height="21.5"/>
+                                            <rect key="frame" x="28" y="13" width="88.5" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -874,9 +882,11 @@
                         <outlet property="lastNameField" destination="cXt-Ga-1wD" id="hrw-vD-hg2"/>
                         <outlet property="studentIDField" destination="0px-e6-wWj" id="geb-zC-dlG"/>
                         <outlet property="studentImageView" destination="dqZ-Tl-ycr" id="CdM-ez-wlf"/>
+                        <segue destination="evf-Hx-F3H" kind="unwind" identifier="addStudentUnwindSegue" unwindAction="unwindToStudentListWithSender:" id="8tB-bs-4bs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="un1-ej-Bky" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="evf-Hx-F3H" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="286" y="-617"/>
         </scene>

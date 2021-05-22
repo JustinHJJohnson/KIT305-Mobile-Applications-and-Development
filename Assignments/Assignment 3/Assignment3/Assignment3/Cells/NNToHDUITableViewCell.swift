@@ -15,16 +15,18 @@ class NNToHDUITableViewCell: UITableViewCell
     @IBOutlet var studentNameLabel: UILabel!
     @IBOutlet var studentIDLabel: UILabel!
     @IBOutlet var selector: UISegmentedControl!
+    var delegate: GradeUpdateDelegate?
+    
     @IBAction func changedSelection(_ sender: Any)
     {
         switch selector.selectedSegmentIndex
         {
-            case 5: print("student \(studentNameLabel.text!) grade set to HD+")
-            case 4: print("student \(studentNameLabel.text!) grade set to HD")
-            case 3: print("student \(studentNameLabel.text!) grade set to DN")
-            case 2: print("student \(studentNameLabel.text!) grade set to CR")
-            case 1: print("student \(studentNameLabel.text!) grade set to PP")
-            default: print("student \(studentNameLabel.text!) grade set to NN")
+            case 5: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 100)
+            case 4: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 80)
+            case 3: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 70)
+            case 2: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 60)
+            case 1: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 50)
+            default: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 0)
         }
     }
     
