@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-class AddStudentViewController: UIViewController
+class AddStudentViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
     @IBOutlet var studentImageView: UIImageView!
     @IBOutlet var firstNameField: UITextField!
@@ -17,7 +17,21 @@ class AddStudentViewController: UIViewController
     
     @IBAction func imageButtonClicked(_ sender: Any)
     {
-        
+        if(UIImagePickerController.isSourceTypeAvailable(.photoLibrary))
+        {
+            print("Photo Library available")
+            
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+        else
+        {
+            print("No Photo Library available")
+        }
     }
     
     @IBAction func addButtonPressed(_ sender: Any)
@@ -101,6 +115,22 @@ class AddStudentViewController: UIViewController
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
         self.present(alert, animated: true)
+    }
+    
+    // this fix thanks to Yan Gong in the Discord
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+    {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        {
+            studentImageView.image = image
+            studentImageView.contentMode = .scaleAspectFill
+            dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
+    {
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad()
