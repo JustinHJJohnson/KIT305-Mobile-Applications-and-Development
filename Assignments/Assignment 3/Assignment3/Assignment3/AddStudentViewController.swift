@@ -15,8 +15,6 @@ class AddStudentViewController: UIViewController
     @IBOutlet var lastNameField: UITextField!
     @IBOutlet var studentIDField: UITextField!
     
-    
-    
     @IBAction func imageButtonClicked(_ sender: Any)
     {
         

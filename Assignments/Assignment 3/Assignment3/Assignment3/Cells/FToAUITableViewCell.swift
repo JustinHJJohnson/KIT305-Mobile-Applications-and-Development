@@ -9,8 +9,8 @@ import UIKit
 
 class FToAUITableViewCell: UITableViewCell
 {
-
     var week = 0;
+    var studentID: String?
     
     @IBOutlet var studentNameLabel: UILabel!
     @IBOutlet var studentIDLabel: UILabel!
@@ -19,27 +19,18 @@ class FToAUITableViewCell: UITableViewCell
     
     @IBAction func changedSelection(_ sender: UISegmentedControl)
     {
+        if studentIDLabel != nil
+        {
+            studentID = studentIDLabel.text!
+        }
+        
         switch selector.selectedSegmentIndex
         {
-            case 4: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 100)
-            case 3: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 80)
-            case 2: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 70)
-            case 1: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 60)
-            default: delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: 0)
+            case 4: delegate?.updateGrade(for: studentID!, inWeek: week, to: 100)
+            case 3: delegate?.updateGrade(for: studentID!, inWeek: week, to: 80)
+            case 2: delegate?.updateGrade(for: studentID!, inWeek: week, to: 70)
+            case 1: delegate?.updateGrade(for: studentID!, inWeek: week, to: 60)
+            default: delegate?.updateGrade(for: studentID!, inWeek: week, to: 0)
         }
     }
-    
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool)
-    {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

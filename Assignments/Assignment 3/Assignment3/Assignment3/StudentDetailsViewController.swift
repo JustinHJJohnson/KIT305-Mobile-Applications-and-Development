@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GradeUpdateDelegate
 {
     var studentIndex: Int?
     var studentID = ""
@@ -148,6 +148,55 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         self.present(alert, animated: true)
     }
     
+    public func updateGrade(for studentID: String, inWeek week: Int, to newGrade: Int)
+    {
+        let student = students[studentIndex!]
+        let db = Firestore.firestore()
+        
+        print("Updating grade for \(student.firstName) \(student.lastName) for week \(week) to \(newGrade)")
+        
+        let gradeCollection = db.collection("grades")
+        gradeCollection.document(studentID).updateData([
+            "week\(week)": newGrade
+        ]) { (err) in
+            if let err = err {
+                print("Error updating document: \(err)")
+            }
+            else
+            {
+                switch week
+                {
+                    case 1: self.grades!.week1 = newGrade
+                    case 2: self.grades!.week2 = newGrade
+                    case 3: self.grades!.week3 = newGrade
+                    case 4: self.grades!.week4 = newGrade
+                    case 5: self.grades!.week5 = newGrade
+                    case 6: self.grades!.week6 = newGrade
+                    case 7: self.grades!.week7 = newGrade
+                    case 8: self.grades!.week8 = newGrade
+                    case 9: self.grades!.week9 = newGrade
+                    case 10: self.grades!.week10 = newGrade
+                    case 11: self.grades!.week11 = newGrade
+                    case 12: self.grades!.week12 = newGrade
+                    default: print()
+                }
+                self.calculateGradeAverage()
+                print("Grade successfully updated to \(newGrade)")
+            }
+        }
+    }
+    
+    func calculateGradeAverage()
+    {
+        let gradeSum1 = self.grades!.week1 + self.grades!.week2 + self.grades!.week3
+        let gradeSum2 = self.grades!.week4 + self.grades!.week5 + self.grades!.week6
+        let gradeSum3 = self.grades!.week7 + self.grades!.week8 + self.grades!.week9
+        let gradeSum4 = self.grades!.week10 + self.grades!.week11 + self.grades!.week12
+        let gradeSum = gradeSum1 + gradeSum2 + gradeSum3 + gradeSum4
+        let gradeAverage = gradeSum / 12
+        self.gradeAverageLabel.text = "This students average grade is \(gradeAverage)%"
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -199,15 +248,7 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                         print("Error decoding grades: \(error)")
                 }
                 
-                print("\nGrades in the instance variable:\n\(self.grades!)")
-                let gradeSum1 = self.grades!.week1 + self.grades!.week2 + self.grades!.week3
-                let gradeSum2 = self.grades!.week4 + self.grades!.week5 + self.grades!.week6
-                let gradeSum3 = self.grades!.week7 + self.grades!.week8 + self.grades!.week9
-                let gradeSum4 = self.grades!.week10 + self.grades!.week11 + self.grades!.week12
-                let gradeSum = gradeSum1 + gradeSum2 + gradeSum3 + gradeSum4
-                let gradeAverage = gradeSum / 12
-                self.gradeAverageLabel.text = "This students average grade is \(gradeAverage)%"
-                
+                self.calculateGradeAverage()
                 self.gradesFetched = true
                 self.gradesTableView.reloadData()
             }
@@ -260,6 +301,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttendanceUITableViewCell", for: indexPath) as! AttendanceUITableViewCell
                 cell.studentNameLabel.text = "Week \(week)"
                 cell.week = week
+                cell.studentID = studentID
+                cell.delegate = self
                 
                 if(rawGrade == 100)
                 {
@@ -279,9 +322,11 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 let scaledGrade = Int(Float(rawGrade) / 100.0 * maxScore)
                 
                 cell.studentNameLabel.text = "Week \(week)"
-                cell.week = week
                 cell.scoreTextField.text = String(scaledGrade)
                 cell.maxScoreLabel.text = "/ \(Int(maxScore))"
+                cell.week = week
+                cell.studentID = studentID
+                cell.delegate = self
                 
                 return cell
                 
@@ -290,6 +335,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 cell.studentNameLabel.text = "Week \(week)"
                 cell.selector.selectedSegmentTintColor = UIColor.systemBlue     // For getting a blue that changes on system theme https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
                 cell.week = week
+                cell.studentID = studentID
+                cell.delegate = self
                 
                 // For having a switch statement use ranges as cases https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html
                 switch rawGrade
@@ -309,6 +356,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 cell.studentNameLabel.text = "Week \(week)"
                 cell.selector.selectedSegmentTintColor = UIColor.systemBlue     // For getting a blue that changes on system theme https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
                 cell.week = week
+                cell.studentID = studentID
+                cell.delegate = self
                 
                 switch rawGrade
                 {
@@ -335,6 +384,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 cell.numCheckpointsCompletedLabel.text = String(Int(numCheckboxesComplete.rounded(.up)))
                 cell.numCheckpointsLabel.text = "/\(Int(numCheckboxes))"
                 cell.week = week
+                cell.studentID = studentID
+                cell.delegate = self
                 
                 return cell
             default:

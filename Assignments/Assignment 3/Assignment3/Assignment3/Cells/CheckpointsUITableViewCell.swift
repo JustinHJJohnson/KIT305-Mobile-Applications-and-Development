@@ -9,8 +9,8 @@ import UIKit
 
 class CheckpointsUITableViewCell: UITableViewCell
 {
-
     var week = 0;
+    var studentID: String?
     
     @IBOutlet var studentNameLabel: UILabel!
     @IBOutlet var studentIDLabel: UILabel!
@@ -27,20 +27,11 @@ class CheckpointsUITableViewCell: UITableViewCell
         
         numCheckpointsCompletedLabel.text = String(Int(numCheckboxesCompleted))
         
-        delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: Int(newGrade))
+        if studentIDLabel != nil
+        {
+            studentID = studentIDLabel.text!
+        }
+        
+        delegate?.updateGrade(for: studentID!, inWeek: week, to: Int(newGrade))
     }
-    
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool)
-    {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

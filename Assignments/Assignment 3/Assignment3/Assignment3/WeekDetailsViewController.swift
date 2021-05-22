@@ -43,9 +43,21 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
             print("Wait")
         }
     }
+    
     @IBAction func settingsButtonClicked(_ sender: Any)
     {
-        print("Settings button clicked")
+        performSegue(withIdentifier: "showWeekConfigSegue", sender: sender)
+    }
+    
+    @IBAction func unwindToWeekDetails(sender: UIStoryboardSegue)
+    {
+        if ((sender.source as? WeekConfigViewController) != nil)
+        {
+            print("Unwind segue triggered")
+            weekType = (weekConfigs["week\(week!)"] as! String)
+            self.gradesView.reloadData()
+            self.calculateGradeAverage()
+        }
     }
     
     public func updateGrade(for studentID: String, inWeek week: Int, to newGrade: Int)
@@ -58,16 +70,72 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         print("Updating grade for \(student.firstName) \(student.lastName) for week \(week) to \(newGrade)")
         
         let gradeCollection = db.collection("grades")
-        gradeCollection.document(student.studentID!).updateData([
+        gradeCollection.document(studentID).updateData([
             "week\(week)": newGrade
         ]) { (err) in
             if let err = err {
                 print("Error updating document: \(err)")
-            } else {
-                self.allGrades[studentIndex] = (student.studentID!, newGrade)
+            }
+            else
+            {
+                self.allGrades[studentIndex] = (studentID, newGrade)
                 self.calculateGradeAverage()
                 print("Grade successfully updated to \(newGrade)")
             }
+        }
+    }
+    
+    func calculateGradeAverage()
+    {
+        var gradeAverage = 0;
+        
+        //print("\nGrades in the list:")
+        for studentGrades in self.allGrades
+        {
+            gradeAverage += studentGrades.grade
+            //print("\t\(studentGrades)")
+        }
+        
+        gradeAverage /= self.allGrades.count
+        
+        switch self.weekType
+        {
+            case "attendance": self.gradeAverageLabel.text = "Average grade is not applicable for attendance"
+                
+            case "score":
+                let maxScore = Double(weekConfigs["week\(self.week!)MaxScore"] as! Int)
+                let scaledGrade = Int(Double(gradeAverage) / 100.0 * maxScore)
+                self.gradeAverageLabel.text = "Average score is \(scaledGrade) / \(Int(maxScore))"
+                
+            case "gradeNN-HD":
+                switch gradeAverage
+                {
+                    case 100: self.gradeAverageLabel.text = "Average grade is HD+"
+                    case 80..<100: self.gradeAverageLabel.text = "Average grade is HD"
+                    case 70..<80: self.gradeAverageLabel.text = "Average grade is DN"
+                    case 60..<70: self.gradeAverageLabel.text = "Average grade is CR"
+                    case 50..<60: self.gradeAverageLabel.text = "Average grade is PP"
+                    default: self.gradeAverageLabel.text = "Average grade is NN"
+                }
+                
+            case "gradeA-F":
+                switch gradeAverage
+                {
+                    case 100: self.gradeAverageLabel.text = "Average grade is A"
+                    case 80..<100: self.gradeAverageLabel.text = "Average grade is B"
+                    case 70..<80: self.gradeAverageLabel.text = "Average grade is C"
+                    case 60..<70: self.gradeAverageLabel.text = "Average grade is D"
+                    default: self.gradeAverageLabel.text = "Average grade is F"
+                }
+                
+            case "checkBox":
+                let numCheckboxes = Double(weekConfigs["week\(self.week!)CheckBoxNum"] as! Int)
+                let numCheckboxesComplete = Double(gradeAverage) / 100.0 * numCheckboxes
+                
+                self.gradeAverageLabel.text = "Average number of checkpoints complete is\n \(Int(numCheckboxesComplete.rounded(.up))) out of \(Int(numCheckboxes))"
+                
+            default: self.gradeAverageLabel.text = "Could not calculate average grade"
+            
         }
     }
     
@@ -112,60 +180,6 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    func calculateGradeAverage()
-    {
-        var gradeAverage = 0;
-        
-        //print("\nGrades in the list:")
-        for studentGrades in self.allGrades
-        {
-            gradeAverage += studentGrades.grade
-            //print("\t\(studentGrades)")
-        }
-        
-        gradeAverage /= self.allGrades.count
-        
-        switch self.weekType
-        {
-            case "attendance": self.gradeAverageLabel.text = "Average grade is not applicable for attendance"
-                
-            case "score":
-                let maxScore = weekConfigs["week\(self.week!)MaxScore"] as! Float
-                let scaledGrade = Int(Float(gradeAverage) / 100.0 * maxScore)
-                self.gradeAverageLabel.text = "Average score is \(scaledGrade) / \(Int(maxScore))"
-                
-            case "gradeNN-HD":
-                switch gradeAverage
-                {
-                    case 100: self.gradeAverageLabel.text = "Average grade is HD+"
-                    case 80..<100: self.gradeAverageLabel.text = "Average grade is HD"
-                    case 70..<80: self.gradeAverageLabel.text = "Average grade is DN"
-                    case 60..<70: self.gradeAverageLabel.text = "Average grade is CR"
-                    case 50..<60: self.gradeAverageLabel.text = "Average grade is PP"
-                    default: self.gradeAverageLabel.text = "Average grade is NN"
-                }
-                
-            case "gradeA-F":
-                switch gradeAverage
-                {
-                    case 100: self.gradeAverageLabel.text = "Average grade is A"
-                    case 80..<100: self.gradeAverageLabel.text = "Average grade is B"
-                    case 70..<80: self.gradeAverageLabel.text = "Average grade is C"
-                    case 60..<70: self.gradeAverageLabel.text = "Average grade is D"
-                    default: self.gradeAverageLabel.text = "Average grade is F"
-                }
-                
-            case "checkBox":
-                let numCheckboxes = weekConfigs["week\(self.week!)CheckBoxNum"] as! Double
-                let numCheckboxesComplete = Double(gradeAverage) / 100.0 * numCheckboxes
-                
-                self.gradeAverageLabel.text = "Average number of checkpoints complete is\n \(Int(numCheckboxesComplete.rounded(.up))) out of \(Int(numCheckboxes))"
-                
-            default: self.gradeAverageLabel.text = "Could not calculate average grade"
-            
-        }
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return allGrades.count
@@ -198,8 +212,8 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 
             case "score":
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ScoreUITableViewCell", for: indexPath) as! ScoreUITableViewCell
-                let maxScore = weekConfigs["week\(week!)MaxScore"] as! Float
-                let scaledGrade = Int(Float(rawGrade) / 100.0 * maxScore)
+                let maxScore = Double(weekConfigs["week\(week!)MaxScore"] as! Int)
+                let scaledGrade = Int(Double(rawGrade) / 100.0 * maxScore)
                 
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
                 cell.studentIDLabel.text = students[indexPath.row].studentID
@@ -252,7 +266,7 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 
             case "checkBox":
                 let cell = tableView.dequeueReusableCell(withIdentifier: "CheckpointsUITableViewCell", for: indexPath) as! CheckpointsUITableViewCell
-                let numCheckboxes = weekConfigs["week\(week!)CheckBoxNum"] as! Double
+                let numCheckboxes = Double(weekConfigs["week\(week!)CheckBoxNum"] as! Int)
                 let numCheckboxesComplete = Double(rawGrade) / 100.0 * numCheckboxes
                 
                 cell.studentNameLabel.text = "\(students[indexPath.row].firstName) \(students[indexPath.row].lastName)"
@@ -273,6 +287,34 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.weekLabel.text = "Failed to find the right cell"
                 
                 return cell
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "showWeekConfigSegue"
+        {
+            //down-cast from UIViewController to DetailViewController (this could fail if we didn’t link things up properly)
+            guard let weekConfigViewController = segue.destination as? WeekConfigViewController else
+            {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+
+            switch weekType
+            {
+                case "score":
+                    let maxScore = weekConfigs["week\(week!)MaxScore"] as! Int
+                    weekConfigViewController.currentWeekConfig = (weekType!, maxScore)
+                case "checkBox":
+                    let numCheckBoxes = weekConfigs["week\(week!)CheckBoxNum"] as! Int
+                    weekConfigViewController.currentWeekConfig = (weekType!, numCheckBoxes)
+                default: weekConfigViewController.currentWeekConfig = (weekType!, 0)
+                
+            }
+            
+            weekConfigViewController.week = week
         }
     }
 }

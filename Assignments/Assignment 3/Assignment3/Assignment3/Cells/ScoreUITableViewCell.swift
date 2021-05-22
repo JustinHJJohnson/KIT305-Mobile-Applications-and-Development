@@ -29,6 +29,7 @@ extension UIView
 class ScoreUITableViewCell: UITableViewCell
 {
     var week = 0;
+    var studentID: String?
         
     @IBOutlet var studentNameLabel: UILabel!
     @IBOutlet var studentIDLabel: UILabel!
@@ -53,8 +54,13 @@ class ScoreUITableViewCell: UITableViewCell
             
             let rawGrade = Double(Int(scoreTextField.text!)!) / Double(maxScore) * 100.0
             
+            if studentIDLabel != nil
+            {
+                studentID = studentIDLabel.text!
+            }
+            
             print("student \(studentNameLabel.text!) grade set to \(scoreTextField.text!)")
-            delegate?.updateGrade(for: studentIDLabel.text!, inWeek: week, to: Int(rawGrade))
+            delegate?.updateGrade(for: studentID!, inWeek: week, to: Int(rawGrade))
         }
     }
     
@@ -66,18 +72,4 @@ class ScoreUITableViewCell: UITableViewCell
 
         self.parentViewController?.present(alert, animated: true)
     }
-    
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool)
-    {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
