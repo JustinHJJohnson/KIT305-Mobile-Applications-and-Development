@@ -20,7 +20,9 @@ class StudentUITableViewController: UITableViewController
         }
     }
     
-    //This code was based on this https://stackoverflow.com/questions/12329895/setting-the-title-of-a-navigation-bar-inside-a-tab-bar-controller , https://stackoverflow.com/questions/45740811/how-to-run-a-function-every-time-a-uiviewcontroller-is-loaded and https://stackoverflow.com/questions/32558014/how-to-add-use-default-icons-to-navigation-bar
+    /*This code was based on this https://stackoverflow.com/questions/12329895/setting-the-title-of-a-navigation-bar-inside-a-tab-bar-controller,
+    https://stackoverflow.com/questions/45740811/how-to-run-a-function-every-time-a-uiviewcontroller-is-loaded and
+    https://stackoverflow.com/questions/32558014/how-to-add-use-default-icons-to-navigation-bar*/
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
@@ -118,8 +120,8 @@ class StudentUITableViewController: UITableViewController
         return UISwipeActionsConfiguration(actions: [action])
     }
     
-    //Makes sqiping work on iOS 13 and up
-    override func tableView(_ tableView: UITableView,editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
+    //Makes swiping work on iOS 13 and up
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
     {
         return .none
     }

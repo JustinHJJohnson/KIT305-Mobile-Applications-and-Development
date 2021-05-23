@@ -107,8 +107,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 }
                 
                 students[studentIndex!] = student
-                // sort by object property came from here https://stackoverflow.com/questions/24130026/swift-how-to-sort-array-of-custom-objects-by-property-value
-                //Need to sort this array to ascending order so the order stays the same as the database so the right grades are given to the right student
+                // Sort by object property came from here https://stackoverflow.com/questions/24130026/swift-how-to-sort-array-of-custom-objects-by-property-value
+                // Need to sort this array to ascending order so the order stays the same as the database so the right grades are given to the right student
                 students.sort(by: {$0.studentID! < $1.studentID!})
                 
                 if(changingStudentID)
@@ -197,7 +197,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
     
     func calculateGradeAverage()
     {
-        // Was getting an error about the complier not being able to type check adding all these in time, I assume this is due to the machine I was working on being a dual-core
+        // Was getting an error about the complier not being able to type check in time when adding all these in one go, I assume this is due to 
+        // the machine I was working on being a dual-core
         let gradeSum1 = self.grades!.week1 + self.grades!.week2 + self.grades!.week3
         let gradeSum2 = self.grades!.week4 + self.grades!.week5 + self.grades!.week6
         let gradeSum3 = self.grades!.week7 + self.grades!.week8 + self.grades!.week9
@@ -318,7 +319,7 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
     {
         let week = indexPath.row + 1
         var rawGrade = 0
-        
+
         switch indexPath.row
         {
             case 0: rawGrade = grades!.week1

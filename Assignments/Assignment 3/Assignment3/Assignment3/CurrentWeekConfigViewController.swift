@@ -34,6 +34,7 @@ class CurrentWeekConfigViewController: UIViewController
             }
         }
     }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
