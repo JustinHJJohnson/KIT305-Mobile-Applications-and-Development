@@ -377,8 +377,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uaV-MW-zQa">
                                 <rect key="frame" x="117.5" y="338" width="179" height="96.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It is currently week 9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVZ-iw-4K3">
-                                        <rect key="frame" x="11" y="0.0" width="157.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It is currently week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVZ-iw-4K3">
+                                        <rect key="frame" x="18" y="0.0" width="143" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -407,8 +407,15 @@
                             <constraint firstItem="uaV-MW-zQa" firstAttribute="top" secondItem="UlN-OY-Vg9" secondAttribute="top" constant="250" id="alt-Og-p4N"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="3FV-9W-Hbj"/>
+                    <navigationItem key="navigationItem" id="3FV-9W-Hbj">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="gearshape" catalog="system" id="uex-sN-QCN">
+                            <connections>
+                                <segue destination="g2y-za-ozq" kind="presentation" id="owx-po-SKt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="currentWeekButton" destination="5KI-1E-txb" id="LTL-oS-ran"/>
                         <outlet property="currentWeekLabel" destination="WVZ-iw-4K3" id="Aug-ys-Sie"/>
                     </connections>
                 </viewController>
@@ -959,6 +966,54 @@
                 <exit id="evf-Hx-F3H" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="286" y="-617"/>
+        </scene>
+        <!--Current Week Config View Controller-->
+        <scene sceneID="ZiB-6v-UnD">
+            <objects>
+                <viewController id="g2y-za-ozq" customClass="CurrentWeekConfigViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aWb-vg-jHg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fF8-1j-mjK">
+                                <rect key="frame" x="0.0" y="80" width="414" height="291"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update Semester Start Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64U-KT-BZ6">
+                                        <rect key="frame" x="62.5" y="0.0" width="289.5" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="k5d-Gw-M7r">
+                                        <rect key="frame" x="47" y="37" width="320" height="216"/>
+                                    </datePicker>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0a9-wn-E9G">
+                                        <rect key="frame" x="144.5" y="261" width="125" height="30"/>
+                                        <state key="normal" title="Update Start Date"/>
+                                        <connections>
+                                            <action selector="updateButtonPressed:" destination="g2y-za-ozq" eventType="touchUpInside" id="TaZ-jv-WRy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yt2-Yu-67X"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fF8-1j-mjK" firstAttribute="leading" secondItem="yt2-Yu-67X" secondAttribute="leading" id="d8T-Dh-c7h"/>
+                            <constraint firstItem="yt2-Yu-67X" firstAttribute="trailing" secondItem="fF8-1j-mjK" secondAttribute="trailing" id="fmX-v0-UM1"/>
+                            <constraint firstItem="fF8-1j-mjK" firstAttribute="top" secondItem="yt2-Yu-67X" secondAttribute="top" constant="80" id="sa2-eN-JdF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="k5d-Gw-M7r" id="Puz-JH-STu"/>
+                        <segue destination="82N-Ya-2YH" kind="unwind" identifier="unwindToMainScreenSegue" unwindAction="unwindToMainScreenWithSender:" id="bu1-1l-nhN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KeB-Bg-gCB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="82N-Ya-2YH" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-1432" y="-275"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

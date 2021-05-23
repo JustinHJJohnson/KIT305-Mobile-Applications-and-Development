@@ -2,7 +2,7 @@
 //  StudentUITableViewCell.swift
 //  Assignment3
 //
-//  Created by mobiledev on 20/5/21.
+//  Created by Justin Johnson on 20/5/21.
 //
 
 import UIKit

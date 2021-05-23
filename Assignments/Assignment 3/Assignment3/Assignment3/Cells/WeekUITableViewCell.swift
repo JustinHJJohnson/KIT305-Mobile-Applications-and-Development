@@ -2,7 +2,7 @@
 //  WeekTableViewCell.swift
 //  Assignment3
 //
-//  Created by Joseph Holloway on 15/5/21.
+//  Created by Justin Johnson on 15/5/21.
 //
 
 import UIKit

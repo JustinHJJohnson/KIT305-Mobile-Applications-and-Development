@@ -15,16 +15,51 @@ var weekConfigs: [String: Any] = [:]
 
 class ViewController: UIViewController
 {
-    var currentWeek = 11
+    var currentWeek = 1
     
     @IBOutlet var currentWeekLabel: UILabel!
+    @IBOutlet var currentWeekButton: UIButton!
+    
+    @IBAction func unwindToMainScreen(sender: UIStoryboardSegue)
+    {
+        if sender.source is CurrentWeekConfigViewController
+        {
+            let newDateString = weekConfigs["startDate"] as! String
+            
+            let numWeeks = getNumWeeks(since: newDateString)
+            
+            currentWeekLabel.text = "It is currently week \(numWeeks)"
+            currentWeek = numWeeks
+        }
+    }
+    
+    func getNumWeeks(since start: String) -> Int
+    {
+        let newFormatter = DateFormatter()
+        newFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss z"
+        let newDate = newFormatter.date(from: start)
+        // https://stackoverflow.com/questions/42294864/difference-between-2-dates-in-weeks-and-days-using-swift-3-and-xcode-8
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.weekOfMonth]
+        formatter.unitsStyle = .full
+        let firstInterval = formatter.string(from: newDate!, to: Date())!
+        var firstIntervalString = "\(firstInterval)"
+        firstIntervalString.removeLast(6)
+        
+        var numWeeks = Int(firstIntervalString)!
+        if(numWeeks > 12)
+        {
+            numWeeks = 12
+        }
+        
+        return numWeeks
+    }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        currentWeekLabel.text = "It is currently week \(currentWeek)"
+        currentWeekButton.isEnabled = false
         
         students.removeAll()
         let db = Firestore.firestore()
@@ -100,11 +135,11 @@ class ViewController: UIViewController
                     }
                 }
                 
-                /*print("\nWeek configs:")
-                for config in weekConfigs
-                {
-                    print("\t\(config.key): \(config.value)")
-                }*/
+                let newDateString = weekConfigs["startDate"] as! String
+                let weekNum = self.getNumWeeks(since: newDateString)
+                self.currentWeek = weekNum
+                self.currentWeekLabel.text = "It is currently week \(weekNum)"
+                self.currentWeekButton.isEnabled = true
             }
         }
     }
