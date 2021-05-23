@@ -71,7 +71,6 @@ class AddStudentViewController: UIViewController, UIImagePickerControllerDelegat
             let grades = Grades(week1: 0, week2: 0, week3: 0, week4: 0, week5: 0, week6: 0, week7: 0, week8: 0, week9: 0, week10: 0, week11: 0, week12: 0)
             
             let db = Firestore.firestore()
-            
             let studentCollection = db.collection("students")
             let gradesCollection = db.collection("grades")
             
@@ -124,6 +123,7 @@ class AddStudentViewController: UIViewController, UIImagePickerControllerDelegat
     // this fix thanks to Yan Gong in the Discord
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
     {
+        // Disable the add student button until the image is finished uploading
         addStudentButton.isEnabled = false
         
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
@@ -151,7 +151,6 @@ class AddStudentViewController: UIViewController, UIImagePickerControllerDelegat
                     self.studentImage = "\(filename)"
                     self.addStudentButton.isEnabled = true
                 }
-              
             }
             
             studentImageView.image = image

@@ -32,7 +32,6 @@ class WeekConfigViewController: UIViewController, UIPickerViewDataSource, UIPick
         let newWeekConfig = weekConfigTuples[pickerView.selectedRow(inComponent: 0)]
         
         let db = Firestore.firestore()
-        
         let gradeConfigDocument = db.collection("gradesConfig").document("UK71QI0qFPiP2zcmsclx")
         
         if(currentWeekConfig!.0 == "score")
@@ -155,10 +154,7 @@ class WeekConfigViewController: UIViewController, UIPickerViewDataSource, UIPick
             
             pickerView.reloadComponent(1)
         }
-        
     }
-
-    
 
     override func viewDidLoad()
     {
@@ -183,8 +179,5 @@ class WeekConfigViewController: UIViewController, UIPickerViewDataSource, UIPick
         {
             pickerView.selectRow(currentWeekConfig!.1, inComponent: 1, animated: true)
         }
-
-        // Do any additional setup after loading the view.
     }
-
 }

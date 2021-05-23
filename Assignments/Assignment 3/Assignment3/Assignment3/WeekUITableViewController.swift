@@ -42,21 +42,15 @@ class WeekUITableViewController: UITableViewController
         
         let shareViewController = UIActivityViewController(activityItems: [shareString], applicationActivities:[])
         present(shareViewController, animated: true, completion: nil)
-        
-        //print(shareString)
     }
-
-    // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int
     {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        // #warning Incomplete implementation, return the number of rows
         return weeks.count
     }
 

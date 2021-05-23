@@ -26,13 +26,10 @@ class AttendanceUITableViewCell: UITableViewCell
         
         if(attendanceSwitch.isOn)
         {
-            //print("student \(studentNameLabel.text!) grade set to 100 from 0")
             delegate?.updateGrade(for: studentID!, inWeek: week, to: 100)
         }
         else
         {
-            
-            //print("student \(studentNameLabel.text!) grade set to 0 from 100")
             delegate?.updateGrade(for: studentID!, inWeek: week, to: 0)
         }
     }

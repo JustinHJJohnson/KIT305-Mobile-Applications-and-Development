@@ -59,8 +59,8 @@ class StudentUITableViewController: UITableViewController
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
             let studentID = students[row].studentID!
             let db = Firestore.firestore()
-            
             let studentCollection = db.collection("students")
+
             studentCollection.document(studentID).delete() {err in
                 if let err = err
                 {
@@ -101,8 +101,6 @@ class StudentUITableViewController: UITableViewController
         
         let shareViewController = UIActivityViewController(activityItems: [shareString], applicationActivities:[])
         present(shareViewController, animated: true, completion: nil)
-        
-        //print(shareString)
     }
 
     // all code relating to swiping rows is based on this https://programmingwithswift.com/uitableviewcell-swipe-actions-with-swift/
@@ -139,22 +137,22 @@ class StudentUITableViewController: UITableViewController
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-     {
+    {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentUITableViewCell", for: indexPath)
 
-            //get the movie for this row
-            let student = students[indexPath.row]
+        //get the student for this row
+        let student = students[indexPath.row]
 
-            //down-cast the cell from UITableViewCell to our cell class StudentUITableViewCell
-            //note, this could fail, so we use an if let.
-            if let studentCell = cell as? StudentUITableViewCell
-            {
-                //populate the cell
-                studentCell.nameLabel.text = "\(student.firstName) \(student.lastName)"
-                studentCell.studentIDLabel.text = student.studentID
-            }
+        //down-cast the cell from UITableViewCell to our cell class StudentUITableViewCell
+        //note, this could fail, so we use an if let.
+        if let studentCell = cell as? StudentUITableViewCell
+        {
+            //populate the cell
+            studentCell.nameLabel.text = "\(student.firstName) \(student.lastName)"
+            studentCell.studentIDLabel.text = student.studentID
+        }
 
-            return cell
+        return cell
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)

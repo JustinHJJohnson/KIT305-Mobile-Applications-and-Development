@@ -80,7 +80,6 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
             let student = Student(studentID: newStudentID, firstName: newFirstName, lastName: newLastName, image: studentImage)
             
             let db = Firestore.firestore()
-            
             let studentCollection = db.collection("students")
             let gradesCollection = db.collection("grades")
             
@@ -140,7 +139,6 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 {
                     self.displayAlert(withMessage: "Successfully updated student details")
                 }
-                
             }
             catch let error
             {
@@ -169,7 +167,8 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         gradeCollection.document(studentID).updateData([
             "week\(week)": newGrade
         ]) { (err) in
-            if let err = err {
+            if let err = err
+            {
                 print("Error updating document: \(err)")
             }
             else
@@ -198,6 +197,7 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
     
     func calculateGradeAverage()
     {
+        // Was getting an error about the complier not being able to type check adding all these in time, I assume this is due to the machine I was working on being a dual-core
         let gradeSum1 = self.grades!.week1 + self.grades!.week2 + self.grades!.week3
         let gradeSum2 = self.grades!.week4 + self.grades!.week5 + self.grades!.week6
         let gradeSum3 = self.grades!.week7 + self.grades!.week8 + self.grades!.week9
@@ -253,9 +253,7 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         }
 
         let db = Firestore.firestore()
-        
         let gradeCollection = db.collection("grades").document(studentID)
-        print("\nGot the document")
         
         gradeCollection.getDocument() { (result, err) in
             //check for server error
@@ -313,14 +311,14 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         else
         {
             return 0
-        }
-            
+        } 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let week = indexPath.row + 1
         var rawGrade = 0
+        
         switch indexPath.row
         {
             case 0: rawGrade = grades!.week1

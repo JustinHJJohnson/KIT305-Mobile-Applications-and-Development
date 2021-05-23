@@ -11,7 +11,6 @@ import FirebaseFirestore
 var students = [Student]()
 var weeks:[String] = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8", "Week 9", "Week 10", "Week 11", "Week 12"]
 var weekConfigs: [String: Any] = [:]
-//var grades: [(studentID:String, grades:Grades)] = []
 
 class ViewController: UIViewController
 {
@@ -35,10 +34,13 @@ class ViewController: UIViewController
     
     func getNumWeeks(since start: String) -> Int
     {
+        // Convert the passed in date string to a date object
         let newFormatter = DateFormatter()
         newFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss z"
         let newDate = newFormatter.date(from: start)
+
         // https://stackoverflow.com/questions/42294864/difference-between-2-dates-in-weeks-and-days-using-swift-3-and-xcode-8
+        // Get the number of week been the current date and the passed in date
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.weekOfMonth]
         formatter.unitsStyle = .full
@@ -47,6 +49,7 @@ class ViewController: UIViewController
         firstIntervalString.removeLast(6)
         
         var numWeeks = Int(firstIntervalString)!
+        // Make sure to not go pass week 12 so it doesn't throw arrayOutOfBounds errors
         if(numWeeks > 12)
         {
             numWeeks = 12
@@ -63,9 +66,7 @@ class ViewController: UIViewController
         
         students.removeAll()
         let db = Firestore.firestore()
-        
         let studentCollection = db.collection("students")
-        print("\nGot the collection")
         
         studentCollection.getDocuments() { (result, err) in
             //check for server error
@@ -106,17 +107,10 @@ class ViewController: UIViewController
                             print("Error decoding student: \(error)")
                     }
                 }
-                
-                /*print("\nStudents in the list:")
-                for student in students
-                {
-                    print("\t\(student.firstName) \(student.lastName)")
-                }*/
             }
         }
         
         let weekConfigCollection = db.collection("gradesConfig")
-        print("\nGot the collection")
         
         weekConfigCollection.getDocuments() { (result, err) in
             //check for server error
@@ -135,6 +129,7 @@ class ViewController: UIViewController
                     }
                 }
                 
+                // Set the current week label based on the date in the database
                 let newDateString = weekConfigs["startDate"] as! String
                 let weekNum = self.getNumWeeks(since: newDateString)
                 self.currentWeek = weekNum

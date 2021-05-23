@@ -65,11 +65,10 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         // find object by property from here https://stackoverflow.com/questions/26073331/find-object-with-property-in-array/26077388
         let studentIndex = students.firstIndex(where: { $0.studentID == studentID })!
         let student = students[studentIndex]
+
         let db = Firestore.firestore()
-        
-        print("Updating grade for \(student.firstName) \(student.lastName) for week \(week) to \(newGrade)")
-        
         let gradeCollection = db.collection("grades")
+
         gradeCollection.document(studentID).updateData([
             "week\(week)": newGrade
         ]) { (err) in
@@ -89,11 +88,9 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
     {
         var gradeAverage = 0;
         
-        //print("\nGrades in the list:")
         for studentGrades in self.allGrades
         {
             gradeAverage += studentGrades.grade
-            //print("\t\(studentGrades)")
         }
         
         gradeAverage /= self.allGrades.count
@@ -151,9 +148,7 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         gradesView.delegate = self
         
         let db = Firestore.firestore()
-        
         let gradeCollection = db.collection("grades")
-        print("\nGot the grades collection")
         
         gradeCollection.getDocuments() { (result, err) in
             //check for server error
@@ -168,7 +163,6 @@ class WeekDetailsViewController: UIViewController, UITableViewDelegate, UITableV
                 {
                     for (key, value) in document.data() where key == "week\(self.week!)"
                     {
-                        print("Student \(document.documentID) grade: \(value)")
                         self.allGrades.append((document.documentID, value as! Int))
                     }
                 }
