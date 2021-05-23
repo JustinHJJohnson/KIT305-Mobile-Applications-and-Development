@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseFirestore
 
 class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GradeUpdateDelegate
@@ -42,10 +43,12 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
     {
         let oldFirstName = students[studentIndex!].firstName
         let oldLastName = students[studentIndex!].lastName
+        let studentImage = students[studentIndex!].image
         let oldStudentID = studentID
         let newFirstName = firstNameTextField.text!
         let newLastName = lastNameTextField.text!
         let newStudentID = studentIDTextField.text!
+        let changingStudentID = newStudentID != oldStudentID
         
         if(newFirstName == oldFirstName && newLastName == oldLastName && newStudentID == oldStudentID)
         {
@@ -68,13 +71,13 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
             displayAlert(withMessage: "Please enter a 6 digit number for the student ID")
         }
         // this check for a student with the entered student ID came from here https://stackoverflow.com/questions/26073331/find-object-with-property-in-array
-        else if(students.contains(where: {$0.studentID == newStudentID}))
+        else if(students.contains(where: {$0.studentID == newStudentID}) && changingStudentID)
         {
-            displayAlert(withMessage: "A student with that ID already exists")
+            displayAlert(withMessage: "Another student with that ID already exists")
         }
         else
         {
-            let student = Student(studentID: newStudentID, firstName: newFirstName, lastName: newLastName, image: "")
+            let student = Student(studentID: newStudentID, firstName: newFirstName, lastName: newLastName, image: studentImage)
             
             let db = Firestore.firestore()
             
@@ -108,29 +111,36 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 // sort by object property came from here https://stackoverflow.com/questions/24130026/swift-how-to-sort-array-of-custom-objects-by-property-value
                 //Need to sort this array to ascending order so the order stays the same as the database so the right grades are given to the right student
                 students.sort(by: {$0.studentID! < $1.studentID!})
-                //print("Sorted students: \(students)")
                 
-                studentCollection.document(oldStudentID).delete() {err in
-                    if let err = err
-                    {
-                        print("Failed to remove student: \(err)")
-                    }
-                    else
-                    {
-                        db.collection("grades").document(oldStudentID).delete() {err in
-                            if let err = err
-                            {
-                                print("Failed to remove student: \(err)")
-                            }
-                            else
-                            {
-                                print("student and grades deleted successfully")
-                                self.displayAlert(withMessage: "Successfully updated student details")
-                                self.studentID = newStudentID
+                if(changingStudentID)
+                {
+                    studentCollection.document(oldStudentID).delete() {err in
+                        if let err = err
+                        {
+                            print("Failed to remove student: \(err)")
+                        }
+                        else
+                        {
+                            db.collection("grades").document(oldStudentID).delete() {err in
+                                if let err = err
+                                {
+                                    print("Failed to remove student: \(err)")
+                                }
+                                else
+                                {
+                                    print("student and grades deleted successfully")
+                                    self.displayAlert(withMessage: "Successfully updated student details")
+                                    self.studentID = newStudentID
+                                }
                             }
                         }
                     }
                 }
+                else
+                {
+                    self.displayAlert(withMessage: "Successfully updated student details")
+                }
+                
             }
             catch let error
             {
@@ -197,6 +207,22 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         self.gradeAverageLabel.text = "This students average grade is \(gradeAverage)%"
     }
     
+    // Load function came from here https://stackoverflow.com/questions/37574689/how-to-load-image-from-local-path-ios-swift-by-path
+    private func load(fileURL: URL) -> UIImage?
+    {
+        print("Loading image")
+        do
+        {
+            let imageData = try Data(contentsOf: fileURL)
+            return UIImage(data: imageData)
+        }
+        catch
+        {
+            print("Error loading image : \(error)")
+        }
+        return nil
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -206,6 +232,25 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
         studentID = students[studentIndex!].studentID!
         gradesTableView.delegate = self
         gradesTableView.dataSource = self
+        
+        let studentImageURL = students[studentIndex!].image
+        if (studentImageURL != "")
+        {
+            let storage = Storage.storage()
+            let imageFirestorePath = "images/\(studentImageURL)"
+            let imageRef = storage.reference(withPath: imageFirestorePath)
+            imageRef.getData(maxSize: 10 * 1024 * 1024, completion: {data, error in
+                if let error = error
+                {
+                    print("Failed to download image: \(error)")
+                }
+                else
+                {
+                    print("Loaded image")
+                    self.studentImage.image = UIImage(data: data!)
+                }
+            })
+        }
 
         let db = Firestore.firestore()
         
@@ -234,7 +279,7 @@ class StudentDetailsViewController: UIViewController, UITableViewDelegate, UITab
                         if let grades = convertedDoc
                         {
                             //A Grades object was successfully initialized from the DocumentSnapshot
-                            print("Grades: \(grades)")
+                            //print("Grades: \(grades)")
                             self.grades = grades
                         }
                         else

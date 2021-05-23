@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseFirestore
 
 class AddStudentViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -14,6 +15,9 @@ class AddStudentViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet var firstNameField: UITextField!
     @IBOutlet var lastNameField: UITextField!
     @IBOutlet var studentIDField: UITextField!
+    @IBOutlet var addStudentButton: UIButton!
+    
+    var studentImage = ""
     
     @IBAction func imageButtonClicked(_ sender: Any)
     {
@@ -63,7 +67,7 @@ class AddStudentViewController: UIViewController, UIImagePickerControllerDelegat
         }
         else
         {
-            let student = Student(studentID: studentID, firstName: firstName, lastName: lastName, image: "")
+            let student = Student(studentID: studentID, firstName: firstName, lastName: lastName, image: studentImage)
             let grades = Grades(week1: 0, week2: 0, week3: 0, week4: 0, week5: 0, week6: 0, week7: 0, week8: 0, week9: 0, week10: 0, week11: 0, week12: 0)
             
             let db = Firestore.firestore()
@@ -120,8 +124,36 @@ class AddStudentViewController: UIViewController, UIImagePickerControllerDelegat
     // this fix thanks to Yan Gong in the Discord
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
     {
+        addStudentButton.isEnabled = false
+        
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         {
+            // Code to get and format date from https://stackoverflow.com/questions/46376823/ios-swift-get-the-current-local-time-and-date-timestamp
+            let date = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyyMMdd_HHmmss"
+            let filename = "\(formatter.string(from: date)).jpg"
+            
+            let storage = Storage.storage()
+            let imageRef = storage.reference().child("images/\(filename)")
+            
+            let data = image.jpegData(compressionQuality: 0.4)
+            
+            imageRef.putData(data!, metadata: nil) { (metadata, error) in
+                if let error = error
+                {
+                    print("Failed to upload image: \(error)")
+                    self.addStudentButton.isEnabled = true
+                }
+                else
+                {
+                    print("Uploaded image")
+                    self.studentImage = "\(filename)"
+                    self.addStudentButton.isEnabled = true
+                }
+              
+            }
+            
             studentImageView.image = image
             studentImageView.contentMode = .scaleAspectFill
             dismiss(animated: true, completion: nil)

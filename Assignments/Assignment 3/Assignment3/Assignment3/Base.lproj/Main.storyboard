@@ -947,6 +947,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addStudentButton" destination="B2r-Hz-vNT" id="0Dt-J4-l6Q"/>
                         <outlet property="firstNameField" destination="aZu-R8-1Ob" id="8rp-Pc-EPQ"/>
                         <outlet property="lastNameField" destination="cXt-Ga-1wD" id="hrw-vD-hg2"/>
                         <outlet property="studentIDField" destination="0px-e6-wWj" id="geb-zC-dlG"/>

@@ -57,7 +57,7 @@ class ViewController: UIViewController
                             if let student = convertedDoc
                             {
                                 //A Student was successfully initialized from the DocumentSnapshot
-                                print("Student: \(student)")
+                                //print("Student: \(student)")
                                 students.append(student)
                             }
                             else
@@ -72,11 +72,11 @@ class ViewController: UIViewController
                     }
                 }
                 
-                print("\nStudents in the list:")
+                /*print("\nStudents in the list:")
                 for student in students
                 {
                     print("\t\(student.firstName) \(student.lastName)")
-                }
+                }*/
             }
         }
         
@@ -100,11 +100,11 @@ class ViewController: UIViewController
                     }
                 }
                 
-                print("\nWeek configs:")
+                /*print("\nWeek configs:")
                 for config in weekConfigs
                 {
                     print("\t\(config.key): \(config.value)")
-                }
+                }*/
             }
         }
     }
