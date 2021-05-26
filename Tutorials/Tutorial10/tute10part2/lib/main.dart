@@ -24,15 +24,13 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-
   var txtNameController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Flutter App"),
+        title: Text("Tutorial 10"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -41,19 +39,18 @@ class _FirstPageState extends State<FirstPage> {
             Expanded(
               child: TextField(
                 controller: txtNameController,
-                decoration: InputDecoration(
-                    hintText: "Enter Name",
-                    labelText: "Name"
-                ),
+                decoration:
+                    InputDecoration(hintText: "Enter Name", labelText: "Name"),
               ),
             ),
             ElevatedButton(
-              child:Text("Save"),
-              onPressed: () =>
-              {
-                Navigator.push(context, MaterialPageRoute(
-                    builder:(context) => SecondPage(name: txtNameController.text)
-                ))
+              child: Text("Save"),
+              onPressed: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SecondPage(name: txtNameController.text)))
               },
             ),
           ],
@@ -64,14 +61,12 @@ class _FirstPageState extends State<FirstPage> {
 }
 
 class SecondPage extends StatelessWidget {
-
   final String name;
 
   const SecondPage({Key key, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Second Screen"),
