@@ -26,6 +26,7 @@ class Movie
       };
 }
 
+
 class MovieModel extends ChangeNotifier {
   /// Internal, private state of the list.
   final List<Movie> items = [];
