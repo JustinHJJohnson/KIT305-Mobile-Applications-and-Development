@@ -74,6 +74,7 @@ class StudentDetailsForm extends StatelessWidget {
     final firstNameController = TextEditingController();
     final lastNameController = TextEditingController();
     final studentIDController = TextEditingController();
+    final students = Provider.of<StudentModel>(context, listen:false).items;
 
     firstNameController.text = student.firstName;
     lastNameController.text = student.lastName;
@@ -93,7 +94,7 @@ class StudentDetailsForm extends StatelessWidget {
                     decoration: InputDecoration(hintText: "First Name"),
                     controller: firstNameController,
                     validator: (String value) {
-                      if (value == null) return "Please enter a first name";
+                      if (value.isEmpty) return "Please enter a first name";
                       else return null;
                     },
                   ),
@@ -101,7 +102,7 @@ class StudentDetailsForm extends StatelessWidget {
                     decoration: InputDecoration(hintText: "Last Name"),
                     controller: lastNameController,
                     validator: (String value) {
-                      if (value == null) return "Please enter a last name";
+                      if (value.isEmpty) return "Please enter a last name";
                       else return null;
                     },
                   ),
@@ -110,8 +111,9 @@ class StudentDetailsForm extends StatelessWidget {
                     controller: studentIDController,
                     keyboardType: TextInputType.number,   // How to change keyboard type https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
                     validator: (String value) {
-                      if (value == null) return "Please enter a student ID";
-                      else if (value.contains(RegExp(r'^[0-9]{6}$'))) return "Please enter a 6 digit number";
+                      if (value.isEmpty) return "Please enter a student ID";
+                      else if (!value.contains(RegExp(r'^[0-9]{6}$'))) return "Please enter a 6 digit number";
+                      else if (student.studentID != value && students.where((otherStudent) => otherStudent.studentID == student.studentID).length != 0) return "That student ID is already taken";  // Check for object with certain property from here https://stackoverflow.com/questions/56884062/how-to-search-a-list-of-object-by-another-list-of-items-in-dart
                       else return null;
                     },
                   ),
@@ -125,7 +127,8 @@ class StudentDetailsForm extends StatelessWidget {
                         student.studentID = studentIDController.text; //good code would validate these
                         Provider.of<StudentModel>(context, listen: false).update(widget.id, student);*/
                         
-                        Navigator.pop(context);
+                        //Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Valid student details"),));
                       }
                     }, icon: Icon(Icons.save), label: Text("Update Student Details"),),
                   )
