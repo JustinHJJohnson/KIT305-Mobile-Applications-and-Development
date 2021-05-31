@@ -51,11 +51,7 @@ class StudentGradeList extends StatelessWidget {
     return Expanded(
       child: ListView.builder(
         itemBuilder: (_, index) {
-          return ListTile(
-            title: Text('Week ${index + 1}'),
-            subtitle: Text('${student.grades[index]}'),
-            trailing: getGradeListTile(student, index, context)
-          );
+          return getGradeListTile(student, index);
         },
         itemCount: student.grades.length,
       ),
@@ -63,7 +59,7 @@ class StudentGradeList extends StatelessWidget {
   }
 }
 
-Widget getGradeListTile(Student student, int index, BuildContext context){
+Widget getGradeListTile(Student student, int index){
   switch (index) {
     case 1:
       return Attendance(index: index, student: student);
@@ -95,25 +91,41 @@ class _AttendanceState extends State<Attendance> {
   @override
   Widget build(BuildContext context) {
     if (widget.student.grades[widget.index] == 100) setState(() { isChecked = true; });
-    return Checkbox(
-      checkColor: Colors.white,
-      //fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
-      onChanged: (bool value) {
-        setState(() {
-          isChecked = value;
-          // This code was used to make this SnackBar prettier https://www.geeksforgeeks.org/flutter-snackbar/
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center,),
-            elevation: 10,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(10),
-            backgroundColor: Theme.of(context).primaryColor,
-          ));
-          widget.student.grades[widget.index] = value ? 100 : 0;
-          // TODO: actually update this is the database
-        });
-      },
+    // This code to solving my sizing problems on the checkbox and label came from here https://stackoverflow.com/questions/51930754/flutter-wrapping-text
+    double containerWidth = MediaQuery.of(context).size.width*0.6;
+    print("Grades for week ${widget.index + 1} is ${widget.student.grades}");
+
+    return ListTile(
+      title: Text('Week ${widget.index + 1}'),
+      subtitle: Text('${widget.student.grades[widget.index]}'),
+      trailing: Container(
+        width: containerWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text("Attendance", textAlign: TextAlign.right),
+            Checkbox(
+              checkColor: Colors.white,
+              value: isChecked,
+              onChanged: (bool value) {
+                setState(() {
+                  isChecked = value;
+                  widget.student.grades[widget.index] = value ? 100 : 0;
+                  // This code used to make this SnackBar prettier is from https://www.geeksforgeeks.org/flutter-snackbar/
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center),
+                    elevation: 10,
+                    behavior: SnackBarBehavior.floating,
+                    margin: EdgeInsets.all(10),
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ));
+                  Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
+                });
+              },
+            )
+          ],
+        ),
+      )
     );
   }
 }

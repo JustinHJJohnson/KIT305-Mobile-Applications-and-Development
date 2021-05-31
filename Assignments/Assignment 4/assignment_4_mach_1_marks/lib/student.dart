@@ -7,7 +7,7 @@ class Student
   String lastName;
   String studentID;
   String image;
-  List<dynamic> grades;
+  List<int> grades;
   
   Student({ this.firstName, this.lastName, this.studentID, this.image, this.grades });
   Student.fromJson(Map<String, dynamic> json)
@@ -16,7 +16,7 @@ class Student
         lastName = json['lastName'],
         studentID = json['studentID'],
         image = json['image'],
-        grades = json['grades'];
+        grades = json['grades'].cast<int>();
 
   Map<String, dynamic> toJson() =>
       {
