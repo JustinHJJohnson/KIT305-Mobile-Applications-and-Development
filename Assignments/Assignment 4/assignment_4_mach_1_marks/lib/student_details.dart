@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'student.dart';
 
 class StudentDetails extends StatefulWidget {
-  var id;
+  final String id;
 
-  StudentDetails({Key key, this.id}) : super(key: key);
+  const StudentDetails({Key key, this.id}) : super(key: key);
   
   @override
   _StudentDetailsState createState() => _StudentDetailsState();
@@ -30,21 +30,7 @@ class _StudentDetailsState extends State<StudentDetails> {
           children: <Widget>[
             StudentDetailsForm(student: student, widget: widget),
             Text('Grade average is ${calculateGradeAverage(student)}%'),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (_, index) {
-                  return ListTile(
-                    title: Text('Week ${index + 1}'),
-                    subtitle: Text('${student.grades[index]}'),
-                    //leading: loadImage(student),
-                    onTap: () {
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) { return StudentDetails(id: student.studentID); }));
-                    },
-                  );
-                },
-                itemCount: student.grades.length,
-              ),
-            ),
+            StudentGradeList(student: student),
           ]
         )
       ),
@@ -52,10 +38,91 @@ class _StudentDetailsState extends State<StudentDetails> {
   }
 }
 
+class StudentGradeList extends StatelessWidget {
+  const StudentGradeList({
+    Key key,
+    @required this.student,
+  }) : super(key: key);
+
+  final Student student;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemBuilder: (_, index) {
+          return ListTile(
+            title: Text('Week ${index + 1}'),
+            subtitle: Text('${student.grades[index]}'),
+            trailing: getGradeListTile(student, index, context)
+          );
+        },
+        itemCount: student.grades.length,
+      ),
+    );
+  }
+}
+
+Widget getGradeListTile(Student student, int index, BuildContext context){
+  switch (index) {
+    case 1:
+      return Attendance(index: index, student: student);
+      break;
+    default:
+      return Text("Grade type not found"); 
+  }
+}
+
+/// This is the stateful widget that the main application instantiates.
+class Attendance extends StatefulWidget {
+  final int index;
+  final Student student;
+  
+  const Attendance({
+    Key key,
+    this.index,
+    this.student
+    }) : super(key: key);
+
+  @override
+  State<Attendance> createState() => _AttendanceState();
+}
+
+/// This is the private State class that goes with Attendance.
+class _AttendanceState extends State<Attendance> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.student.grades[widget.index] == 100) setState(() { isChecked = true; });
+    return Checkbox(
+      checkColor: Colors.white,
+      //fillColor: MaterialStateProperty.resolveWith(getColor),
+      value: isChecked,
+      onChanged: (bool value) {
+        setState(() {
+          isChecked = value;
+          // This code was used to make this SnackBar prettier https://www.geeksforgeeks.org/flutter-snackbar/
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center,),
+            elevation: 10,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            backgroundColor: Theme.of(context).primaryColor,
+          ));
+          widget.student.grades[widget.index] = value ? 100 : 0;
+          // TODO: actually update this is the database
+        });
+      },
+    );
+  }
+}
+
 double calculateGradeAverage(Student student) {
-  var gradeAverage = 0;
-  for (var grade in student.grades) gradeAverage += grade;
-  return gradeAverage / student.grades.length;
+  var gradeSum = 0;
+  for (var grade in student.grades) gradeSum += grade;
+  var gradeAverage = gradeSum / student.grades.length;
+  return num.parse(gradeAverage.toStringAsFixed(2));    // This line of code to round a double to a given number of decimal places came from https://stackoverflow.com/questions/28419255/how-do-you-round-a-double-in-dart-to-a-given-degree-of-precision-after-the-decim
 }
 
 class StudentDetailsForm extends StatelessWidget {
@@ -122,6 +189,10 @@ class StudentDetailsForm extends StatelessWidget {
                     child: ElevatedButton.icon(onPressed: () {
                       if (_formKey.currentState.validate())
                       {
+                        /*if (student.studentID != studentIDController.text){
+                          StudentDetails.id = 
+                        }*/
+                        
                         /*student.firstName = firstNameController.text;
                         student.lastName = lastNameController.text; //good code would validate these
                         student.studentID = studentIDController.text; //good code would validate these
@@ -161,7 +232,7 @@ Widget loadImage(Student student) {
       child: FutureBuilder<String>( //complicated, because getDownloadUrl is async
         future: FirebaseStorage.instance.ref().child('images/${student.image}').getDownloadURL(),
         builder: (context, snapshot) {
-          if (snapshot.hasData == false) return CircularProgressIndicator();
+          if (snapshot.hasData == false) return Center(child: CircularProgressIndicator());
 
           var downloadURL = snapshot.data;
           print(downloadURL);
@@ -170,7 +241,7 @@ Widget loadImage(Student student) {
             //fit: BoxFit.fill,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             },
           );
         } 

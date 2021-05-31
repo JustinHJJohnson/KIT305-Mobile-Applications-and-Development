@@ -131,8 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget studentList(StudentModel studentModel) {
-    //final list<Student>
-    
     return Scaffold(
       body: Center(
         child: Column(
