@@ -80,7 +80,7 @@ class AddStudentForm extends StatelessWidget {
                         
                         Navigator.pop(context);
                       }
-                    }, icon: Icon(Icons.save), label: Text("Update Student Details"),),
+                    }, icon: Icon(Icons.save), label: Text("Add Student")),
                   )
                 ],
               ),

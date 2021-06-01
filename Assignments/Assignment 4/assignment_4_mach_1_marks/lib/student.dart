@@ -55,6 +55,9 @@ class StudentModel extends ChangeNotifier {
     loading = true;
     notifyListeners();
 
+    if (id != item.studentID) await studentsCollection.doc(id).delete();
+    if (item.grades.length < 12) item.grades = List<int>.filled(12, 0);   // Temporary code to fix students made with old version only having 1 grade
+
     await studentsCollection.doc(id).set(item.toJson());
 
     //refresh the db

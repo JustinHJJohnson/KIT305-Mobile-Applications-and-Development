@@ -183,6 +183,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildAddStudentDialog(BuildContext context) {
     return new AlertDialog(
       title: const Text('Add Student'),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),   // Rounded corners from https://stackoverflow.com/questions/58533442/flutter-how-to-make-my-dialog-box-scrollable
+      scrollable: true,
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

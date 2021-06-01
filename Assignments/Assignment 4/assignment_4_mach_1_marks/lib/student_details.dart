@@ -1,13 +1,16 @@
+import 'package:assignment_4_mach_1_marks/ListTiles/GradeAToF.dart';
+import 'package:assignment_4_mach_1_marks/ListTiles/GradeHDToNN.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'ListTiles/Attendance.dart';
 import 'student.dart';
 
 class StudentDetails extends StatefulWidget {
-  final String id;
+  String id;
 
-  const StudentDetails({Key key, this.id}) : super(key: key);
+  StudentDetails({Key key, this.id}) : super(key: key);
   
   @override
   _StudentDetailsState createState() => _StudentDetailsState();
@@ -28,7 +31,7 @@ class _StudentDetailsState extends State<StudentDetails> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            StudentDetailsForm(student: student, /*widget: widget*/),
+            StudentDetailsForm(student: student, widget: widget),
             Text('Grade average is ${calculateGradeAverage(student)}%'),
             StudentGradeList(student: student),
           ]
@@ -61,72 +64,10 @@ class StudentGradeList extends StatelessWidget {
 
 Widget getGradeListTile(Student student, int index){
   switch (index) {
-    case 1:
-      return Attendance(index: index, student: student);
-      break;
-    default:
-      return Text("Grade type not found"); 
-  }
-}
-
-/// This is the stateful widget that the main application instantiates.
-class Attendance extends StatefulWidget {
-  final int index;
-  final Student student;
-  
-  const Attendance({
-    Key key,
-    this.index,
-    this.student
-    }) : super(key: key);
-
-  @override
-  State<Attendance> createState() => _AttendanceState();
-}
-
-/// This is the private State class that goes with Attendance.
-class _AttendanceState extends State<Attendance> {
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.student.grades[widget.index] == 100) setState(() { isChecked = true; });
-    // This code to solving my sizing problems on the checkbox and label came from here https://stackoverflow.com/questions/51930754/flutter-wrapping-text
-    double containerWidth = MediaQuery.of(context).size.width*0.6;
-    print("Grades for week ${widget.index + 1} is ${widget.student.grades}");
-
-    return ListTile(
-      title: Text('Week ${widget.index + 1}'),
-      subtitle: Text('${widget.student.grades[widget.index]}'),
-      trailing: Container(
-        width: containerWidth,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text("Attendance", textAlign: TextAlign.right),
-            Checkbox(
-              checkColor: Colors.white,
-              value: isChecked,
-              onChanged: (bool value) {
-                setState(() {
-                  isChecked = value;
-                  widget.student.grades[widget.index] = value ? 100 : 0;
-                  // This code used to make this SnackBar prettier is from https://www.geeksforgeeks.org/flutter-snackbar/
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center),
-                    elevation: 10,
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.all(10),
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ));
-                  Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
-                });
-              },
-            )
-          ],
-        ),
-      )
-    );
+    case 0: return Attendance(index: index, student: student);
+    case 1: return GradeAToF(index: index, student: student);
+    case 2: return GradeHDToNN(index: index, student: student);
+    default: return Text("Grade type not found"); 
   }
 }
 
@@ -141,11 +82,11 @@ class StudentDetailsForm extends StatelessWidget {
   const StudentDetailsForm({
     Key key,
     @required this.student,
-    //@required this.widget,
+    @required this.widget,
   }) : super(key: key);
 
   final Student student;
-  //final StudentDetails widget;
+  final StudentDetails widget;
 
   @override
   Widget build(BuildContext context) {
@@ -201,16 +142,14 @@ class StudentDetailsForm extends StatelessWidget {
                     child: ElevatedButton.icon(onPressed: () {
                       if (_formKey.currentState.validate())
                       {
-                        /*if (student.studentID != studentIDController.text){
-                          StudentDetails.id = 
-                        }*/
+                        student.firstName = firstNameController.text;
+                        student.lastName = lastNameController.text;
+                        student.studentID = studentIDController.text;
+                        print("Changing ${student.firstName} ${student.lastName} student ID from ${widget.id} to ${student.studentID}");
+                        Provider.of<StudentModel>(context, listen: false).update(widget.id, student);
+                        widget.id = student.studentID;
+                        print("Widget ID is now ${widget.id}");
                         
-                        /*student.firstName = firstNameController.text;
-                        student.lastName = lastNameController.text; //good code would validate these
-                        student.studentID = studentIDController.text; //good code would validate these
-                        Provider.of<StudentModel>(context, listen: false).update(widget.id, student);*/
-                        
-                        //Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Valid student details"),));
                       }
                     }, icon: Icon(Icons.save), label: Text("Update Student Details"),),
