@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'AddStudentDialog.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -167,15 +169,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          studentModel.add(Student(
-            firstName: "Ralsei",
-            lastName: "GoatMan",
-            studentID: "123456",
-            image: "JPEG_20210425_140130_5892791961747614993.jpg",
-            grades: [0,1,2,3,4,5,6,7,8,9,10,11]
-          ));
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => _buildAddStudentDialog(context),
+            );
         },
-        child: Icon(Icons.add)
+        child: Icon(Icons.person_add),
+      )
+    );
+  }
+
+  // How to create a custom dialog came from here https://fluttercorner.com/how-to-create-popup-in-flutter-with-example/
+  Widget _buildAddStudentDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Add Student'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AddStudentForm(),
+        ],
       ),
     );
   }

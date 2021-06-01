@@ -28,7 +28,7 @@ class _StudentDetailsState extends State<StudentDetails> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            StudentDetailsForm(student: student, widget: widget),
+            StudentDetailsForm(student: student, /*widget: widget*/),
             Text('Grade average is ${calculateGradeAverage(student)}%'),
             StudentGradeList(student: student),
           ]
@@ -141,11 +141,11 @@ class StudentDetailsForm extends StatelessWidget {
   const StudentDetailsForm({
     Key key,
     @required this.student,
-    @required this.widget,
+    //@required this.widget,
   }) : super(key: key);
 
   final Student student;
-  final StudentDetails widget;
+  //final StudentDetails widget;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +192,7 @@ class StudentDetailsForm extends StatelessWidget {
                     validator: (String value) {
                       if (value.isEmpty) return "Please enter a student ID";
                       else if (!value.contains(RegExp(r'^[0-9]{6}$'))) return "Please enter a 6 digit number";
-                      else if (student.studentID != value && students.where((otherStudent) => otherStudent.studentID == student.studentID).length != 0) return "That student ID is already taken";  // Check for object with certain property from here https://stackoverflow.com/questions/56884062/how-to-search-a-list-of-object-by-another-list-of-items-in-dart
+                      else if (student.studentID != value && students.where((otherStudent) => otherStudent.studentID == value).length != 0) return "That student ID is already taken";  // Check for object with certain property from here https://stackoverflow.com/questions/56884062/how-to-search-a-list-of-object-by-another-list-of-items-in-dart
                       else return null;
                     },
                   ),
