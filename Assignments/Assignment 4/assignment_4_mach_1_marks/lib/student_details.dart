@@ -1,10 +1,12 @@
-import 'package:assignment_4_mach_1_marks/ListTiles/GradeAToF.dart';
-import 'package:assignment_4_mach_1_marks/ListTiles/GradeHDToNN.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'ListTiles/Attendance.dart';
+import 'list_tiles/attendance.dart';
+import 'list_tiles/grade_A_to_F.dart';
+import 'list_tiles/grade_HD_to_NN.dart';
+import 'list_tiles/score.dart';
+import 'list_tiles/checkpoints.dart';
 import 'student.dart';
 
 class StudentDetails extends StatefulWidget {
@@ -54,7 +56,7 @@ class StudentGradeList extends StatelessWidget {
     return Expanded(
       child: ListView.builder(
         itemBuilder: (_, index) {
-          return getGradeListTile(student, index);
+          return getGradeListTile(student, index, context);
         },
         itemCount: student.grades.length,
       ),
@@ -62,11 +64,15 @@ class StudentGradeList extends StatelessWidget {
   }
 }
 
-Widget getGradeListTile(Student student, int index){
-  switch (index) {
-    case 0: return Attendance(index: index, student: student);
-    case 1: return GradeAToF(index: index, student: student);
-    case 2: return GradeHDToNN(index: index, student: student);
+Widget getGradeListTile(Student student, int index, BuildContext context){
+  Map<String, dynamic> weekConfig = Provider.of<StudentModel>(context, listen:false).weekConfigs;
+  
+  switch (weekConfig["week${index + 1}"]) {
+    case "attendance": return Attendance(index: index, student: student);
+    case "gradeA-F": return GradeAToF(index: index, student: student);
+    case "gradeNN-HD": return GradeHDToNN(index: index, student: student);
+    case "score": return Score(index: index, student: student);
+    case "checkBox": return Checkpoints(index: index, student: student);
     default: return Text("Grade type not found"); 
   }
 }

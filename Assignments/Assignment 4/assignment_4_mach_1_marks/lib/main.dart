@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import 'AddStudentDialog.dart';
+import 'add_student_dialog.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   );
                 },
-                itemCount: studentModel.items.length
+                itemCount: studentModel.items.length,
               ),
             ),
           ] 
