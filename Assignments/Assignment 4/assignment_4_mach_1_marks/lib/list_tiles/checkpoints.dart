@@ -23,7 +23,8 @@ class CheckpointsState extends State<Checkpoints> {
   int numCheckpoints = 0;
   Map<String, dynamic> weekConfigs;
   List<bool> isChecked;
-  List<Widget> checkBoxes;
+  List<Column> checkBoxes;
+  double numCheckedBoxes;
 
   @override
   Widget build(BuildContext context) {
@@ -32,45 +33,56 @@ class CheckpointsState extends State<Checkpoints> {
       numCheckpoints = weekConfigs["week${widget.index + 1}CheckBoxNum"];
 
       final int grade = widget.student.grades[widget.index];
-      final double numCheckedBoxes = (grade / 100) * numCheckpoints;
+      //final double numCheckedBoxes = (grade / 100) * numCheckpoints;
+      numCheckedBoxes = (grade / 100) * numCheckpoints;
       final int numCheckedBoxesCast = numCheckedBoxes.toInt();
       //print("number of checked boxes before cast is $numCheckedBoxes");
       //print("number of checked boxes after cast is $numCheckedBoxesCast");
       isChecked = List<bool>.filled(numCheckpoints, false);
-      checkBoxes = List<Widget>.filled(numCheckpoints, null);
+      checkBoxes = List<Column>.filled(numCheckpoints, null);
 
       for (var i = 0; i < numCheckpoints; i++) {
         if (i < numCheckedBoxesCast) isChecked[i] = true;
 
-        checkBoxes[i] = Checkbox(
-          checkColor: Colors.white,
-          value: isChecked[i],
-          onChanged: (bool value) {
-            setState(() {
-              //print("Value for checkbox ${i + 1} is $value");
-              isChecked[i] = value;
+        checkBoxes[i] = Column(
+          children: [
+            Text("${i + 1}"),
+            SizedBox(   // Code to remove padding on checkbox from here https://stackoverflow.com/questions/53152386/flutter-how-to-remove-default-padding-48-px-as-per-doc-from-widgets-iconbut/59420505#59420505
+              height: 30,
+              width: 30,
+              child: Checkbox(
+                value: isChecked[i],
+                visualDensity: VisualDensity.compact,
+                onChanged: (bool value) {
+                  setState(() {
+                    //print("Value for checkbox ${i + 1} is $value");
+                    isChecked[i] = value;
 
-              int newScore;
-              if (value) {
-                newScore = ((i + 1) / numCheckpoints * 100).toInt();
-                if (newScore != 100) newScore++;    // Add one to solve some rounding issues causing the wrong number of checkboxes to be checked
-              }
-              else {
-                newScore = ((i / numCheckpoints * 100) + 1).toInt();
-                if (i == 0) newScore = 0; 
-              }
+                    int newScore;
+                    if (value) {
+                      newScore = ((i + 1) / numCheckpoints * 100).toInt();
+                      if (newScore != 100) newScore++;    // Add one to solve some rounding issues causing the wrong number of checkboxes to be checked
+                    }
+                    else {
+                      newScore = ((i / numCheckpoints * 100) + 1).toInt();
+                      if (i == 0) newScore = 0; 
+                    }
 
-              //print("New score is $newScore");
-              this.widget.student.grades[this.widget.index] = newScore;
-              Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
-            });
-          },
+                    //print("New score is $newScore");
+                    this.widget.student.grades[this.widget.index] = newScore;
+                    Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
+                  });
+                },
+              ),
+            ),
+          ],
         );
       }
     });
 
-    //double containerWidth = MediaQuery.of(context).size.width*0.6;
-    double containerWidth = 200;   // TODO should probably change this to be dynamic
+    double containerWidth = MediaQuery.of(context).size.width*0.6;
+    //double containerWidth = 200;   // TODO should probably change this to be dynamic
+    final ScrollController _controller1 = ScrollController(initialScrollOffset: numCheckedBoxes < 7 ? 0 : numCheckedBoxes * 25 );
 
     return ListTile(
       title: Text('Week ${widget.index + 1}'),
@@ -82,8 +94,10 @@ class CheckpointsState extends State<Checkpoints> {
         // Code to make a row have a dynamic number of children came from here https://stackoverflow.com/questions/58989023/how-to-add-children-to-the-column-dynamically-in-flutter
         // Code to show scrollbar https://flutter-examples.com/show-scrollbar-indicator-in-scrollview-in-flutter/
         child: Scrollbar(
+          controller: _controller1,
           isAlwaysShown: true,
           child: SingleChildScrollView(
+            controller: _controller1,
             child: Row(
               children: checkBoxes
             ),

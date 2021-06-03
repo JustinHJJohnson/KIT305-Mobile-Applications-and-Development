@@ -11,6 +11,7 @@ import 'student.dart';
 
 class StudentDetails extends StatefulWidget {
   String id;
+  double gradeAverage;
 
   StudentDetails({Key key, this.id}) : super(key: key);
   
@@ -23,6 +24,7 @@ class _StudentDetailsState extends State<StudentDetails> {
   Widget build(BuildContext context) {
     
     var student = Provider.of<StudentModel>(context, listen:false).get(widget.id);
+    widget.gradeAverage = calculateGradeAverage(student);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +36,7 @@ class _StudentDetailsState extends State<StudentDetails> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             StudentDetailsForm(student: student, widget: widget),
-            Text('Grade average is ${calculateGradeAverage(student)}%'),
+            Text('Grade average is ${widget.gradeAverage}%'),
             StudentGradeList(student: student),
           ]
         )
