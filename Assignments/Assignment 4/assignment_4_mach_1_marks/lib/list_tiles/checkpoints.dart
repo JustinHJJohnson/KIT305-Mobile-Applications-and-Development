@@ -7,12 +7,14 @@ import '../student.dart';
 class Checkpoints extends StatefulWidget {
   final int index;
   final Student student;
+  final bool weekList;
   
   const Checkpoints({
     Key key,
     this.index,
-    this.student
-    }) : super(key: key);
+    this.student,
+    this.weekList = false
+  }) : super(key: key);
 
   @override
   State<Checkpoints> createState() => CheckpointsState();
@@ -85,8 +87,8 @@ class CheckpointsState extends State<Checkpoints> {
     final ScrollController _controller1 = ScrollController(initialScrollOffset: numCheckedBoxes < 7 ? 0 : numCheckedBoxes * 25 );
 
     return ListTile(
-      title: Text('Week ${widget.index + 1}'),
-      subtitle: Text('${widget.student.grades[widget.index]}'),
+      title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
       trailing: Container(
         width: containerWidth,
         alignment: Alignment.centerRight,

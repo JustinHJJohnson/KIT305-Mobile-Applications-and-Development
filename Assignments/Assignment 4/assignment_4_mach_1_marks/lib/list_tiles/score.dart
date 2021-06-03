@@ -7,12 +7,14 @@ import '../student.dart';
 class Score extends StatefulWidget {
   final int index;
   final Student student;
+  final bool weekList;
   
   const Score({
     Key key,
     this.index,
-    this.student
-    }) : super(key: key);
+    this.student,
+    this.weekList = false
+  }) : super(key: key);
 
   @override
   State<Score> createState() => ScoreState();
@@ -40,8 +42,8 @@ class ScoreState extends State<Score> {
     double containerWidth = 50;   // TODO should probably change this to be dynamic
 
     return ListTile(
-      title: Text('Week ${widget.index + 1}'),
-      subtitle: Text('${widget.student.grades[widget.index]}'),
+      title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
       trailing: Container(
         width: containerWidth,
         child: Row(

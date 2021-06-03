@@ -7,12 +7,14 @@ import '../student.dart';
 class GradeHDToNN extends StatefulWidget {
   final int index;
   final Student student;
+  final bool weekList;
   
   const GradeHDToNN({
     Key key,
     this.index,
-    this.student
-    }) : super(key: key);
+    this.student,
+    this.weekList = false
+  }) : super(key: key);
 
   @override
   State<GradeHDToNN> createState() => _GradeHDToNNState();
@@ -36,8 +38,8 @@ class _GradeHDToNNState extends State<GradeHDToNN> {
     });
 
     return ListTile(
-      title: Text('Week ${widget.index + 1}'),
-      subtitle: Text('${widget.student.grades[widget.index]}'),
+      title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
       trailing: DropdownButton<String>(
         value: currentValue,
         elevation: 16,

@@ -7,12 +7,14 @@ import '../student.dart';
 class Attendance extends StatefulWidget {
   final int index;
   final Student student;
+  final bool weekList;
   
   const Attendance({
     Key key,
     this.index,
-    this.student
-    }) : super(key: key);
+    this.student,
+    this.weekList = false
+  }) : super(key: key);
 
   @override
   State<Attendance> createState() => _AttendanceState();
@@ -30,8 +32,8 @@ class _AttendanceState extends State<Attendance> {
     //print("Grades for week ${widget.index + 1} is ${widget.student.grades}");
 
     return ListTile(
-      title: Text('Week ${widget.index + 1}'),
-      subtitle: Text('${widget.student.grades[widget.index]}'),
+      title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
       trailing: Container(
         width: containerWidth,
         child: Row(
@@ -39,7 +41,6 @@ class _AttendanceState extends State<Attendance> {
           children: [
             Text("Attendance", textAlign: TextAlign.right),
             Checkbox(
-              checkColor: Colors.white,
               value: isChecked,
               onChanged: (bool value) {
                 setState(() {

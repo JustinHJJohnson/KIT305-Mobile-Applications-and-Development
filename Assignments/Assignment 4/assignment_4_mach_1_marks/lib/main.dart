@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'add_student_dialog.dart';
+import 'week_details.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return ListTile(
                     title: Text("Week $week"),
                     onTap: () {
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) { return MovieDetails(id: index); }));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: week - 1); }));
                     },
                   );
                 },
