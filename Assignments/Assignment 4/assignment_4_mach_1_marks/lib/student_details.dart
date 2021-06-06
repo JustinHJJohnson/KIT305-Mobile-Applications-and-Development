@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'list_tiles/attendance.dart';
 import 'list_tiles/grade_A_to_F.dart';
@@ -29,6 +30,24 @@ class _StudentDetailsState extends State<StudentDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Student Details"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            tooltip: 'Share all students grades in csv format',
+            onPressed: () {
+              // This share code is from https://pub.dev/packages/share_plus
+              String shareString = "Firstname,Lastname,studentID\n";
+
+              for (var i = 0; i < student.grades.length; i++) {shareString += ",week${i}grade";}
+
+              shareString += "${student.firstName},${student.lastName},${student.studentID}";
+
+              for(int grade in student.grades){shareString += ",$grade";}
+
+              Share.share(shareString);
+            },
+          ),
+        ]
       ),
       body: Padding(
         padding: EdgeInsets.all(8),

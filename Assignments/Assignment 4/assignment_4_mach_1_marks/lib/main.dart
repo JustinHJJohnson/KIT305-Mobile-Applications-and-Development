@@ -71,6 +71,20 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+
+  // How to create a custom dialog came from here https://fluttercorner.com/how-to-create-popup-in-flutter-with-example/
+  Widget buildCustomDialog(BuildContext context, String title, List<Widget> children) {
+    return new AlertDialog(
+      title: Text(title),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),   // Rounded corners from https://stackoverflow.com/questions/58533442/flutter-how-to-make-my-dialog-box-scrollable
+      scrollable: true,
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -83,57 +97,67 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget tabController(BuildContext context, StudentModel studentModel, _) {
     return DefaultTabController(
-    length: 2,
-    child: Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        bottom: TabBar(   // Tab code from here https://flutter.dev/docs/cookbook/design/tabs
-          tabs: [
-            Tab(icon: Icon(Icons.calendar_today)),
-            Tab(icon: Icon(Icons.people_alt))
-          ],
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          bottom: TabBar(   // Tab code from here https://flutter.dev/docs/cookbook/design/tabs
+            tabs: [
+              Tab(icon: Icon(Icons.calendar_today)),
+              Tab(icon: Icon(Icons.people_alt))
+            ],
+          ),
         ),
+        body: TabBarView(
+            children: [
+              WeekList(),
+              StudentList(context: context, studentModel: studentModel)
+            ],
+          ),
       ),
-      body: TabBarView(
-          children: [
-            weekList(),
-            studentList(studentModel)
-          ],
-        ),
-    ),
-  );
-  }
-
-  Widget weekList() {
-    var weeks = [1,2,4,5,6,7,8,9,10,11,12];
-    
-    return Scaffold(
-      body: Center(
-        child: Column
-        (
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  var week = weeks[index];
-                  return ListTile(
-                    title: Text("Week $week"),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: week - 1); }));
-                    },
-                  );
-                },
-                itemCount: weeks.length,
-              )
-            ),
-          ]
-        )
-      )
     );
   }
 
-  Widget studentList(StudentModel studentModel) {
+
+  Widget loadImage(Student student) {
+    if (student.image == null)
+    {
+      return Icon(Icons.person);
+    }
+    FutureBuilder<String>( //complicated, because getDownloadUrl is async
+      future: FirebaseStorage.instance.ref('images/${student.image}').getDownloadURL(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData == false)
+        {
+          return CircularProgressIndicator();
+        }
+
+        var downloadURL = snapshot.data;
+        print(downloadURL);
+        return Image.network(
+          downloadURL,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return CircularProgressIndicator();
+          }
+        );
+      } 
+    );
+  }
+}
+
+class StudentList extends StatelessWidget {
+  const StudentList({
+    Key key,
+    @required this.context,
+    @required this.studentModel,
+  }) : super(key: key);
+
+  final BuildContext context;
+  final StudentModel studentModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
@@ -170,55 +194,50 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(
+          showAddStudentDialog(context);
+          /*showDialog(
               context: context,
-              builder: (BuildContext context) => _buildAddStudentDialog(context),
-            );
+              builder: (BuildContext context) => MyHomePage().buildCustomDialog(context, "Add Student", [AddStudentForm()]),
+          );*/
         },
         child: Icon(Icons.person_add),
       )
     );
   }
+}
 
-  // How to create a custom dialog came from here https://fluttercorner.com/how-to-create-popup-in-flutter-with-example/
-  Widget _buildAddStudentDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Add Student'),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),   // Rounded corners from https://stackoverflow.com/questions/58533442/flutter-how-to-make-my-dialog-box-scrollable
-      scrollable: true,
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          AddStudentForm(),
-        ],
-      ),
-    );
-  }
+class WeekList extends StatelessWidget {
+  const WeekList({
+    Key key,
+  }) : super(key: key);
 
-  Widget loadImage(Student student) {
-    if (student.image == null)
-    {
-      return Icon(Icons.person);
-    }
-    FutureBuilder<String>( //complicated, because getDownloadUrl is async
-      future: FirebaseStorage.instance.ref('images/${student.image}').getDownloadURL(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData == false)
-        {
-          return CircularProgressIndicator();
-        }
-
-        var downloadURL = snapshot.data;
-        print(downloadURL);
-        return Image.network(
-          downloadURL,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return CircularProgressIndicator();
-          }
-        );
-      } 
+  @override
+  Widget build(BuildContext context) {
+    var weeks = [1,2,3,4,5,6,7,8,9,10,11,12];
+    
+    return Scaffold(
+      body: Center(
+        child: Column
+        (
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  var week = weeks[index];
+                  return ListTile(
+                    title: Text("Week $week"),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: week - 1); }));
+                    },
+                  );
+                },
+                itemCount: weeks.length,
+              )
+            ),
+          ]
+        )
+      )
     );
   }
 }

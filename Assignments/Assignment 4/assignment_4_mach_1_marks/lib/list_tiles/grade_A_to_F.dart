@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../student.dart';
+import '../student_details.dart';
+import '../week_details.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class GradeAToF extends StatefulWidget {

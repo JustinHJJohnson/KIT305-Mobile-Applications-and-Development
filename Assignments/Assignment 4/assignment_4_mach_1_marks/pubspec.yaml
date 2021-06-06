@@ -24,12 +24,22 @@ dependencies:
   flutter:
     sdk: flutter
   provider: any
+  
+  #for load/save img add these
   firebase_core: 
   cloud_firestore:
   firebase_storage:
   firebase_analytics:
   firebase:
   http: any
+
+  #for camera add these
+  camera:
+  path_provider:
+  path:
+
+  #for sharing
+  share_plus:
 
 
   # The following adds the Cupertino Icons font to your application.

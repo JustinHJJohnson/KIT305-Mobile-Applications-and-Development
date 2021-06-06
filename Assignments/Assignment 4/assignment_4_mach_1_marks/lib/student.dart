@@ -59,9 +59,9 @@ class StudentModel extends ChangeNotifier {
     notifyListeners();
 
     if (id != item.studentID) await studentsCollection.doc(id).delete();
-    if (item.grades.length < 12) item.grades = List<int>.filled(12, 0);   // Temporary code to fix students made with old version only having 1 grade
+    //if (item.grades.length < 12) item.grades = List<int>.filled(12, 0);   // Temporary code to fix students made with old version only having 1 grade
 
-    await studentsCollection.doc(id).set(item.toJson());
+    await studentsCollection.doc(item.studentID).set(item.toJson());
 
     //refresh the db
     await fetch();
@@ -113,6 +113,7 @@ class StudentModel extends ChangeNotifier {
 
     //refresh the db
     await fetchWeekConfig();
+    print("finished updating week config");
   }
 
   Future<void> fetchWeekConfig() async {
@@ -123,11 +124,14 @@ class StudentModel extends ChangeNotifier {
     loading = true;
     notifyListeners();  // Tell children to redraw, and they will see that the loading indicator is on
 
+    print("\nStarted getting week config\n");
     // Get all movies
     var querySnapshot = await weekConfigCollection.get();
+    print("\nFinished getting week config\n");
 
     // Iterate over the movies and add them to the list
     weekConfigs = querySnapshot.data();
+    print("Week Confighs after fetch are $weekConfigs");
 
     //we're done, no longer loading
     loading = false;

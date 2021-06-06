@@ -1,3 +1,5 @@
+import 'package:assignment_4_mach_1_marks/student_details.dart';
+import 'package:assignment_4_mach_1_marks/week_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +15,7 @@ class Attendance extends StatefulWidget {
     Key key,
     this.index,
     this.student,
-    this.weekList = false
+    this.weekList = false,
   }) : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class _AttendanceState extends State<Attendance> {
                 setState(() {
                   isChecked = value;
                   widget.student.grades[widget.index] = value ? 100 : 0;
+                  
                   // This code used to make this SnackBar prettier is from https://www.geeksforgeeks.org/flutter-snackbar/
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center),
