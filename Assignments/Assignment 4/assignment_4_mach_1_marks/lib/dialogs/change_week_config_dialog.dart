@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'student.dart';
+import '../models/student.dart';
+import '../models/week_configs.dart';
 
 Future<void> showWeekConfigDialog(BuildContext context, int weekNum) async {
   return await showDialog(
     context: context,
     builder: (context) {
       final _formKey = GlobalKey<FormState>();
-      Map<String, dynamic> weekConfigs = Provider.of<StudentModel>(context, listen:false).weekConfigs;
+      Map<String, dynamic> weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
       String oldGradeType;
       String currentGradeType = weekConfigs["week$weekNum"];
       bool numInputVisible = currentGradeType == "checkBox" || currentGradeType == "score";
@@ -80,11 +81,11 @@ Future<void> showWeekConfigDialog(BuildContext context, int weekNum) async {
                   ElevatedButton.icon(onPressed: () {
                     if (_formKey.currentState.validate())
                     {
-                      if (currentGradeType == "score") weekConfigs["week${weekNum}MaxScore"] = currentMaxScore;
-                      else if (currentGradeType == "checkBox") weekConfigs["week${weekNum}CheckBoxNum"] = currentNumCheckpoints;
+                      if (currentGradeType == "score") weekConfigs["week${weekNum}MaxScore"] = int.parse(numInputController.text);
+                      else if (currentGradeType == "checkBox") weekConfigs["week${weekNum}CheckBoxNum"] = int.parse(numInputController.text);
                       weekConfigs["week$weekNum"] = currentGradeType;
 
-                      Provider.of<StudentModel>(context, listen:false).updateWeekConfig(weekConfigs); 
+                      Provider.of<WeekConfigModel>(context, listen: false).update(weekConfigs); 
                       Navigator.pop(context);
                     }
                   }, icon: Icon(Icons.save), label: Text("Update Grade Type"))

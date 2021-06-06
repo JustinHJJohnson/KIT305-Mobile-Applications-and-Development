@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'change_week_config_dialog.dart';
+import 'dialogs/change_week_config_dialog.dart';
 import 'list_tiles/attendance.dart';
 import 'list_tiles/grade_A_to_F.dart';
 import 'list_tiles/grade_HD_to_NN.dart';
 import 'list_tiles/score.dart';
 import 'list_tiles/checkpoints.dart';
-import 'student.dart';
+import 'models/student.dart';
+import 'models/week_configs.dart';
 
 class WeekDetails extends StatefulWidget {
   final int weekIndex;
@@ -20,9 +21,9 @@ class WeekDetails extends StatefulWidget {
   _WeekDetailsState createState() => _WeekDetailsState();
 
   String calculateGradeAverage(Student student, int weekIndex, BuildContext context) {
-    final weekConfigs = Provider.of<StudentModel>(context, listen:true).weekConfigs;
+    final weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
     print(weekConfigs);
-    var students =  Provider.of<StudentModel>(context, listen:true).items;
+    var students =  Provider.of<StudentModel>(context, listen:false).items;
     if (student != null) {
       var studentToUpdate = students.firstWhere((studentToUpdate) => studentToUpdate.studentID == student.studentID);
       studentToUpdate.grades = student.grades;
@@ -66,6 +67,7 @@ class _WeekDetailsState extends State<WeekDetails> {
   @override
   Widget build(BuildContext context) {
     var students = Provider.of<StudentModel>(context, listen:false).items;
+    //print(Provider.of<WeekConfigModel>(context, listen: false).weekConfigs);
     //widget.gradeAverage = calculateGradeAverage(students, widget.weekIndex);
 
     return Scaffold(
@@ -136,7 +138,7 @@ class WeekGradeList extends StatelessWidget {
 }
 
 Widget getGradeListTile(Student students, int index, BuildContext context) {
-  Map<String, dynamic> weekConfig = Provider.of<StudentModel>(context, listen:true).weekConfigs;
+  Map<String, dynamic> weekConfig = Provider.of<WeekConfigModel>(context, listen: true).weekConfigs;
   
   switch (weekConfig["week${index + 1}"]) {
     case "attendance": return Attendance(index: index, student: students, weekList: true);
@@ -144,6 +146,7 @@ Widget getGradeListTile(Student students, int index, BuildContext context) {
     case "gradeNN-HD": return GradeHDToNN(index: index, student: students, weekList: true);
     case "score": return Score(index: index, student: students, weekList: true);
     case "checkBox": return Checkpoints(index: index, student: students, weekList: true);
-    default: return Text("Grade type not found"); 
+    //default: return Text("Grade type not found");
+    default: return Center(child: CircularProgressIndicator()); 
   }
 }

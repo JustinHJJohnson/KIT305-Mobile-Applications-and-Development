@@ -31,18 +31,13 @@ class Student
 class StudentModel extends ChangeNotifier {
   /// Internal, private state of the list.
   final List<Student> items = [];
-  Map<String, dynamic> weekConfigs = {};
 
   CollectionReference studentsCollection = FirebaseFirestore.instance.collection("studentsNew");
-  DocumentReference weekConfigCollection = FirebaseFirestore.instance.collection("gradesConfig").doc("UK71QI0qFPiP2zcmsclx");
 
   bool loading = false;
 
   //Normally a model would get from a database here, we are just hardcoding some data for this week
-  StudentModel() {
-    fetch();
-    fetchWeekConfig();
-  }
+  StudentModel() {fetch();}
 
   void add(Student item) async {
     loading = true;
@@ -103,38 +98,5 @@ class StudentModel extends ChangeNotifier {
   Student get(String id) {
     if (id == null) return null;
     return items.firstWhere((student) => student.studentID == id);
-  }
-
-  void updateWeekConfig(Map<String, dynamic> item) async {
-    loading = true;
-    notifyListeners();
-
-    await weekConfigCollection.set(item);
-
-    //refresh the db
-    await fetchWeekConfig();
-    print("finished updating week config");
-  }
-
-  Future<void> fetchWeekConfig() async {
-    // Clear any existing data we have gotten previously, to avoid duplicate data
-    items.clear();
-
-    // Indicate that we are loading
-    loading = true;
-    notifyListeners();  // Tell children to redraw, and they will see that the loading indicator is on
-
-    print("\nStarted getting week config\n");
-    // Get all movies
-    var querySnapshot = await weekConfigCollection.get();
-    print("\nFinished getting week config\n");
-
-    // Iterate over the movies and add them to the list
-    weekConfigs = querySnapshot.data();
-    print("Week Confighs after fetch are $weekConfigs");
-
-    //we're done, no longer loading
-    loading = false;
-    notifyListeners();
   }
 }

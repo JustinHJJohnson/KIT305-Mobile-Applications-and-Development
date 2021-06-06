@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../student.dart';
+import '../models/student.dart';
+import '../models/week_configs.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class Score extends StatefulWidget {
@@ -29,7 +30,7 @@ class ScoreState extends State<Score> {
   @override
   Widget build(BuildContext context) {
     setState(() { 
-      weekConfigs = Provider.of<StudentModel>(context, listen:false).weekConfigs;
+      weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
       maxScore = weekConfigs["week${widget.index + 1}MaxScore"];
 
       final grade = widget.student.grades[widget.index];

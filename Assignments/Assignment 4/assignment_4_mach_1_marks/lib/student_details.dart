@@ -8,7 +8,8 @@ import 'list_tiles/grade_A_to_F.dart';
 import 'list_tiles/grade_HD_to_NN.dart';
 import 'list_tiles/score.dart';
 import 'list_tiles/checkpoints.dart';
-import 'student.dart';
+import 'models/student.dart';
+import 'models/week_configs.dart';
 
 class StudentDetails extends StatefulWidget {
   String id;
@@ -24,7 +25,7 @@ class _StudentDetailsState extends State<StudentDetails> {
   @override
   Widget build(BuildContext context) {
     
-    var student = Provider.of<StudentModel>(context, listen:false).get(widget.id);
+    var student = Provider.of<StudentModel>(context, listen:true).get(widget.id);
     widget.gradeAverage = calculateGradeAverage(student);
 
     return Scaffold(
@@ -86,7 +87,7 @@ class StudentGradeList extends StatelessWidget {
 }
 
 Widget getGradeListTile(Student student, int index, BuildContext context){
-  Map<String, dynamic> weekConfig = Provider.of<StudentModel>(context, listen:false).weekConfigs;
+  Map<String, dynamic> weekConfig = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
   
   switch (weekConfig["week${index + 1}"]) {
     case "attendance": return Attendance(index: index, student: student);
@@ -172,12 +173,18 @@ class StudentDetailsForm extends StatelessWidget {
                         student.firstName = firstNameController.text;
                         student.lastName = lastNameController.text;
                         student.studentID = studentIDController.text;
-                        print("Changing ${student.firstName} ${student.lastName} student ID from ${widget.id} to ${student.studentID}");
+                        //print("Changing ${student.firstName} ${student.lastName} student ID from ${widget.id} to ${student.studentID}");
                         Provider.of<StudentModel>(context, listen: false).update(widget.id, student);
                         widget.id = student.studentID;
-                        print("Widget ID is now ${widget.id}");
+                        //print("Widget ID is now ${widget.id}");
                         
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Valid student details"),));
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Successfully updated student details", textAlign: TextAlign.center),
+                          elevation: 10,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(10),
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ));
                       }
                     }, icon: Icon(Icons.save), label: Text("Update Student Details"),),
                   )

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../student.dart';
+import '../models/student.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class GradeHDToNN extends StatefulWidget {
