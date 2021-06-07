@@ -84,7 +84,6 @@ class CheckpointsState extends State<Checkpoints> {
     });
 
     double containerWidth = MediaQuery.of(context).size.width*0.6;
-    //double containerWidth = 200;   // TODO should probably change this to be dynamic
     final ScrollController _controller1 = ScrollController(initialScrollOffset: numCheckedBoxes < 7 ? 0 : numCheckedBoxes * 25 );
 
     return ListTile(

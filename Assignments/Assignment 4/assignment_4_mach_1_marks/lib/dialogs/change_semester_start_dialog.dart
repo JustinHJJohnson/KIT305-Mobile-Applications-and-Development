@@ -27,14 +27,17 @@ Widget changeSemesterStart(BuildContext context, DateTime intialValue) {
             dateController.text = date.toString().split(".")[0] + " +0000"; // Hacky way to convert DateTime format to the same format as iOS DateTime     
           },
         ),
-        ElevatedButton(
-          onPressed: () {
-            Map<String, dynamic> weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
-            weekConfigs["startDate"] = dateController.text;
-            Provider.of<WeekConfigModel>(context, listen: false).update(weekConfigs);
-            Navigator.pop(context);
-          },
-          child: Text("Update start date")
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Map<String, dynamic> weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
+              weekConfigs["startDate"] = dateController.text;
+              Provider.of<WeekConfigModel>(context, listen: false).update(weekConfigs);
+              Navigator.pop(context);
+            },
+            child: Text("Update start date")
+          ),
         )
       ],
     )

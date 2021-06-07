@@ -28,7 +28,7 @@ Future<void> showAddStudentDialog(BuildContext context) async {
             content: Form(
               key: _formKey,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

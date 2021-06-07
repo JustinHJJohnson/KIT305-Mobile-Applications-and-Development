@@ -48,6 +48,7 @@ class _StudentsWeeksListsState extends State<StudentsWeeksLists> {
   }
 
 
+  // ignore: missing_return
   Widget loadImage(Student student) {
     if (student.image == null) {return Icon(Icons.person);}
     FutureBuilder<String>( //complicated, because getDownloadUrl is async
@@ -92,10 +93,37 @@ class StudentList extends StatelessWidget {
                   var student = studentModel.items[index];
                   return Dismissible(
                     key: Key(student.studentID),
+                    // This code to confirm the delete of a student from here https://stackoverflow.com/questions/55777213/flutter-how-to-use-confirmdismiss-in-dismissible
+                    confirmDismiss: (DismissDirection direction) async {
+                      return await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Confirmation"),
+                            content: Text("Are you sure you want to delete ${student.firstName} ${student.lastName}?"),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () {Navigator.of(context).pop(true);},
+                                child: Text("Yes")
+                              ),
+                              ElevatedButton(
+                                onPressed: () {Navigator.of(context).pop(false);},
+                                child: Text("No")
+                              )
+                            ],
+                          );
+                        }
+                      );
+                    },
                     onDismissed: (DismissDirection direction) {
                       studentModel.delete(student.studentID);
-                      ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('${student.firstName} ${student.lastName} deleted')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("${student.firstName} ${student.lastName} removed from student list", textAlign: TextAlign.center),
+                        elevation: 10,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.all(10),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ));
                     },
                     direction: DismissDirection.endToStart,
                     background: Container(color: Colors.red),

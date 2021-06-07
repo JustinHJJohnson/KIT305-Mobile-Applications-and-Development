@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/student.dart';
 import '../models/week_configs.dart';
 
 Future<void> showWeekConfigDialog(BuildContext context, int weekNum) async {
@@ -31,41 +30,41 @@ Future<void> showWeekConfigDialog(BuildContext context, int weekNum) async {
           title: Text("Change Grade Type"),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),   // Rounded corners from https://stackoverflow.com/questions/58533442/flutter-how-to-make-my-dialog-box-scrollable
           scrollable: true,
-          content: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //Text("Current week config is ${weekConfigs["week$weekNum"]}"),
-                  DropdownButton<String> (
-                    value: currentGradeType,
-                    isDense: true,
-                    elevation: 16,
-                    underline: Container(
-                      height: 2,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        oldGradeType = currentGradeType;
-                        currentGradeType = newValue;
-                        numInputVisible = (currentGradeType == "score" || currentGradeType == "checkBox");
-
-                        if (oldGradeType == "score") weekConfigs.removeWhere((key, value) => key == "week${weekNum}MaxScore");
-                        else if (oldGradeType == "checkBox") weekConfigs.removeWhere((key, value) => key == "week${weekNum}CheckBoxNum");
-                      });
-                    },
-                    items: <String>["attendance", "gradeA-F", "gradeNN-HD", "score", "checkBox"]
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //Text("Current week config is ${weekConfigs["week$weekNum"]}"),
+                DropdownButton<String> (
+                  value: currentGradeType,
+                  isDense: true,
+                  elevation: 16,
+                  underline: Container(
+                    height: 2,
+                    color: Theme.of(context).primaryColor,
                   ),
-                  Visibility(
+                  onChanged: (String newValue) {
+                    setState(() {
+                      oldGradeType = currentGradeType;
+                      currentGradeType = newValue;
+                      numInputVisible = (currentGradeType == "score" || currentGradeType == "checkBox");
+
+                      if (oldGradeType == "score") weekConfigs.removeWhere((key, value) => key == "week${weekNum}MaxScore");
+                      else if (oldGradeType == "checkBox") weekConfigs.removeWhere((key, value) => key == "week${weekNum}CheckBoxNum");
+                    });
+                  },
+                  items: <String>["attendance", "gradeA-F", "gradeNN-HD", "score", "checkBox"]
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Visibility(
                     visible: numInputVisible,
                     child: TextFormField(
                       decoration: InputDecoration(hintText: currentGradeType == "score" ? "Maximum score" : "Number of checkpoints"),
@@ -78,7 +77,10 @@ Future<void> showWeekConfigDialog(BuildContext context, int weekNum) async {
                       },
                     ),
                   ),
-                  ElevatedButton.icon(onPressed: () {
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ElevatedButton.icon(onPressed: () {
                     if (_formKey.currentState.validate())
                     {
                       if (currentGradeType == "score") weekConfigs["week${weekNum}MaxScore"] = int.parse(numInputController.text);
@@ -88,10 +90,10 @@ Future<void> showWeekConfigDialog(BuildContext context, int weekNum) async {
                       Provider.of<WeekConfigModel>(context, listen: false).update(weekConfigs); 
                       Navigator.pop(context);
                     }
-                  }, icon: Icon(Icons.save), label: Text("Update Grade Type"))
-                ],
-              ),
-            )
+                  }, icon: Icon(Icons.save), label: Text("Update Grade Type")),
+                )
+              ],
+            ),
           ),
         );
       });

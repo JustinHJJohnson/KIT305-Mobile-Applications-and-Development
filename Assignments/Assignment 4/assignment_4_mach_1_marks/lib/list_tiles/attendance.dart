@@ -1,5 +1,3 @@
-import 'package:assignment_4_mach_1_marks/student_details.dart';
-import 'package:assignment_4_mach_1_marks/week_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

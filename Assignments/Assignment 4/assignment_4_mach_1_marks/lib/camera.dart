@@ -57,7 +57,7 @@ class UploadImage {
           .toString() + '.jpeg')
           .putString(base64, format: PutStringFormat.dataUrl);
     } on FirebaseException catch (e) {
-      // e.g, e.code == 'canceled'
+      print("Failed to upload Web Image, error: $e");
     }
   }
 }
@@ -159,7 +159,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   .ref(imageURL)
                   .putFile(picture);
             } on FirebaseException catch (e) {
-              // e.g, e.code == 'canceled'
+              print("Failed to upload image from camera, error: $e");
             }
 
             setState(() {
