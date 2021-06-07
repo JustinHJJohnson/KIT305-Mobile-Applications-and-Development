@@ -7,6 +7,7 @@ import 'dialogs/add_student_dialog.dart';
 import 'models/student.dart';
 import 'student_details.dart';
 import 'week_details.dart';
+import 'utility_functions.dart';
 
 class StudentsWeeksLists extends StatefulWidget {
   StudentsWeeksLists({Key key, this.title}) : super(key: key);
@@ -50,7 +51,7 @@ class _StudentsWeeksListsState extends State<StudentsWeeksLists> {
 
 
   // ignore: missing_return
-  Widget loadImage(Student student) {
+  Widget loadStudentImage(Student student) {
     if (student.image == null) {return Icon(Icons.person);}
     FutureBuilder<String>( //complicated, because getDownloadUrl is async
       future: FirebaseStorage.instance.ref('images/${student.image}').getDownloadURL(),
@@ -58,7 +59,6 @@ class _StudentsWeeksListsState extends State<StudentsWeeksLists> {
         if (snapshot.hasData == false) {return CircularProgressIndicator();}
 
         var downloadURL = snapshot.data;
-        print(downloadURL);
         return Image.network(
           downloadURL,
           loadingBuilder: (context, child, loadingProgress) {
@@ -129,20 +129,14 @@ class _StudentListState extends State<StudentList> {
                     },
                     onDismissed: (DismissDirection direction) {
                       widget.studentModel.delete(student.studentID);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("${student.firstName} ${student.lastName} removed from student list", textAlign: TextAlign.center),
-                        elevation: 10,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(10),
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ));
+                      showCustomSnackBar(context, "${student.firstName} ${student.lastName} removed from student list");
                     },
                     direction: DismissDirection.endToStart,
                     background: Container(color: Colors.red),
                     child: ListTile(
                       title: Text('${student.firstName} ${student.lastName}'),
                       subtitle: Text(student.studentID),
-                      //leading: loadImage(student),
+                      //leading: loadStudentImage(student),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) { return StudentDetails(id: student.studentID); }));
                       },
@@ -155,76 +149,65 @@ class _StudentListState extends State<StudentList> {
           ] 
         ),
       ),
-      // This awesome SpeedDial code came from here https://www.geeksforgeeks.org/fab-speed-dial-in-flutter/
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 28.0),
-        backgroundColor: Theme.of(context).primaryColor,
-        visible: true,
-        curve: Curves.bounceInOut,
-        children: [
-          SpeedDialChild(
-            child: Icon(Icons.person_add, color: Colors.white),
-            backgroundColor: Colors.green,
-            onTap: () => showAddStudentDialog(context),
-            label: 'Add Student',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.black,
-          ),
-          SpeedDialChild(
-            child: Icon(sortedAcendingFirstName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
-            backgroundColor: Colors.green,
-            onTap: () {
-              sortedAcendingFirstName ? students.sort((a, b) => b.firstName.compareTo(a.firstName)) : students.sort((a, b) => a.firstName.compareTo(b.firstName));
-              sortedAcendingFirstName = !sortedAcendingFirstName;
-              setState(() {});
-            },
-            label: 'Sort by First Name',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.black,
-          ),
-          SpeedDialChild(
-            child: Icon(sortedAcendingLastName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
-            backgroundColor: Colors.green,
-            onTap: () {
-              sortedAcendingLastName ? students.sort((a, b) => b.lastName.compareTo(a.lastName)) : students.sort((a, b) => a.lastName.compareTo(b.lastName));
-              sortedAcendingLastName = !sortedAcendingLastName;
-              setState(() {});
-            },
-            label: 'Sort by Last Name',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.black,
-          ),
-          SpeedDialChild(
-            child: Icon(sortedAcendingStudentID ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
-            backgroundColor: Colors.green,
-            onTap: (){
-              sortedAcendingStudentID ? students.sort((a, b) => b.studentID.compareTo(a.studentID)) : students.sort((a, b) => a.studentID.compareTo(b.studentID));
-              sortedAcendingStudentID = !sortedAcendingStudentID;
-              setState(() {});
-            },
-            label: 'Sort by Student ID',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.black,
-          ),
-        ],
-      ),
-      
-      
-      
-      /*FloatingActionButton(
-        onPressed: () {
-          //showAddStudentDialog(context);
-          // How to sort a list alphabetically from here https://stackoverflow.com/questions/49675055/sort-list-by-alphabetical-order
-          sortedAcending ? students.sort((a, b) => a.firstName.compareTo(b.firstName)) : students.sort((a, b) => b.firstName.compareTo(a.firstName));
-          sortedAcending = !sortedAcending;
-          setState(() {});
-        },
-        child: Icon(Icons.person_add),*/
+      floatingActionButton: showSpeedDial(context),
+    );
+  }
+
+  // This awesome SpeedDial code came from here https://www.geeksforgeeks.org/fab-speed-dial-in-flutter/
+  SpeedDial showSpeedDial(BuildContext context) {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 28.0),
+      backgroundColor: Theme.of(context).primaryColor,
+      visible: true,
+      curve: Curves.bounceInOut,
+      elevation: 11,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.person_add, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () => showAddStudentDialog(context),
+          label: 'Add Student',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+        SpeedDialChild(
+          child: Icon(sortedAcendingFirstName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () {
+            sortedAcendingFirstName ? students.sort((a, b) => b.firstName.compareTo(a.firstName)) : students.sort((a, b) => a.firstName.compareTo(b.firstName));
+            sortedAcendingFirstName = !sortedAcendingFirstName;
+            setState(() {});
+          },
+          label: 'Sort by First Name',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+        SpeedDialChild(
+          child: Icon(sortedAcendingLastName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () {
+            sortedAcendingLastName ? students.sort((a, b) => b.lastName.compareTo(a.lastName)) : students.sort((a, b) => a.lastName.compareTo(b.lastName));
+            sortedAcendingLastName = !sortedAcendingLastName;
+            setState(() {});
+          },
+          label: 'Sort by Last Name',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+        SpeedDialChild(
+          child: Icon(sortedAcendingStudentID ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: (){
+            sortedAcendingStudentID ? students.sort((a, b) => b.studentID.compareTo(a.studentID)) : students.sort((a, b) => a.studentID.compareTo(b.studentID));
+            sortedAcendingStudentID = !sortedAcendingStudentID;
+            setState(() {});
+          },
+          label: 'Sort by Student ID',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+      ],
     );
   }
 }

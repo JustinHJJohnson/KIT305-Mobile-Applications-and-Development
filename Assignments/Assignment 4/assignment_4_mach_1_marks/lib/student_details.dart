@@ -1,3 +1,4 @@
+import 'package:assignment_4_mach_1_marks/main.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -206,13 +207,7 @@ class StudentDetailsForm extends StatelessWidget {
                             widget.id = student.studentID;
                             //print("Widget ID is now ${widget.id}");
                             
-                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Successfully updated student details", textAlign: TextAlign.center),
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(10),
-                              backgroundColor: Theme.of(context).primaryColor,
-                            ));
+                            showCustomSnackBar(context, "Successfully updated student details");
                           }
                         }, icon: Icon(Icons.save), label: Text("Update Details"),),
                       )

@@ -130,7 +130,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: uploading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors. black),) :Icon(Icons.camera_alt),
+        child: uploading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),) :Icon(Icons.camera_alt),
         // Provide an onPressed callback.
         onPressed: () async {
           // Take the Picture in a try / catch block. If anything goes wrong,
@@ -147,9 +147,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final picture = File(image?.path);
 
             // given feedback to the user that the image is uploading
-            setState(() {
-              uploading = true;          
-            });
+            setState(() {uploading = true;});
 
             String imageURL = 'images/hello-world' + DateTime.now().millisecondsSinceEpoch.toString() + '.jpeg';
 
@@ -162,9 +160,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               print("Failed to upload image from camera, error: $e");
             }
 
-            setState(() {
-              uploading = false;          
-            });
+            setState(() {uploading = false;});
 
             Navigator.pop(context, imageURL);
             return;
@@ -174,23 +170,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           }
         },
       ),
-    );
-  }
-}
-
-// A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Display the Picture')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
     );
   }
 }

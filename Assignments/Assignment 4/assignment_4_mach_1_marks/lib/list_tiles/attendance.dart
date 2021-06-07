@@ -29,7 +29,6 @@ class _AttendanceState extends State<Attendance> {
     if (widget.student.grades[widget.index] == 100) setState(() { isChecked = true; });
     // This code to solving my sizing problems on the checkbox and label came from here https://stackoverflow.com/questions/51930754/flutter-wrapping-text
     double containerWidth = MediaQuery.of(context).size.width*0.6;
-    //print("Grades for week ${widget.index + 1} is ${widget.student.grades}");
 
     return ListTile(
       title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
@@ -48,13 +47,13 @@ class _AttendanceState extends State<Attendance> {
                   widget.student.grades[widget.index] = value ? 100 : 0;
                   
                   // This code used to make this SnackBar prettier is from https://www.geeksforgeeks.org/flutter-snackbar/
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  /*ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center),
                     elevation: 10,
                     behavior: SnackBarBehavior.floating,
                     margin: EdgeInsets.all(10),
                     backgroundColor: Theme.of(context).primaryColor,
-                  ));
+                  ));*/
                   Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
                 });
               },

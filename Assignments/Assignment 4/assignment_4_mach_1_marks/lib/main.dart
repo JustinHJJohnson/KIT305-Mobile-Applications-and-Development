@@ -97,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Duration temp = DateTime.now().difference(startDate);
     int currentWeek = temp.inDays ~/ 7;
+    if (currentWeek > 12) currentWeek = 12;
     
     return Scaffold(
       appBar: AppBar(
@@ -142,9 +143,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("The current week is week $currentWeek"),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: currentWeek - 1); }));
+                if (rawStartDate != null) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: currentWeek - 1); }));
+                }
               },
-              child: Text("Go to current week")
+              child: Text(rawStartDate != null ? "Go to current week" : "Loading...")
             ),
             ElevatedButton(
               onPressed: () {
@@ -186,4 +189,14 @@ class FullScreenText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Directionality(textDirection: TextDirection.ltr, child: Column(children: [ Expanded(child: Center(child: Text(text))) ]));
   }
+}
+
+void showCustomSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(message, textAlign: TextAlign.center),
+    elevation: 10,
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.all(10),
+    backgroundColor: Theme.of(context).primaryColor,
+  ));
 }
