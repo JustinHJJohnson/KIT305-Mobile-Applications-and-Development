@@ -23,8 +23,9 @@ Widget changeSemesterStart(BuildContext context, DateTime intialValue) {
               firstDate: DateTime.now().subtract(Duration(days: 365)),
               lastDate: DateTime.now(),
             );
-
-            dateController.text = date.toString().split(".")[0] + " +0000"; // Hacky way to convert DateTime format to the same format as iOS DateTime     
+            // Hacky way to convert DateTime format to the same format as iOS DateTime as the date format package I was going to use (intl)
+            // redefinded TextDirection which broke the fullscreen text code
+            dateController.text = date.toString().split(".")[0] + " +0000";    
           },
         ),
         Padding(

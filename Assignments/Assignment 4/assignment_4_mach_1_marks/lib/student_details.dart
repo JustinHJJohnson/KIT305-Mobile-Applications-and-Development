@@ -65,6 +65,32 @@ class _StudentDetailsState extends State<StudentDetails> {
   }
 }
 
+class RoundedElevatedContainer extends StatelessWidget {
+  const RoundedElevatedContainer({
+    Key key,
+    this.child
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 10,
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(6, 2, 6, 2),
+        // Give container rounded corners https://flutteragency.com/give-rounded-corner-to-container/
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(20))
+        ),
+        child: child,
+      ),
+    );
+  }
+}
+
 class StudentGradeList extends StatelessWidget {
   const StudentGradeList({
     Key key,
@@ -128,72 +154,76 @@ class StudentDetailsForm extends StatelessWidget {
     lastNameController.text = student.lastName;
     studentIDController.text = student.studentID;
 
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "First Name"),
-                    controller: firstNameController,
-                    validator: (String value) {
-                      if (value.isEmpty) return "Please enter a first name";
-                      else return null;
-                    },
+        Row(
+          children: [
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(hintText: "First Name"),
+                        controller: firstNameController,
+                        validator: (String value) {
+                          if (value.isEmpty) return "Please enter a first name";
+                          else return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(hintText: "Last Name"),
+                        controller: lastNameController,
+                        validator: (String value) {
+                          if (value.isEmpty) return "Please enter a last name";
+                          else return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(hintText: "Student ID"),
+                        controller: studentIDController,
+                        keyboardType: TextInputType.number,   // How to change keyboard type https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
+                        validator: (String value) {
+                          if (value.isEmpty) return "Please enter a student ID";
+                          else if (!value.contains(RegExp(r'^[0-9]{6}$'))) return "Please enter a 6 digit number";
+                          else if (student.studentID != value && students.where((otherStudent) => otherStudent.studentID == value).length != 0) return "That student ID is already taken";  // Check for object with certain property from here https://stackoverflow.com/questions/56884062/how-to-search-a-list-of-object-by-another-list-of-items-in-dart
+                          else return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: ElevatedButton.icon(onPressed: () {
+                          if (_formKey.currentState.validate())
+                          {
+                            student.firstName = firstNameController.text;
+                            student.lastName = lastNameController.text;
+                            student.studentID = studentIDController.text;
+                            //print("Changing ${student.firstName} ${student.lastName} student ID from ${widget.id} to ${student.studentID}");
+                            Provider.of<StudentModel>(context, listen: false).update(widget.id, student);
+                            widget.id = student.studentID;
+                            //print("Widget ID is now ${widget.id}");
+                            
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Successfully updated student details", textAlign: TextAlign.center),
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(10),
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ));
+                          }
+                        }, icon: Icon(Icons.save), label: Text("Update Details"),),
+                      )
+                    ],
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "Last Name"),
-                    controller: lastNameController,
-                    validator: (String value) {
-                      if (value.isEmpty) return "Please enter a last name";
-                      else return null;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "Student ID"),
-                    controller: studentIDController,
-                    keyboardType: TextInputType.number,   // How to change keyboard type https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
-                    validator: (String value) {
-                      if (value.isEmpty) return "Please enter a student ID";
-                      else if (!value.contains(RegExp(r'^[0-9]{6}$'))) return "Please enter a 6 digit number";
-                      else if (student.studentID != value && students.where((otherStudent) => otherStudent.studentID == value).length != 0) return "That student ID is already taken";  // Check for object with certain property from here https://stackoverflow.com/questions/56884062/how-to-search-a-list-of-object-by-another-list-of-items-in-dart
-                      else return null;
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: ElevatedButton.icon(onPressed: () {
-                      if (_formKey.currentState.validate())
-                      {
-                        student.firstName = firstNameController.text;
-                        student.lastName = lastNameController.text;
-                        student.studentID = studentIDController.text;
-                        //print("Changing ${student.firstName} ${student.lastName} student ID from ${widget.id} to ${student.studentID}");
-                        Provider.of<StudentModel>(context, listen: false).update(widget.id, student);
-                        widget.id = student.studentID;
-                        //print("Widget ID is now ${widget.id}");
-                        
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Successfully updated student details", textAlign: TextAlign.center),
-                          elevation: 10,
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.all(10),
-                          backgroundColor: Theme.of(context).primaryColor,
-                        ));
-                      }
-                    }, icon: Icon(Icons.save), label: Text("Update Student Details"),),
-                  )
-                ],
+                ),
               ),
             ),
-          ),
+            loadImage(student)
+          ],
         ),
-        loadImage(student)
       ],
     );
   }

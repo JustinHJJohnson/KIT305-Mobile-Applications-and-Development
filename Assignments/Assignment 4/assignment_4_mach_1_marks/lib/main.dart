@@ -49,9 +49,7 @@ class MyApp extends StatelessWidget
             //BEGIN: the old MyApp builder from last week
             return MaterialApp(
               title: 'Mach 1 Marks',
-              theme: ThemeData(
-                primarySwatch: Colors.green,
-              ),
+              theme: ThemeData(primarySwatch: Colors.green),
               home: MyHomePage(title: 'Mach 1 Marks')
             );
             //END: the old MyApp builder from last week

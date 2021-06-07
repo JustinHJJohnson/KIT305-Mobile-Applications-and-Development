@@ -33,15 +33,12 @@ class CheckpointsState extends State<Checkpoints> {
   Widget build(BuildContext context) {
     setState(() { 
       weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
-      numCheckpoints = weekConfigs["week${widget.index + 1}CheckBoxNum"];
-
+      final numCheckpoints = weekConfigs["week${widget.index + 1}CheckBoxNum"];
       final int grade = widget.student.grades[widget.index];
-      //final double numCheckedBoxes = (grade / 100) * numCheckpoints;
       numCheckedBoxes = (grade / 100) * numCheckpoints;
       final int numCheckedBoxesCast = numCheckedBoxes.toInt();
-      //print("number of checked boxes before cast is $numCheckedBoxes");
-      //print("number of checked boxes after cast is $numCheckedBoxesCast");
       isChecked = List<bool>.filled(numCheckpoints, false);
+
       checkBoxes = List<Column>.filled(numCheckpoints, null);
 
       for (var i = 0; i < numCheckpoints; i++) {
@@ -94,7 +91,7 @@ class CheckpointsState extends State<Checkpoints> {
         alignment: Alignment.centerRight,
         // Code to make a row scrollable came from here https://stackoverflow.com/questions/50762079/flutter-listview-scrollable-rowsingle
         // Code to make a row have a dynamic number of children came from here https://stackoverflow.com/questions/58989023/how-to-add-children-to-the-column-dynamically-in-flutter
-        // Code to show scrollbar https://flutter-examples.com/show-scrollbar-indicator-in-scrollview-in-flutter/
+        // Code to always show scrollbar https://flutter-examples.com/show-scrollbar-indicator-in-scrollview-in-flutter/
         child: Scrollbar(
           controller: _controller1,
           isAlwaysShown: true,
