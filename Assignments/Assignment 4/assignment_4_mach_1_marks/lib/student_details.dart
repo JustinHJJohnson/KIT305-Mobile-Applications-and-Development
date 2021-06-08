@@ -1,8 +1,7 @@
-import 'package:assignment_4_mach_1_marks/main.dart';
+import 'package:assignment_4_mach_1_marks/utility_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'list_tiles/attendance.dart';
 import 'list_tiles/grade_A_to_F.dart';
@@ -14,7 +13,6 @@ import 'models/week_configs.dart';
 
 class StudentDetails extends StatefulWidget {
   String id;
-  double gradeAverage;
 
   StudentDetails({Key key, this.id}) : super(key: key);
   
@@ -25,9 +23,7 @@ class StudentDetails extends StatefulWidget {
 class _StudentDetailsState extends State<StudentDetails> {
   @override
   Widget build(BuildContext context) {
-    
-    var student = Provider.of<StudentModel>(context, listen:true).get(widget.id);
-    widget.gradeAverage = calculateGradeAverage(student);
+    var student = Provider.of<StudentModel>(context, listen:false).get(widget.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,18 +32,7 @@ class _StudentDetailsState extends State<StudentDetails> {
           IconButton(
             icon: const Icon(Icons.share),
             tooltip: 'Share all students grades in csv format',
-            onPressed: () {
-              // This share code is from https://pub.dev/packages/share_plus
-              String shareString = "Firstname,Lastname,studentID\n";
-
-              for (var i = 0; i < student.grades.length; i++) {shareString += ",week${i}grade";}
-
-              shareString += "${student.firstName},${student.lastName},${student.studentID}";
-
-              for(int grade in student.grades){shareString += ",$grade";}
-
-              Share.share(shareString);
-            },
+            onPressed: () {shareStudentsGrades(student);},
           ),
         ]
       ),
@@ -57,80 +42,12 @@ class _StudentDetailsState extends State<StudentDetails> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             StudentDetailsForm(student: student, widget: widget),
-            Text('Grade average is ${widget.gradeAverage}%'),
             StudentGradeList(student: student),
           ]
         )
       ),
     );
   }
-}
-
-class RoundedElevatedContainer extends StatelessWidget {
-  const RoundedElevatedContainer({
-    Key key,
-    this.child
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 10,
-      borderRadius: BorderRadius.all(Radius.circular(20)),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(6, 2, 6, 2),
-        // Give container rounded corners https://flutteragency.com/give-rounded-corner-to-container/
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.all(Radius.circular(20))
-        ),
-        child: child,
-      ),
-    );
-  }
-}
-
-class StudentGradeList extends StatelessWidget {
-  const StudentGradeList({
-    Key key,
-    @required this.student,
-  }) : super(key: key);
-
-  final Student student;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemBuilder: (_, index) {
-          return getGradeListTile(student, index, context);
-        },
-        itemCount: student.grades.length,
-      ),
-    );
-  }
-}
-
-Widget getGradeListTile(Student student, int index, BuildContext context){
-  Map<String, dynamic> weekConfig = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
-  
-  switch (weekConfig["week${index + 1}"]) {
-    case "attendance": return Attendance(index: index, student: student);
-    case "gradeA-F": return GradeAToF(index: index, student: student);
-    case "gradeNN-HD": return GradeHDToNN(index: index, student: student);
-    case "score": return Score(index: index, student: student);
-    case "checkBox": return Checkpoints(index: index, student: student);
-    default: return Text("Grade type not found"); 
-  }
-}
-
-double calculateGradeAverage(Student student) {
-  var gradeSum = 0;
-  for (var grade in student.grades) gradeSum += grade;
-  var gradeAverage = gradeSum / student.grades.length;
-  return num.parse(gradeAverage.toStringAsFixed(2));    // This line of code to round a double to a given number of decimal places came from https://stackoverflow.com/questions/28419255/how-do-you-round-a-double-in-dart-to-a-given-degree-of-precision-after-the-decim
 }
 
 class StudentDetailsForm extends StatelessWidget {
@@ -202,10 +119,9 @@ class StudentDetailsForm extends StatelessWidget {
                             student.firstName = firstNameController.text;
                             student.lastName = lastNameController.text;
                             student.studentID = studentIDController.text;
-                            //print("Changing ${student.firstName} ${student.lastName} student ID from ${widget.id} to ${student.studentID}");
+                            //var oldStudentID = widget.id;
                             Provider.of<StudentModel>(context, listen: false).update(widget.id, student);
                             widget.id = student.studentID;
-                            //print("Widget ID is now ${widget.id}");
                             
                             showCustomSnackBar(context, "Successfully updated student details");
                           }
@@ -224,10 +140,70 @@ class StudentDetailsForm extends StatelessWidget {
   }
 }
 
+class StudentGradeList extends StatefulWidget {
+  StudentGradeList({
+    Key key,
+    @required this.student,
+  }) : super(key: key);
+
+  final Student student;
+  double gradeAverage;
+
+  @override
+  _StudentGradeListState createState() => _StudentGradeListState();
+}
+
+class _StudentGradeListState extends State<StudentGradeList> {
+  // code to pass a callback to child widgets to allow them to update this widgets state came from https://medium.com/flutter-community/flutter-communication-between-widgets-f5590230df1e
+  _updateGradeAverage(Student student) {
+    setState(() {widget.gradeAverage = calculateGradeAverage(student);});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    widget.gradeAverage = calculateGradeAverage(widget.student);
+
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Grade average is ${widget.gradeAverage}%'),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (_, index) {
+                return getGradeListTile(widget.student, index, context, _updateGradeAverage);
+              },
+              itemCount: widget.student.grades.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget getGradeListTile(Student student, int index, BuildContext context, Function(Student student) updateGradeAverage) {
+  Map<String, dynamic> weekConfig = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
+  
+  switch (weekConfig["week${index + 1}"]) {
+    case "attendance": return Attendance(index: index, student: student, updateGradeAverage: updateGradeAverage);
+    case "gradeA-F": return GradeAToF(index: index, student: student, updateGradeAverage: updateGradeAverage);
+    case "gradeNN-HD": return GradeHDToNN(index: index, student: student, updateGradeAverage: updateGradeAverage);
+    case "score": return Score(index: index, student: student, updateGradeAverage: updateGradeAverage);
+    case "checkBox": return Checkpoints(index: index, student: student, updateGradeAverage: updateGradeAverage);
+    default: return Text("Grade type not found"); 
+  }
+}
+
+double calculateGradeAverage(Student student) {
+  var gradeSum = 0;
+  for (var grade in student.grades) gradeSum += grade;
+  var gradeAverage = gradeSum / student.grades.length;
+  return num.parse(gradeAverage.toStringAsFixed(2));    // This line of code to round a double to a given number of decimal places came from https://stackoverflow.com/questions/28419255/how-do-you-round-a-double-in-dart-to-a-given-degree-of-precision-after-the-decim
+}
+
 // Used this answer to modify the provided firebase code https://stackoverflow.com/questions/53299919/how-to-display-image-from-firebase-storage-into-widget
 Widget loadImage(Student student) {
-  print("student image: ${student.image}");
-  
   if (student.image == "") {
     return SizedBox(
       width: 120,
@@ -245,10 +221,8 @@ Widget loadImage(Student student) {
           if (snapshot.hasData == false) return Center(child: CircularProgressIndicator());
 
           var downloadURL = snapshot.data;
-          print(downloadURL);
           return Image.network(
             downloadURL,
-            //fit: BoxFit.fill,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
               return Center(child: CircularProgressIndicator());

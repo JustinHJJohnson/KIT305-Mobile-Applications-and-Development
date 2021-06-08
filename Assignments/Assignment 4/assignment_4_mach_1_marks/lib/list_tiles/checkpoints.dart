@@ -9,12 +9,14 @@ class Checkpoints extends StatefulWidget {
   final int index;
   final Student student;
   final bool weekList;
+  final void Function(Student student) updateGradeAverage;
   
   const Checkpoints({
     Key key,
     this.index,
     this.student,
-    this.weekList = false
+    this.weekList = false,
+    this.updateGradeAverage
   }) : super(key: key);
 
   @override
@@ -58,18 +60,19 @@ class CheckpointsState extends State<Checkpoints> {
                     //print("Value for checkbox ${i + 1} is $value");
                     isChecked[i] = value;
 
-                    int newScore;
+                    int newGrade;
                     if (value) {
-                      newScore = ((i + 1) / numCheckpoints * 100).toInt();
-                      if (newScore != 100) newScore++;    // Add one to solve some rounding issues causing the wrong number of checkboxes to be checked
+                      newGrade = ((i + 1) / numCheckpoints * 100).toInt();
+                      if (newGrade != 100) newGrade++;    // Add one to solve some rounding issues causing the wrong number of checkboxes to be checked
                     }
                     else {
-                      newScore = ((i / numCheckpoints * 100) + 1).toInt();
-                      if (i == 0) newScore = 0; 
+                      newGrade = ((i / numCheckpoints * 100) + 1).toInt();
+                      if (i == 0) newGrade = 0; 
                     }
 
-                    //print("New score is $newScore");
-                    this.widget.student.grades[this.widget.index] = newScore;
+                    //print("New score is $newGrade");
+                    widget.student.grades[this.widget.index] = newGrade;
+                    widget.updateGradeAverage(widget.student);
                     Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
                   });
                 },
@@ -85,7 +88,7 @@ class CheckpointsState extends State<Checkpoints> {
 
     return ListTile(
       title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
-      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : null,//Text('${widget.student.grades[widget.index]}'),
       trailing: Container(
         width: containerWidth,
         alignment: Alignment.centerRight,

@@ -13,8 +13,8 @@ class WeekConfigModel extends ChangeNotifier {
   WeekConfigModel() {fetch();}
 
   void update(Map<String, dynamic> item) async {
-    loading = true;
-    notifyListeners();
+    //loading = true;
+    //notifyListeners();
 
     await weekConfigCollection.set(item);
 
@@ -24,20 +24,20 @@ class WeekConfigModel extends ChangeNotifier {
 
   Future<void> fetch() async {
     // Clear any existing data we have gotten previously, to avoid duplicate data
-    weekConfigs.clear();
+    //weekConfigs.clear();
 
     // Indicate that we are loading
     loading = true;
     notifyListeners();  // Tell children to redraw, and they will see that the loading indicator is on
 
-    print("\nStarted getting week config\n");
+    //print("\nStarted getting week config\n");
     // Get all movies
     var querySnapshot = await weekConfigCollection.get();
-    print("\nFinished getting week config\n");
+    //print("\nFinished getting week config\n");
 
     // Iterate over the movies and add them to the list
     weekConfigs.addAll(querySnapshot.data());
-    print("Week Configs after fetch are $weekConfigs");
+    //print("Week Configs after fetch are $weekConfigs");
 
     //we're done, no longer loading
     loading = false;

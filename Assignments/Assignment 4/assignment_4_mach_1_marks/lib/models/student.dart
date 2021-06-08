@@ -97,6 +97,6 @@ class StudentModel extends ChangeNotifier {
 
   Student get(String id) {
     if (id == null) return null;
-    return items.firstWhere((student) => student.studentID == id);
+    return items.firstWhere((student) => student.studentID == id, orElse: () => null);
   }
 }

@@ -1,9 +1,8 @@
 import 'package:assignment_4_mach_1_marks/models/student.dart';
+import 'package:assignment_4_mach_1_marks/utility_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
-//import 'package:intl/intl.dart';
 
 import 'dialogs/change_semester_start_dialog.dart';
 import 'students_weeks_lists.dart';
@@ -106,20 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.share),
             tooltip: 'Share all students grades in csv format',
-            onPressed: () {
-              // This share code is from https://pub.dev/packages/share_plus
-              String shareString = "Firstname,Lastname,studentID\n";
-
-              for (var i = 0; i < students[0].grades.length; i++) {shareString += ",week${i}grade";}
-
-              for (var student in students) {
-                shareString += "\n${student.firstName},${student.lastName},${student.studentID}";
-
-                for(int grade in student.grades) {shareString += ",$grade";}
-              }
-
-              Share.share(shareString);
-            },
+            onPressed: () {shareAllStudents(students);},
           ),
           IconButton(
             icon: const Icon(Icons.settings),
@@ -128,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
               showDialog(
                 builder: (BuildContext context) {
                   return buildCustomDialog(context, "Change Semester Start", [changeSemesterStart(context, startDate)]);
-                  },
-                  context: context
+                },
+                context: context
               );
             }
           ),
@@ -160,43 +146,4 @@ class _MyHomePageState extends State<MyHomePage> {
       )
     );
   }
-}
-
-// How to create a custom dialog came from here https://fluttercorner.com/how-to-create-popup-in-flutter-with-example/
-Widget buildCustomDialog(BuildContext context, String title, List<Widget> children) {
-  return new AlertDialog(
-    title: Text(title),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),   // Rounded corners from https://stackoverflow.com/questions/58533442/flutter-how-to-make-my-dialog-box-scrollable
-    scrollable: true,
-    content: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
-      ),
-    ),
-  );
-}
-
-//A little helper widget to avoid runtime errors -- we can't just display a Text() by itself if not inside a MaterialApp, so this workaround does the job
-class FullScreenText extends StatelessWidget {
-  final String text;
-
-  const FullScreenText({Key key, this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(textDirection: TextDirection.ltr, child: Column(children: [ Expanded(child: Center(child: Text(text))) ]));
-  }
-}
-
-void showCustomSnackBar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(message, textAlign: TextAlign.center),
-    elevation: 10,
-    behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.all(10),
-    backgroundColor: Theme.of(context).primaryColor,
-  ));
 }

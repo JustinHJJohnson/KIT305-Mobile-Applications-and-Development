@@ -1,6 +1,6 @@
+import 'package:assignment_4_mach_1_marks/utility_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'dialogs/change_week_config_dialog.dart';
 import 'list_tiles/attendance.dart';
@@ -13,16 +13,99 @@ import 'models/week_configs.dart';
 
 class WeekDetails extends StatefulWidget {
   final int weekIndex;
-  String gradeAverage;
 
-  WeekDetails({Key key, this.weekIndex}) : super(key: key);
+  const WeekDetails({Key key, this.weekIndex}) : super(key: key);
   
   @override
   _WeekDetailsState createState() => _WeekDetailsState();
+}
 
-  String calculateGradeAverage(Student student, int weekIndex, BuildContext context) {
+class _WeekDetailsState extends State<WeekDetails> {
+  @override
+  Widget build(BuildContext context) {
+    var students = Provider.of<StudentModel>(context, listen:false).items;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Week ${widget.weekIndex + 1} Details"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            tooltip: 'Share all students grades in csv format',
+            onPressed: () {shareWeekGrades(students, widget.weekIndex);},
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Change the type of grading scheme for this week',
+            onPressed: () {showWeekConfigDialog(context, widget.weekIndex + 1);}
+          ),
+        ]
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(8),
+        child: WeekGradeList(students: students, widget: widget, weekIndex: widget.weekIndex)
+      ),
+    );
+  }
+}
+
+class WeekGradeList extends StatefulWidget {
+  WeekGradeList({
+    Key key,
+    @required this.students,
+    @required this.widget,
+    @required this.weekIndex
+  }) : super(key: key);
+
+  final List<Student> students;
+  final WeekDetails widget;
+  final int weekIndex;
+  String gradeAverage;
+
+  @override
+  _WeekGradeListState createState() => _WeekGradeListState();
+}
+
+class _WeekGradeListState extends State<WeekGradeList> {
+  _updateGradeAverage(Student student) {
+    setState(() {widget.gradeAverage = calculateGradeAverage(student, widget.weekIndex, context);});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    widget.gradeAverage = calculateGradeAverage(null, widget.weekIndex, context);
+
+    return Column(
+      children: [
+        Text(widget.gradeAverage),
+        Expanded(
+          child: ListView.builder(
+            itemBuilder: (_, index) {
+              return getGradeListTile(widget.students[index], widget.widget.weekIndex, context, _updateGradeAverage);
+            },
+            itemCount: widget.students.length,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget getGradeListTile(Student students, int index, BuildContext context, Function(Student student) updateGradeAverage) {
+  Map<String, dynamic> weekConfig = Provider.of<WeekConfigModel>(context, listen: true).weekConfigs;
+  
+  switch (weekConfig["week${index + 1}"]) {
+    case "attendance": return Attendance(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
+    case "gradeA-F": return GradeAToF(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
+    case "gradeNN-HD": return GradeHDToNN(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
+    case "score": return Score(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
+    case "checkBox": return Checkpoints(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
+    default: return Text("Grade type not found");
+  }
+}
+
+String calculateGradeAverage(Student student, int weekIndex, BuildContext context) {
     final weekConfigs = Provider.of<WeekConfigModel>(context, listen: false).weekConfigs;
-    print(weekConfigs);
     var students =  Provider.of<StudentModel>(context, listen:false).items;
     if (student != null) {
       var studentToUpdate = students.firstWhere((studentToUpdate) => studentToUpdate.studentID == student.studentID);
@@ -61,92 +144,3 @@ class WeekDetails extends StatefulWidget {
       default: return "Could not find appropriate average"; 
     }
   }
-}
-
-class _WeekDetailsState extends State<WeekDetails> {
-  @override
-  Widget build(BuildContext context) {
-    var students = Provider.of<StudentModel>(context, listen:false).items;
-    //print(Provider.of<WeekConfigModel>(context, listen: false).weekConfigs);
-    //widget.gradeAverage = calculateGradeAverage(students, widget.weekIndex);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Week ${widget.weekIndex + 1} Details"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            tooltip: 'Share all students grades in csv format',
-            onPressed: () {
-              // This share code is from https://pub.dev/packages/share_plus
-              String shareString = "Firstname,Lastname,studentID,week${widget.weekIndex + 1}grade";
-
-              for (Student student in students) {
-                shareString += "\n${student.firstName},${student.lastName},${student.studentID},${student.grades[widget.weekIndex]}";
-              }
-
-              Share.share(shareString);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Change the type of grading scheme for this week',
-            onPressed: () {showWeekConfigDialog(context, widget.weekIndex + 1);}
-          ),
-        ]
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            //Text('Grade average is ${widget.gradeAverage}%'),
-            //Text(widget.calculateGradeAverage(null, widget.weekIndex, context)),
-            WeekGradeList(students: students, widget: widget),
-          ]
-        )
-      ),
-      /*floatingActionButton: SpeedDial(
-        icon: Icons.menu,
-
-      ),*/
-    );
-  }
-}
-
-class WeekGradeList extends StatelessWidget {
-  const WeekGradeList({
-    Key key,
-    @required this.students,
-    @required this.widget
-  }) : super(key: key);
-
-  final List<Student> students;
-  final WeekDetails widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemBuilder: (_, index) {
-          return getGradeListTile(students[index], widget.weekIndex, context);
-        },
-        itemCount: students.length,
-      ),
-    );
-  }
-}
-
-Widget getGradeListTile(Student students, int index, BuildContext context) {
-  Map<String, dynamic> weekConfig = Provider.of<WeekConfigModel>(context, listen: true).weekConfigs;
-  
-  switch (weekConfig["week${index + 1}"]) {
-    case "attendance": return Attendance(index: index, student: students, weekList: true);
-    case "gradeA-F": return GradeAToF(index: index, student: students, weekList: true);
-    case "gradeNN-HD": return GradeHDToNN(index: index, student: students, weekList: true);
-    case "score": return Score(index: index, student: students, weekList: true);
-    case "checkBox": return Checkpoints(index: index, student: students, weekList: true);
-    //default: return Text("Grade type not found");
-    default: return Center(child: CircularProgressIndicator()); 
-  }
-}

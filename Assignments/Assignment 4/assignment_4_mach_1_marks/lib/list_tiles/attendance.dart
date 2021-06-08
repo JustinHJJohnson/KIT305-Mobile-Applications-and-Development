@@ -8,12 +8,14 @@ class Attendance extends StatefulWidget {
   final int index;
   final Student student;
   final bool weekList;
+  final void Function(Student student) updateGradeAverage;
   
   const Attendance({
     Key key,
     this.index,
     this.student,
     this.weekList = false,
+    this.updateGradeAverage
   }) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class _AttendanceState extends State<Attendance> {
 
     return ListTile(
       title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
-      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : null,
       trailing: Container(
         width: containerWidth,
         child: Row(
@@ -45,18 +47,12 @@ class _AttendanceState extends State<Attendance> {
                 setState(() {
                   isChecked = value;
                   widget.student.grades[widget.index] = value ? 100 : 0;
-                  
-                  // This code used to make this SnackBar prettier is from https://www.geeksforgeeks.org/flutter-snackbar/
-                  /*ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Button in week ${widget.index + 1} is now $value", textAlign: TextAlign.center),
-                    elevation: 10,
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.all(10),
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ));*/
+                  widget.updateGradeAverage(widget.student);
+
                   Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
+                  //showCustomSnackBar(context, "updated week ${widget.index + 1} from ${value ? "not attended" : "attended"} to ${value ? "attended" : "not attended"}");
                 });
-              },
+              }
             )
           ],
         ),

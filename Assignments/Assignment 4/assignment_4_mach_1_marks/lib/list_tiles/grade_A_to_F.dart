@@ -8,12 +8,14 @@ class GradeAToF extends StatefulWidget {
   final int index;
   final Student student;
   final bool weekList;
+  final void Function(Student student) updateGradeAverage;
   
   const GradeAToF({
     Key key,
     this.index,
     this.student,
-    this.weekList = false
+    this.weekList = false,
+    this.updateGradeAverage
   }) : super(key: key);
 
   @override
@@ -38,7 +40,7 @@ class _GradeAToFState extends State<GradeAToF> {
     
     return ListTile(
       title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
-      subtitle: widget.weekList ? Text("${widget.student.studentID}") : Text('${widget.student.grades[widget.index]}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : null,//Text('${widget.student.grades[widget.index]}'),
       trailing: DropdownButton<String>(
         value: currentValue,
         isDense: true,
@@ -69,6 +71,8 @@ class _GradeAToFState extends State<GradeAToF> {
                 widget.student.grades[widget.index] = 50;
                 break;
             }
+            
+            widget.updateGradeAverage(widget.student);
 
             Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
           });
