@@ -48,7 +48,6 @@ class CheckpointsState extends State<Checkpoints> {
 
         checkBoxes[i] = Column(
           children: [
-            Text("${i + 1}"),
             SizedBox(   // Code to remove padding on checkbox from here https://stackoverflow.com/questions/53152386/flutter-how-to-remove-default-padding-48-px-as-per-doc-from-widgets-iconbut/59420505#59420505
               height: 30,
               width: 30,
@@ -57,7 +56,6 @@ class CheckpointsState extends State<Checkpoints> {
                 visualDensity: VisualDensity.compact,
                 onChanged: (bool value) {
                   setState(() {
-                    //print("Value for checkbox ${i + 1} is $value");
                     isChecked[i] = value;
 
                     int newGrade;
@@ -70,7 +68,6 @@ class CheckpointsState extends State<Checkpoints> {
                       if (i == 0) newGrade = 0; 
                     }
 
-                    //print("New score is $newGrade");
                     widget.student.grades[this.widget.index] = newGrade;
                     widget.updateGradeAverage(widget.student);
                     Provider.of<StudentModel>(context, listen:false).update(widget.student.studentID, widget.student);
@@ -78,6 +75,7 @@ class CheckpointsState extends State<Checkpoints> {
                 },
               ),
             ),
+            Text("${i + 1}"),
           ],
         );
       }
@@ -88,7 +86,7 @@ class CheckpointsState extends State<Checkpoints> {
 
     return ListTile(
       title: widget.weekList ? Text("${widget.student.firstName} ${widget.student.lastName}") : Text('Week ${widget.index + 1}'),
-      subtitle: widget.weekList ? Text("${widget.student.studentID}") : null,//Text('${widget.student.grades[widget.index]}'),
+      subtitle: widget.weekList ? Text("${widget.student.studentID}") : null,
       trailing: Container(
         width: containerWidth,
         alignment: Alignment.centerRight,

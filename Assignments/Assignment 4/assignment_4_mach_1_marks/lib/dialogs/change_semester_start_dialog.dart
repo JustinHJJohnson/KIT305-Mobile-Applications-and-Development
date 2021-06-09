@@ -26,14 +26,16 @@ Widget changeSemesterStart(BuildContext context, DateTime intialValue) {
             );
             // Hacky way to convert DateTime format to the same format as iOS DateTime as the date format package I was going to use (intl)
             // redefinded TextDirection which broke the fullscreen text code
-            dateController.text = date.toString().split(".")[0] + " +0000";    
+            if (date == null) dateController.text = "";
+            else dateController.text = date.toString().split(".")[0] + " +0000";
           },
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
             onPressed: () {
-              if (dateController.text == "") {
+              //2021-03-13 00:00:00 +0000
+              if (dateController.text == "" || dateController.text == "null +0000") {
                 showCustomSnackBar(context, "Please enter a new start date");
               }
               else {

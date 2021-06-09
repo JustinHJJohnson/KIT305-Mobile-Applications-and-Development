@@ -34,7 +34,8 @@ class _StudentDetailsState extends State<StudentDetails> {
             tooltip: 'Share all students grades in csv format',
             onPressed: () {shareStudentsGrades(student);},
           ),
-        ]
+        ],
+        elevation: 0,
       ),
       body: Padding(
         padding: EdgeInsets.all(8),
