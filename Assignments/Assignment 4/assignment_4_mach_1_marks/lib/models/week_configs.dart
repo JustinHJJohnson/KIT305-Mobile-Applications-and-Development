@@ -24,7 +24,7 @@ class WeekConfigModel extends ChangeNotifier {
 
   Future<void> fetch() async {
     // Clear any existing data we have gotten previously, to avoid duplicate data
-    //weekConfigs.clear();
+    weekConfigs.clear();
 
     // Indicate that we are loading
     loading = true;

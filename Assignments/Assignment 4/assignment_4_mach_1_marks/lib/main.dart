@@ -128,11 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Text("The current week is week $currentWeek"),
             ElevatedButton(
-              onPressed: () {
-                if (rawStartDate != null) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: currentWeek - 1); }));
-                }
-              },
+              onPressed: rawStartDate != null ? () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) { return WeekDetails(weekIndex: currentWeek - 1); }));
+              } : null,
               child: Text(rawStartDate != null ? "Go to current week" : "Loading...")
             ),
             ElevatedButton(

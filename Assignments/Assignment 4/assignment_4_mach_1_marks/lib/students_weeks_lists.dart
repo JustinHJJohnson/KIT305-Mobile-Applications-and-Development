@@ -87,9 +87,9 @@ class StudentList extends StatefulWidget {
 
 class _StudentListState extends State<StudentList> {
   List<Student> students;
-  bool sortedAcendingFirstName = false;
-  bool sortedAcendingLastName = false;
-  bool sortedAcendingStudentID = true;
+  bool sortedAscendingFirstName = false;
+  bool sortedAscendingLastName = false;
+  bool sortedAscendingStudentID = true;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,8 @@ class _StudentListState extends State<StudentList> {
                             actions: [
                               ElevatedButton(
                                 onPressed: () {Navigator.of(context).pop(true);},
-                                child: Text("Yes")
+                                child: Text("Yes"),
+                                style: ElevatedButton.styleFrom(primary: Colors.red),
                               ),
                               ElevatedButton(
                                 onPressed: () {Navigator.of(context).pop(false);},
@@ -172,11 +173,11 @@ class _StudentListState extends State<StudentList> {
           labelBackgroundColor: Colors.black,
         ),
         SpeedDialChild(
-          child: Icon(sortedAcendingFirstName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
+          child: Icon(sortedAscendingFirstName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: () {
-            sortedAcendingFirstName ? students.sort((a, b) => b.firstName.compareTo(a.firstName)) : students.sort((a, b) => a.firstName.compareTo(b.firstName));
-            sortedAcendingFirstName = !sortedAcendingFirstName;
+            sortedAscendingFirstName ? students.sort((a, b) => b.firstName.compareTo(a.firstName)) : students.sort((a, b) => a.firstName.compareTo(b.firstName));
+            sortedAscendingFirstName = !sortedAscendingFirstName;
             setState(() {});
           },
           label: 'Sort by First Name',
@@ -184,11 +185,11 @@ class _StudentListState extends State<StudentList> {
           labelBackgroundColor: Colors.black,
         ),
         SpeedDialChild(
-          child: Icon(sortedAcendingLastName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
+          child: Icon(sortedAscendingLastName ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: () {
-            sortedAcendingLastName ? students.sort((a, b) => b.lastName.compareTo(a.lastName)) : students.sort((a, b) => a.lastName.compareTo(b.lastName));
-            sortedAcendingLastName = !sortedAcendingLastName;
+            sortedAscendingLastName ? students.sort((a, b) => b.lastName.compareTo(a.lastName)) : students.sort((a, b) => a.lastName.compareTo(b.lastName));
+            sortedAscendingLastName = !sortedAscendingLastName;
             setState(() {});
           },
           label: 'Sort by Last Name',
@@ -196,11 +197,11 @@ class _StudentListState extends State<StudentList> {
           labelBackgroundColor: Colors.black,
         ),
         SpeedDialChild(
-          child: Icon(sortedAcendingStudentID ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
+          child: Icon(sortedAscendingStudentID ? Icons.arrow_downward : Icons.arrow_upward, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: (){
-            sortedAcendingStudentID ? students.sort((a, b) => b.studentID.compareTo(a.studentID)) : students.sort((a, b) => a.studentID.compareTo(b.studentID));
-            sortedAcendingStudentID = !sortedAcendingStudentID;
+            sortedAscendingStudentID ? students.sort((a, b) => b.studentID.compareTo(a.studentID)) : students.sort((a, b) => a.studentID.compareTo(b.studentID));
+            sortedAscendingStudentID = !sortedAscendingStudentID;
             setState(() {});
           },
           label: 'Sort by Student ID',

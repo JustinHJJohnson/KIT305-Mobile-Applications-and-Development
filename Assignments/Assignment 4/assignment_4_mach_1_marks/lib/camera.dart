@@ -117,7 +117,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // Wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner
       // until the controller has finished initializing.
-      body: FutureBuilder<void>(
+      body: !uploading ? FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -128,9 +128,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             return Center(child: CircularProgressIndicator());
           }
         },
-      ),
+      ) : Center(child: Text("Uploading student image...")),
       floatingActionButton: FloatingActionButton(
-        child: uploading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),) :Icon(Icons.camera_alt),
+        child: uploading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),) : Icon(Icons.camera_alt),
         // Provide an onPressed callback.
         onPressed: () async {
           // Take the Picture in a try / catch block. If anything goes wrong,
@@ -142,9 +142,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // Attempt to take a picture and get the file `image`
             // where it was saved.
             _controller.setFlashMode(FlashMode.off);
-            _controller.stopImageStream();
             final image = await _controller.takePicture();
             final picture = File(image?.path);
+            
 
             // given feedback to the user that the image is uploading
             setState(() {uploading = true;});

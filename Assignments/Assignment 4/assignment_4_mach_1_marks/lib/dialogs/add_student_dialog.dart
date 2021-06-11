@@ -17,7 +17,7 @@ Future<void> showAddStudentDialog(BuildContext context) async {
 
       String studentImageFilename = "";
     
-      Widget studentImage = Icon(Icons.person, size: 120);
+      Widget studentImage = Icon(Icons.add_a_photo, size: 120);
 
       return StatefulBuilder(
         builder: (context, setState) {

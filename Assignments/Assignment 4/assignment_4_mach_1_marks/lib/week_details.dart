@@ -100,7 +100,8 @@ Widget getGradeListTile(Student students, int index, BuildContext context, Funct
     case "gradeNN-HD": return GradeHDToNN(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
     case "score": return Score(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
     case "checkBox": return Checkpoints(index: index, student: students, weekList: true, updateGradeAverage: updateGradeAverage);
-    default: return Text("Grade type not found");
+    //default: return Text("Grade type not found");
+    default: return Center(child: CircularProgressIndicator());
   }
 }
 
@@ -141,6 +142,7 @@ String calculateGradeAverage(Student student, int weekIndex, BuildContext contex
         final int numCheckBoxes = weekConfigs["week${weekIndex + 1}CheckBoxNum"];
         final double averageCheckedBoxes = (gradeAverage / 100) * numCheckBoxes;
         return "The average number of checkpoints complete is ${averageCheckedBoxes.toInt()}";
-      default: return "Could not find appropriate average"; 
+      //default: return "Could not find appropriate average";
+      default: return "Loading...";
     }
   }

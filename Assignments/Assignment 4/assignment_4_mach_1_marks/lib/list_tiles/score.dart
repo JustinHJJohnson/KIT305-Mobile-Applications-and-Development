@@ -1,3 +1,4 @@
+import 'package:assignment_4_mach_1_marks/utility_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +57,12 @@ class ScoreState extends State<Score> {
                 keyboardType: TextInputType.number,
                 controller: scoreController,
                 onEditingComplete: () {
+                  scoreController.text;
                   if (scoreController.text == "") scoreController.text = "0";
+                  else if ((!scoreController.text.contains(RegExp(r'^[1-9][0-9]?$|^100$')))) {
+                    showCustomSnackBar(context, "Enter a positive number between 0 and the max score");
+                    scoreController.text = "0";
+                  }
                   else if (int.parse(scoreController.text) > maxScore) scoreController.text = "$maxScore";
                   var newGrade = int.parse(scoreController.text);
                   var newUnscaledGrade = (newGrade / maxScore) * 100;

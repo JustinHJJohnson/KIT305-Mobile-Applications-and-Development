@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -65,6 +66,8 @@ class StudentModel extends ChangeNotifier {
   void delete(String id) async {
     loading = true;
     notifyListeners();
+    Student student = get(id);
+    if(get(id).image != "")  await FirebaseStorage.instance.ref('images/${student.image}').delete();
 
     await studentsCollection.doc(id).delete();
 
