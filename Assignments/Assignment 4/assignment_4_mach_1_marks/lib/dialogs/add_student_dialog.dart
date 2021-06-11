@@ -1,9 +1,11 @@
-import 'package:assignment_4_mach_1_marks/camera.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../models/student.dart';
+import '../utility_functions.dart';
 
 Future<void> showAddStudentDialog(BuildContext context) async {
   return await showDialog(
@@ -14,10 +16,11 @@ Future<void> showAddStudentDialog(BuildContext context) async {
       final lastNameController = TextEditingController();
       final studentIDController = TextEditingController();
       final students = Provider.of<StudentModel>(context, listen:false).items;
-
-      String studentImageFilename = "";
+      final imagePicker = ImagePicker();
     
       Widget studentImage = Icon(Icons.add_a_photo, size: 120);
+      File studentImageFile;
+      bool uploading = false;
 
       return StatefulBuilder(
         builder: (context, setState) {
@@ -32,21 +35,44 @@ Future<void> showAddStudentDialog(BuildContext context) async {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        var imageURL = await UploadImage().androidIOSUpload(context);
-                        setState(() {
-                          if (imageURL != null) {
-                            studentImage = loadImage(imageURL);
-                            studentImageFilename = imageURL.split("/")[1];
-                          }
-                        });
-                      },
-                      child: SizedBox(
-                        width: 120,
-                        //height: 120,
-                        child: studentImage,
-                      ),
+                    studentImage.key == Key("string") ? SizedBox(
+                       width: 120,
+                       //height: 120,
+                       child: studentImage,
+                    ) :
+                    Column(
+                      children: [
+                        Text("Add student image"),
+                        Row(
+                          children: [
+                            ElevatedButton(onPressed: () async {
+                              // Camera functionality from https://pub.dev/packages/image_picker
+                              PickedFile image = await imagePicker.getImage(source: ImageSource.camera, maxWidth: 720, maxHeight: 480);
+                              if (image != null) {
+                                File imageConverted = File(image.path);
+                                setState(() {
+                                  studentImage = Image.file(imageConverted, key: Key("string"));
+                                  studentImageFile = imageConverted;
+                                });
+                              }
+                            },
+                              child: Text("Take photo")
+                            ),
+                            ElevatedButton(onPressed: () async {
+                              PickedFile image = await imagePicker.getImage(source: ImageSource.gallery, maxWidth: 720, maxHeight: 480);
+                              if (image != null) {
+                                File imageConverted = File(image.path);
+                                setState(() {
+                                  studentImage = Image.file(imageConverted, key: Key("string"));
+                                  studentImageFile = imageConverted;
+                                });
+                              }
+                            },
+                              child: Text("From gallery")
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     TextFormField(
                       decoration: InputDecoration(hintText: "First Name"),
@@ -80,21 +106,26 @@ Future<void> showAddStudentDialog(BuildContext context) async {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(2.0),
-                      child: ElevatedButton.icon(onPressed: () {
+                      child: !uploading ? ElevatedButton.icon(onPressed: () async {
                         if (_formKey.currentState.validate())
                         {
+                          FocusScope.of(context).requestFocus(new FocusNode());   // This code to close the keyboard is from here https://rrtutors.com/tutorials/flutter-dismiss-keyboard
                           Student student = Student();
                           
                           student.firstName = firstNameController.text;
                           student.lastName = lastNameController.text;
                           student.studentID = studentIDController.text;
                           student.grades = List<int>.filled(12, 0);   // How to make an empty array of certain size from here https://stackoverflow.com/questions/56997940/flutter-how-to-initialize-an-empty-list-for-every-object-in-an-array
-                          student.image = studentImageFilename;
+                          
+                          setState(() {uploading = true;});
+
+                          student.image = await uploadStudentImage(studentImageFile, null);
                           Provider.of<StudentModel>(context, listen: false).add(student);
                           
                           Navigator.pop(context);
                         }
-                      }, icon: Icon(Icons.save), label: Text("Add Student")),
+                      }, icon: Icon(Icons.save), label: Text("Add Student"))
+                      : ElevatedButton(onPressed: null, child: Text("Uploading..."),),
                     )
                   ],
                 ),
@@ -104,27 +135,5 @@ Future<void> showAddStudentDialog(BuildContext context) async {
         }
       );
     }
-  );
-}
-
-Widget loadImage(String imageURL) {
-  print("Loading image $imageURL");
-  
-  return FutureBuilder<String>( //complicated, because getDownloadUrl is async
-    future: FirebaseStorage.instance.ref().child(imageURL).getDownloadURL(),
-    builder: (context, snapshot) {
-      if (snapshot.hasData == false) return Center(child: CircularProgressIndicator());
-      
-      var downloadURL = snapshot.data;
-      print(downloadURL);
-      return Image.network(
-        downloadURL,
-        //fit: BoxFit.fill,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Center(child: CircularProgressIndicator());
-        },
-      );
-    } 
   );
 }

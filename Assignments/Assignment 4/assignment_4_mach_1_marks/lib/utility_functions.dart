@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -96,6 +99,25 @@ void shareStudentsGrades(Student student) {
   for(int grade in student.grades){shareString += ",$grade";}
 
   Share.share(shareString);
+}
+
+/// Upload an image to Firestore with optionally provided filename. Code reference from Lindsay Wells flutter camera example
+Future<String> uploadStudentImage(File image, String filename) async {
+  String imageURL;
+  String backendPath = "images/";
+  
+  if (filename != null) imageURL = "$backendPath$filename";
+  else imageURL = '${backendPath}hello-world' + DateTime.now().millisecondsSinceEpoch.toString() + '.jpeg';
+
+  // upload the image
+  try {
+    await FirebaseStorage.instance
+        .ref(imageURL)
+        .putFile(image);
+  } on FirebaseException catch (e) {
+    print("Failed to upload image from camera, error: $e");
+  }
+  return imageURL.split('/')[1];
 }
 
 /// A little helper widget to avoid runtime errors -- we can't just display a Text() by itself if not inside a MaterialApp, so this workaround does the job
