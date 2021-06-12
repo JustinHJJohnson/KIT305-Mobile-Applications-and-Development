@@ -33,14 +33,7 @@ dependencies:
   firebase:
   http: any
 
-  #for camera add these
-  camera:
-  path_provider:
-  path:
-
-  #for sharing
   share_plus:
-
   flutter_speed_dial:
   image_picker:
 

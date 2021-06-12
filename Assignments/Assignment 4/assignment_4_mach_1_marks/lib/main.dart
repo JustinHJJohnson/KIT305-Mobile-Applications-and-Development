@@ -11,7 +11,6 @@ import 'week_details.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  //runApp(MyApp());
   runApp(
     // MultiProvider code from here https://flutterbyexample.com/lesson/multi-provider-micro-lesson
     MultiProvider(
@@ -26,21 +25,21 @@ void main() {
 
 class MyApp extends StatelessWidget 
 {
-    // Create the initialization Future outside of `build`:
-    final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  // Create the initialization Future outside of `build`:
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
-    @override
-    Widget build(BuildContext context) 
-    {
-      return FutureBuilder(
-        // Initialize FlutterFire:
-        future: _initialization,
-        builder: (context, snapshot) //this functio is called every time the "future" updates
-        {
-          // Check for errors
-          if (snapshot.hasError) {
-            return FullScreenText(text:"Something went wrong");
-          }
+  @override
+  Widget build(BuildContext context) 
+  {
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) //this functio is called every time the "future" updates
+      {
+        // Check for errors
+        if (snapshot.hasError) {
+          return FullScreenText(text:"Something went wrong");
+        }
 
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) 

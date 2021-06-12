@@ -9,7 +9,7 @@ class WeekConfigModel extends ChangeNotifier {
 
   bool loading = false;
 
-  //Normally a model would get from a database here, we are just hardcoding some data for this week
+  // Normally a model would get from a database here, we are just hardcoding some data for this week
   WeekConfigModel() {fetch();}
 
   void update(Map<String, dynamic> item) async {
@@ -30,16 +30,12 @@ class WeekConfigModel extends ChangeNotifier {
     loading = true;
     notifyListeners();  // Tell children to redraw, and they will see that the loading indicator is on
 
-    //print("\nStarted getting week config\n");
     // Get all movies
     var querySnapshot = await weekConfigCollection.get();
-    //print("\nFinished getting week config\n");
 
     // Iterate over the movies and add them to the list
     weekConfigs.addAll(querySnapshot.data());
-    //print("Week Configs after fetch are $weekConfigs");
 
-    //we're done, no longer loading
     loading = false;
     notifyListeners();
   }
